@@ -1,6 +1,3 @@
-# pawiki.github.io
-pa documentation
-
 <br>
 <h1>
   ☄️ Welcome to pawiki
