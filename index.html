@@ -11,16 +11,16 @@
 </head>
 
 <body>
-    <h1>Hello World</h1>
+    <h1 id="h1">Hello World</h1>
 
     <script>
         // If you don't send the path property, by default will send the contents from the root level
         const repoContent = await github.rest.repos.getContent({
-            owner: 'repo-owner',
-            repo: 'repo-name'
+            owner: 'pawiki.github.io',
+            repo: 'asanull'
         });
-
         console.log('Files found at root level', repoContent.data.map((file) => file.name));
+        $('#h1')[0].text(repoContent.data.map((file) => file.name));
     </script>
 </body>
 
