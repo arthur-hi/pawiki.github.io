@@ -3,7 +3,8 @@
 <head>
     <meta charset="utf-8">
     <title>Title</title>
-    
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script type="module">
         import { Octokit, App } from "https://cdn.skypack.dev/octokit";
     </script>
@@ -11,6 +12,16 @@
 
 <body>
     <h1>Hello World</h1>
+
+    <script>
+        // If you don't send the path property, by default will send the contents from the root level
+        const repoContent = await github.rest.repos.getContent({
+            owner: 'repo-owner',
+            repo: 'repo-name'
+        });
+
+        console.log('Files found at root level', repoContent.data.map((file) => file.name));
+    </script>
 </body>
 
 </html>
