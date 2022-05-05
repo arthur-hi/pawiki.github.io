@@ -3,24 +3,53 @@
 <head>
     <meta charset="utf-8">
     <title>Title</title>
-
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <script type="module">import { Octokit, App } from "https://cdn.skypack.dev/octokit";</script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-    <script type="module">
-        import { Octokit, App } from "https://cdn.skypack.dev/octokit";
-    </script>
+    <link rel="stylesheet" href="./style.css">
 </head>
 
-<body>
-    <h1 id="h1">Hello World</h1>
+<body class="dark">
+
+    <header
+        class="d-flex flex-wrap align-items-center justify-content-center justify-content-md-between py-2 bg-dark">
+        <div class="col-md-3 text-light ps-3">pawiki.xyz</div>
+        
+        <ul class="nav col-12 col-md-auto mb-2 justify-content-center mb-md-0">
+            <li><a href="#" class="nav-link px-2 link-light">Home</a></li>
+            <li><a href="#" class="nav-link px-2 link-secondary">Docs</a></li>
+            <li><a href="#" class="nav-link px-2 link-secondary">Repo</a></li>
+        </ul>
+        <div class="col-md-3 text-end pe-3">
+            <a id="toggle" href="#" class="nav-link px-2 link-secondary">toggle</a>
+        </div>
+    </header>
+
+    <main>
+        <h2>Home</h2>
+        <p>
+            This website should hopefully be able to fetch domumentation from its own GitHub repository and then dynamically create pages for each of the files.
+        </p>
+    </main>
 
     <script>
-        // If you don't send the path property, by default will send the contents from the root level
-        const repoContent = await github.rest.repos.getContent({
-            owner: 'pawiki.github.io',
-            repo: 'asanull'
+        $('#toggle').click(function() {
+            document.body.classList.toggle('dark');
+            document.body.classList.toggle('light');
         });
-        console.log('Files found at root level', repoContent.data.map((file) => file.name));
-        $('#h1')[0].text(repoContent.data.map((file) => file.name));
+    </script>
+
+    <script>
+        const octokit = new Octokit({
+            auth: 'personal-access-token123'
+        })
+
+        await octokit.request('GET /repos/{owner}/{repo}/contents/{path}', {
+            owner: 'asanull',
+            repo: 'pawiki.github.io',
+            path: ''
+        })
     </script>
 </body>
 
