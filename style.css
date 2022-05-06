@@ -1,30 +1,113 @@
 @import url('https://fonts.cdnfonts.com/css/cubano');
 @import url('https://fonts.cdnfonts.com/css/sofia-pro');
 @import url('https://fonts.cdnfonts.com/css/sf-mono');
+
 :root {
     --font-head: 'Cubano', sans-serif;
     --font-body: 'Sofia Pro', sans-serif;
     --font-code: 'SF Mono', sans-serif;
     --h-border: 2px dashed var(--bs-gray-600);
 }
+
 * {
     font-family: var(--font-body);
 }
+
 main {
     margin: 0;
     padding: 10px;
 }
+
+main #home {
+    position: absolute;
+    left: 15px;
+    width: 81%;
+}
+
+main #docs {
+    position: absolute;
+    width: 81%;
+}
+
+header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1;
+}
+
+main #sidebar {
+    position: fixed;
+    top: 55px;
+    left: 0;
+    height: 100%;
+}
+
+main .doc {
+    position: absolute;
+    top: 65px;
+    left: 200px;
+    padding-bottom: 40;
+}
+
 h1 {
     font-family: var(--font-head);
 }
+
 h2 {
     border-bottom: var(--h-border);
     padding-bottom: 0.25em;
     width: fit-content;
 }
+
 p {
     width: 90%;
 }
+
+h1 p {
+    color: var(--bs-gray-600);
+    font-size: 15px;
+}
+
+.dark h1 p {
+    color: var(--bs-gray-400);
+}
+
+.visible {
+    visibility: visible;
+    opacity: 1;
+    transition: opacity .5s linear;
+    transition-delay: .25s;
+}
+
+.hidden {
+    visibility: hidden;
+    opacity: 0;
+    transition: visibility 0s .25s, opacity .25s linear;
+}
+
+#content {
+    transition: .5s;
+}
+
+pre {
+    font-family: var(--font-code);
+    background-color: var(--bs-gray-200);
+    padding: 20px;
+    width: fit-content;
+    border-radius: 15px;
+    transition: .75s;
+}
+
+.dark pre {
+    background-color: var(--bs-gray-100);
+}
+
+pre:hover {
+    cursor: pointer;
+}
+
 .dark {
     transition: 1s;
     --bs-blue: #0d6efd;
@@ -79,6 +162,7 @@ p {
     --bs-body-color: #f8f9fa;
     --bs-body-bg: #141617;
 }
+
 .light {
     transition: 1s;
     --bs-blue: #0d6efd;

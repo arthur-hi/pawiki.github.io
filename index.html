@@ -5,6 +5,12 @@
     <title>Title</title>
     <link rel="stylesheet" href="./style.css">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"
+        integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p" crossorigin="anonymous">
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js"
+        integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF" crossorigin="anonymous">
+    </script>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
@@ -16,22 +22,84 @@
         <div class="col-md-3 text-light ms-3">pawiki.xyz</div>
 
         <ul class="nav col-12 col-md-auto mb-2 justify-content-center mb-md-0">
-            <li><a href="#" class="nav-link px-2 link-light">Home</a></li>
-            <li><a href="#" class="nav-link px-2 link-secondary">Docs</a></li>
-            <li><a href="#" class="nav-link px-2 link-secondary">Repo</a></li>
+            <li><a id="home-nav" href="#" class="nav-link px-2 link-secondary link-light">Home</a></li>
+            <li><a id="docs-nav" href="#docs" class="nav-link px-2 link-secondary">Docs</a></li>
+            <li><a href="https://github.com/asanull/pawiki.github.io" target="_blank"
+                    class="nav-link px-2 link-secondary">Repo</a></li>
         </ul>
         <a id="toggle" href="#" class="col-md-3 text-end nav-link link-secondary ms-3">toggle</a>
     </header>
 
     <main>
-        <h2>Home</h2>
-        <p>
-            This website should hopefully be able to fetch domumentation from its own GitHub repository and then
-            dynamically create pages for each of the files.
-        </p>
+        <div id="home"></div>
+        <div id="docs" class="hidden">
+            <div id="sidebar">
+                <div class="flex-shrink-0 p-3 bg-dark" id="collapsible" style="width: 175px;">
+                    <ul class="list-unstyled ps-0">
+
+
+                        <li class="mb-1">
+                            <button class="btn btn-toggle align-items-center text-white rounded collapsed"
+                                data-bs-toggle="collapse" data-bs-target="#docs-collapse" aria-expanded="true"
+                                style="text-align: start; width: 100%;">
+                                Docs
+                            </button>
+                            <div class="collapse show" id="docs-collapse">
+                                <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
+                                </ul>
+                            </div>
+                        </li>
+
+
+                    </ul>
+                </div>
+            </div>
+            <div id="content" class="flex-grow-1">
+            </div>
+        </div>
     </main>
 
     <script>
+        //// jQuery
+        //#region add selectText() to jQuery
+        jQuery.fn.selectText = function () {
+            this.find('input').each(function () {
+                if ($(this).prev().length == 0 || !$(this).prev().hasClass('p_copy')) {
+                    $('<p class="p_copy" style="position: absolute; z-index: -1;"></p>').insertBefore($(
+                        this));
+                }
+                $(this).prev().html($(this).val());
+            });
+            var doc = document;
+            var element = this[0];
+            if (doc.body.createTextRange) {
+                var range = document.body.createTextRange();
+                range.moveToElementText(element);
+                range.select();
+            } else if (window.getSelection) {
+                var selection = window.getSelection();
+                var range = document.createRange();
+                range.selectNodeContents(element);
+                selection.removeAllRanges();
+                selection.addRange(range);
+            }
+        };
+        //#endregion
+
+        let home = $('#home')[0]
+        let docs = $('#docs')[0]
+        $('#home-nav').click(() => {
+            $('#home-nav')[0].classList.add('link-light')
+            $('#docs-nav')[0].classList.remove('link-light')
+            home.className = 'visible'
+            docs.className = 'hidden'
+        })
+        $('#docs-nav').click(() => {
+            $('#docs-nav')[0].classList.add('link-light')
+            $('#home-nav')[0].classList.remove('link-light')
+            home.className = 'hidden'
+            docs.className = 'visible'
+        })
         $('#toggle').click(function () {
             document.body.classList.toggle('dark');
             document.body.classList.toggle('light');
@@ -39,29 +107,115 @@
     </script>
 
     <script>
-        let docs = []
-        async function fetchDocs() {
+        let list = []
+        async function fetchDocs(callback) {
 
             // Find all the files in the docs directory
-            const response = await fetch('/docs/');
+            const response = await fetch('/dist/');
             const data = await response.text();
             let files = $(data).find('#files')[0]
+
+            console.log(files.children[0])
+            console.log(files.children[1])
+            console.log(files.children[2])
+
             files.children[0].remove()
 
             // Find each document and push it to the docs array
             for (let i = 0; i < files.children.length; i++) {
+                
+                /*
+                let file = files.children[i].children[0]
+                if(file.classList.contains('icon-directory')){
+
+                    console.log(file.href)
+                    const response = await fetch(file.href);
+                    const data = await response.text();
+                    let files = $(data).find('#files')[0]
+
+                    console.log(files)
+                }
+                */
+
+                
                 let doc = {}
                 let file = files.children[i].children[0].title
-                const response = await fetch('/docs/' + file);
+                const response = await fetch('/dist/' + file);
                 const data = await response.text();
                 doc.file = file
                 doc.content = data
-                docs.push(doc)
+                list.push(doc)
+                
+
             }
-            console.log(docs)
+            callback();
         }
-        document.addEventListener('DOMContentLoaded', fetchDocs());
     </script>
+
+    <script>
+        window.location.hash = '';
+
+        async function setHomepage() {
+            const response = await fetch('/README.md');
+            const data = await response.text();
+            home.innerHTML = data
+        }
+        setHomepage()
+
+        function setHeight() {
+            $('#collapsible')[0].style.height = window.innerHeight - $('header')[0].offsetHeight + 'px'
+        }
+        window.onresize = setHeight()
+        setHeight()
+
+        document.addEventListener('DOMContentLoaded', fetchDocs(() => {
+
+            list.forEach(doc => {
+
+                let sidebar = $('#docs-collapse')[0].children[0]
+                sidebar.style.position = 'relative'
+                sidebar.style.top = "10px"
+                sidebar.style.width = "100%"
+                sidebar.style.textAlign = "center"
+
+                let file = doc.file.split('.')[0]
+                let link = document.createElement('li')
+                link.innerHTML = `<a href="#${doc.file}" class="link-light rounded text-decoration-none">${file}</a>`
+                link.style.padding = "10px"
+                sidebar.appendChild(link)
+                
+                let element = document.createElement('div')
+                element.classList.add('hidden')
+                element.classList.add('doc')
+                element.innerHTML = doc.content
+                $('#content')[0].appendChild(element)
+                
+                link.addEventListener('click', () => {
+                    $('.doc').addClass('hidden')
+
+                    element.classList.add('visible')
+                    element.classList.remove('hidden')
+                })
+
+            });
+
+            $('pre').each(function (i, block) {
+                $(block).click(function () {
+                    $(this).selectText();
+                });
+            });
+
+        }));
+    </script>
+
+    <script>
+        $(document).ready(function () {
+            $("body").tooltip({
+                selector: '[data-toggle=tooltip]'
+            });
+        });
+    </script>
+
 </body>
 
 </html>
