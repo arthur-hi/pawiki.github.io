@@ -34,23 +34,8 @@
         <div id="home"></div>
         <div id="docs" class="hidden">
             <div id="sidebar">
-                <div class="flex-shrink-0 p-3 bg-dark" id="collapsible" style="width: 175px;">
-                    <ul class="list-unstyled ps-0">
-
-
-                        <li class="mb-1">
-                            <button class="btn btn-toggle align-items-center text-white rounded collapsed"
-                                data-bs-toggle="collapse" data-bs-target="#docs-collapse" aria-expanded="true"
-                                style="text-align: start; width: 100%;">
-                                Docs
-                            </button>
-                            <div class="collapse show" id="docs-collapse">
-                                <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
-                                </ul>
-                            </div>
-                        </li>
-
-
+                <div class="flex-shrink-0 p-3 bg-dark" id="collapsible" style="width: 200px;">
+                    <ul id="list" class="list-unstyled ps-0">
                     </ul>
                 </div>
             </div>
@@ -88,19 +73,30 @@
 
         let home = $('#home')[0]
         let docs = $('#docs')[0]
-        $('#home-nav').click(() => {
+        docs.className = 'd-none'
+        $('#home-nav').click(async event => {
+            event.preventDefault();
             $('#home-nav')[0].classList.add('link-light')
             $('#docs-nav')[0].classList.remove('link-light')
             home.className = 'visible'
             docs.className = 'hidden'
+
+            await new Promise(r => setTimeout(r, 500));
+            docs.className = 'd-none'
+
         })
-        $('#docs-nav').click(() => {
+        $('#docs-nav').click(async event => {
+            event.preventDefault();
             $('#docs-nav')[0].classList.add('link-light')
             $('#home-nav')[0].classList.remove('link-light')
             home.className = 'hidden'
             docs.className = 'visible'
+
+            await new Promise(r => setTimeout(r, 500));
+            home.className = 'd-none'
         })
-        $('#toggle').click(function () {
+        $('#toggle').click(event => {
+            event.preventDefault();
             document.body.classList.toggle('dark');
             document.body.classList.toggle('light');
         });
@@ -111,44 +107,63 @@
         async function fetchDocs(callback) {
 
             // Find all the files in the docs directory
-            const response = await fetch('/dist/');
-            const data = await response.text();
-            let files = $(data).find('#files')[0]
 
-            console.log(files.children[0])
-            console.log(files.children[1])
-            console.log(files.children[2])
+            const response = await fetch('/root.json');
+            const root = JSON.parse(await response.text());
 
-            files.children[0].remove()
+            root.directories.forEach(dir => {
+                root[dir].forEach(file => {
+                    root.filesRemaining++;
+                })
+            })
 
-            // Find each document and push it to the docs array
-            for (let i = 0; i < files.children.length; i++) {
-                
-                /*
-                let file = files.children[i].children[0]
-                if(file.classList.contains('icon-directory')){
+            root.directories.forEach(async directory => {
 
-                    console.log(file.href)
-                    const response = await fetch(file.href);
+                let format = directory.replace(/\s/g, '-');
+
+                let li = document.createElement('li')
+                li.classList.add('mb-1')
+                li.innerHTML = `
+                    <button class="btn btn-toggle align-items-center text-white rounded collapsed"
+                        data-bs-toggle="collapse" data-bs-target="#${format}-collapse" aria-expanded="false"
+                        style="text-align: start; width: 100%;">
+                        ${directory}
+                    </button>
+                    <div class="collapse show" id="${format}-collapse">
+                        <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
+                        </ul>
+                    </div>
+                `
+                $('#list').append(li)
+                let collapse = $(`#${format}-collapse`)[0]
+
+                root[directory].forEach(async file => {
+
+                    let link = document.createElement('li')
+                    link.innerHTML =
+                        `<a href="#${format}.md" class="link-light rounded text-decoration-none" style="color: var(--bs-gray-500)">${file}</a>`
+                    link.style.padding = "10px"
+                    collapse.children[0].appendChild(link)
+
+                    const response = await fetch(`/dist/${directory}/${file}.md`);
                     const data = await response.text();
-                    let files = $(data).find('#files')[0]
 
-                    console.log(files)
-                }
-                */
+                    let doc = {}
+                    doc.file = file
+                    doc.content = data
+                    doc.link = link
+                    list.push(doc)
 
-                
-                let doc = {}
-                let file = files.children[i].children[0].title
-                const response = await fetch('/dist/' + file);
-                const data = await response.text();
-                doc.file = file
-                doc.content = data
-                list.push(doc)
-                
+                    link.style.position = 'relative'
+                    link.style.top = "10px"
+                    link.style.left = "10px"
 
-            }
-            callback();
+                    root.filesRemaining--;
+                    if (root.filesRemaining == 0) callback()
+                })
+                let br = document.createElement('br')
+                collapse.children[0].appendChild(br)
+            });
         }
     </script>
 
@@ -172,29 +187,16 @@
 
             list.forEach(doc => {
 
-                let sidebar = $('#docs-collapse')[0].children[0]
-                sidebar.style.position = 'relative'
-                sidebar.style.top = "10px"
-                sidebar.style.width = "100%"
-                sidebar.style.textAlign = "center"
-
-                let file = doc.file.split('.')[0]
-                let link = document.createElement('li')
-                link.innerHTML = `<a href="#${doc.file}" class="link-light rounded text-decoration-none">${file}</a>`
-                link.style.padding = "10px"
-                sidebar.appendChild(link)
-                
                 let element = document.createElement('div')
                 element.classList.add('hidden')
                 element.classList.add('doc')
                 element.innerHTML = doc.content
                 $('#content')[0].appendChild(element)
                 
-                link.addEventListener('click', () => {
-                    $('.doc').addClass('hidden')
-
-                    element.classList.add('visible')
-                    element.classList.remove('hidden')
+                doc.link.addEventListener('click', async () => {
+                    $('.doc').addClass('hidden');
+                    element.classList.add('visible');
+                    element.classList.remove('hidden');
                 })
 
             });
@@ -206,6 +208,7 @@
             });
 
         }));
+        
     </script>
 
     <script>

@@ -1,0 +1,16 @@
+{
+    "filesRemaining": 0,
+    "directories": [
+        "Unit Modding",
+        "Tools"
+    ],
+    "Unit Modding": [
+        "World Layers",
+        "Factory Spec"
+
+    ],
+    "Tools": [
+        "Blender-PAPA-IO",
+        "PTexEdit"
+    ]
+}

@@ -20,6 +20,7 @@ main {
 
 main #home {
     position: absolute;
+    top: 65px;
     left: 15px;
     width: 81%;
 }
@@ -42,12 +43,13 @@ main #sidebar {
     top: 55px;
     left: 0;
     height: 100%;
+    z-index: 2;
 }
 
 main .doc {
     position: absolute;
     top: 65px;
-    left: 200px;
+    left: 215px;
     padding-bottom: 40;
 }
 
@@ -97,7 +99,7 @@ pre {
     padding: 20px;
     width: fit-content;
     border-radius: 15px;
-    transition: .75s;
+    transition: .5s;
 }
 
 .dark pre {
