@@ -2,12 +2,23 @@
     "filesRemaining": 0,
     "directories": [
         "Introduction",
+        "Game Updates",
         "Unit Specs",
         "Tools"
     ],
     "Introduction": [
         "Welcome",
         "Contribution"
+    ],
+    "Game Updates": [
+        "BALANCE UPDATE",
+        "FUSION UPDATES",
+        "RAINBOWS & UNICORNS UPDATES",
+        "STAY SAFE UPDATES",
+        "HORSEFLY UPDATES",
+        "HAPPY BIRTHDAY STRYKER UPDATES",
+        "TRANSLATIONS, AI AND MODERN UPDATES",
+        "HAPPY NEW YEAR UPDATES"
     ],
     "Unit Specs": [
         "README",

@@ -102,7 +102,7 @@ main .doc {
     padding-top: 25px;
     padding-left: 25px;
     padding-right: 25%;
-    padding-bottom: 40;
+    padding-bottom: 80;
     overflow-y: scroll;
     overflow-x: hidden;
 }
@@ -173,9 +173,9 @@ pre:hover {
 }
 
 .doc img {
-    width: 723px;
-    max-width: 50%;
     border-radius: 10px;
+    width: 400px;
+    max-width: 100%;
 }
 
 .dark {
