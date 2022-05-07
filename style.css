@@ -65,6 +65,7 @@ main #docs {
     z-index: 3;
     color: #adb5bd;
     user-select: none;
+    width: fit-content
 }
 #btn:hover {
     cursor: pointer;
