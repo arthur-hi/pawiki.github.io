@@ -3,10 +3,11 @@
 <head>
     <meta charset="utf-8">
     <title>pawiki.xyz</title>
-    <link rel="icon" type="image/x-icon"
-        href="https://cdn.planetaryannihilation.com/wp-content/media/icon-32x32.png">
+    <link rel="icon" type="image/x-icon" href="https://cdn.planetaryannihilation.com/wp-content/media/icon-32x32.png">
     <link rel="stylesheet" href="./style.css">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet"
+        href="https://fonts.sandbox.google.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@40,500,1,200" />
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"
         integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p" crossorigin="anonymous">
     </script>
@@ -22,10 +23,16 @@
 
 <body class="dark">
 
+    <span class="material-symbols-outlined left" id="btn">
+        menu
+    </span>
+    <span class="material-symbols-outlined toggle" id="btn">
+        dark_mode
+    </span>
+
     <header class="d-flex flex-wrap align-items-center justify-content-center justify-content-md-between py-2 bg-dark">
         <div class="col-md-3 text-light ms-3">
-            <img
-                src='https://cdn.planetaryannihilation.com/wp-content/media/icon-32x32.png' />
+            <img src='https://cdn.planetaryannihilation.com/wp-content/media/icon-32x32.png' />
             <span style="padding-left: 8px">pawiki.xyz</span>
         </div>
 
@@ -35,7 +42,7 @@
             <li><a href="https://github.com/asanull/pawiki.github.io" target="_blank"
                     class="nav-link px-2 link-secondary">Repo</a></li>
         </ul>
-        <a id="toggle" href="#" class="col-md-3 text-end nav-link link-secondary ms-3">toggle</a>
+        <a class="col-md-3"></a>
     </header>
 
     <main>

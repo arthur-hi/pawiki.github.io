@@ -37,8 +37,21 @@ $('#docs-nav').click(async event => {
     home.className = 'hidden'
     docs.className = 'visible'
 })
-$('#toggle').click(event => {
-    event.preventDefault();
+$('.toggle').click(event => {
     document.body.classList.toggle('dark');
     document.body.classList.toggle('light');
+});
+$('.left').click(event => {
+    let offset = $('#sidebar')[0].offsetWidth
+    $('#sidebar')[0].classList.toggle('hide')
+
+    if ($('#sidebar')[0].classList.contains('hide')) {
+        $('#sidebar')[0].style.left = `-${offset}px`
+        $('#content')[0].style.left = `0px`
+    }
+    else {
+        $('#sidebar')[0].style.left = `0px`
+        $('#content')[0].style.left = `${offset}px`
+    }
+
 });

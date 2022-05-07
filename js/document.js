@@ -12,6 +12,33 @@ setHomepage()
 setInterval(()=>{ 
     $('#sidebar')[0].style.top = $('header')[0].offsetHeight + 'px'
     $('#content')[0].style.top = $('header')[0].offsetHeight + 'px'
+    $('#home')[0].style.top = $('header')[0].offsetHeight + 'px'
+    $('.material-symbols-outlined').each(function(i,btn) { 
+        let headerOffset = ($('header')[0].offsetHeight/2)-12
+        let sidebarOffset = $('#sidebar')[0].offsetWidth
+        btn.style.top = headerOffset + 'px'
+        if (btn.classList.contains('left')) {
+            switch (headerOffset) {
+                case 36:
+                    btn.style.left = '24px';btn.style.color = null;break;
+                default:
+                    btn.style.left = '-24px';
+                    btn.style.color = 'transparent';
+                    
+                    $('#sidebar')[0].classList.remove('hide')
+                    $('#sidebar')[0].style.left = `0px`
+                    $('#content')[0].style.left = `${sidebarOffset}px`
+            }
+        }
+        else {
+            switch (headerOffset) {
+                case 36:
+                    btn.style.right = '24px';break;
+                default:btn.style.right = '12px'
+            }
+        }
+        
+     });
 }, 100);
 
 document.addEventListener('DOMContentLoaded', fetchDocs(async () => {
