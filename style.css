@@ -63,8 +63,9 @@ main .doc {
     overflow-x: hidden;
 }
 
-h1 {
+h1, h2, h3 {
     font-family: var(--font-head);
+    color: #f1662f;
 }
 
 a {
@@ -125,6 +126,9 @@ pre:hover {
     cursor: pointer;
 }
 
+.collapse-link {
+    transition: .25s;
+}
 .dark {
     transition: .25s;
     --bs-blue: #0d6efd;
