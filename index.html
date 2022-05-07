@@ -220,6 +220,7 @@
             $('pre').each(function (i, block) {
                 $(block).click(function () {
                     $(this).selectText();
+                    navigator.clipboard.writeText($(this).text())
                 });
             });
 

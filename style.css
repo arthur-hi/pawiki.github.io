@@ -129,6 +129,13 @@ pre:hover {
 .collapse-link {
     transition: .25s;
 }
+
+.doc img {
+    width: 723px;
+    max-width: 75%;
+    border-radius: 10px;
+}
+
 .dark {
     transition: .25s;
     --bs-blue: #0d6efd;
