@@ -1,6 +1,6 @@
 <br>
 <h1>
-  ☄️ Welcome to pawiki.xyz
+  ☄️ Welcome Commanders
 </h1>
 <br>
 <p>

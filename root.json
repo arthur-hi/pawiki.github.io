@@ -1,8 +1,12 @@
 {
     "filesRemaining": 0,
     "directories": [
+        "Introduction",
         "Unit Modding",
         "Tools"
+    ],
+    "Introduction": [
+        "Welcome"
     ],
     "Unit Modding": [
         "World Layers",

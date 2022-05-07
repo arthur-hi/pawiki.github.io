@@ -12,6 +12,10 @@
 * {
     font-family: var(--font-body);
 }
+html, body {
+    max-width: 100%;
+    overflow-x: hidden;
+}
 
 main {
     margin: 0;
@@ -27,7 +31,8 @@ main #home {
 
 main #docs {
     position: absolute;
-    width: 81%;
+    width: 100%;
+    height: 93.5%;
 }
 
 header {
@@ -48,9 +53,14 @@ main #sidebar {
 
 main .doc {
     position: absolute;
-    top: 65px;
-    left: 215px;
+    height: 100%;
+    width: 100%;
+    padding-top: 20px;
+    padding-left: 25px;
+    padding-right: 25%;
     padding-bottom: 40;
+    overflow: scroll;
+    overflow-x: hidden;
 }
 
 h1 {
@@ -61,6 +71,10 @@ h2 {
     border-bottom: var(--h-border);
     padding-bottom: 0.25em;
     width: fit-content;
+}
+
+a {
+    cursor: pointer;
 }
 
 p {
@@ -87,9 +101,16 @@ h1 p {
     visibility: hidden;
     opacity: 0;
     transition: visibility 0s .25s, opacity .25s linear;
+    pointer-events: none;
 }
 
 #content {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    top: 45px;
+    left: 190px;
+    
     transition: .5s;
 }
 
