@@ -11,6 +11,7 @@ setHomepage()
 
 setInterval(()=>{ 
     $('#sidebar')[0].style.top = $('header')[0].offsetHeight + 'px'
+    $('#content')[0].style.top = $('header')[0].offsetHeight + 'px'
 }, 100);
 
 document.addEventListener('DOMContentLoaded', fetchDocs(async () => {
