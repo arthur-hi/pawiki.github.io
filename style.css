@@ -24,7 +24,7 @@ main {
 
 main #home {
     position: absolute;
-    top: 65px;
+    top: 75px;
     left: 15px;
     width: 81%;
 }
@@ -55,7 +55,7 @@ main .doc {
     position: absolute;
     height: 100%;
     width: 100%;
-    padding-top: 20px;
+    padding-top: 25px;
     padding-left: 25px;
     padding-right: 25%;
     padding-bottom: 40;
@@ -65,12 +65,6 @@ main .doc {
 
 h1 {
     font-family: var(--font-head);
-}
-
-h2 {
-    border-bottom: var(--h-border);
-    padding-bottom: 0.25em;
-    width: fit-content;
 }
 
 a {
@@ -132,7 +126,7 @@ pre:hover {
 }
 
 .dark {
-    transition: 1s;
+    transition: .25s;
     --bs-blue: #0d6efd;
     --bs-indigo: #6610f2;
     --bs-purple: #6f42c1;
@@ -187,7 +181,7 @@ pre:hover {
 }
 
 .light {
-    transition: 1s;
+    transition: .25s;
     --bs-blue: #0d6efd;
     --bs-indigo: #6610f2;
     --bs-purple: #6f42c1;
@@ -238,5 +232,5 @@ pre:hover {
     --bs-body-font-weight: 400;
     --bs-body-line-height: 1.5;
     --bs-body-color: #212529;
-    --bs-body-bg: #fff
+    --bs-body-bg: #fff;
 }

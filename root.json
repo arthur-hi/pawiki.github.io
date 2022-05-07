@@ -2,16 +2,21 @@
     "filesRemaining": 0,
     "directories": [
         "Introduction",
-        "Unit Modding",
+        "Unit Specs",
         "Tools"
     ],
     "Introduction": [
         "Welcome"
     ],
-    "Unit Modding": [
-        "World Layers",
-        "Factory Spec"
-
+    "Unit Specs": [
+        "README",
+        "Armor types",
+        "Factory Spec",
+        "Mass Teleporter Spec",
+        "Misc Interactions and Bugs",
+        "Unit Spec",
+        "Unit Types",
+        "World Layers"
     ],
     "Tools": [
         "Blender-PAPA-IO",

@@ -1,12 +1,17 @@
+#📝 About
+
 <br>
-<h1>
-  ☄️ Welcome to pawiki.xyz
-</h1>
+pawiki will a place for pa-related documentation
+
+These are very very early stages, most things are subject to change
+
 <br>
-<p>
-  pawiki will a place for pa-related documentation
-</p>
-<p>
-  These are very very early stages, most things are subject to change
-</p>
 <br>
+
+#📃 Credits / Contributors
+<br>
+- asa  -  pawiki development
+
+- Luther-1  -  documentation
+
+- Ferretmaster  -  documentation
