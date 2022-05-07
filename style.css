@@ -45,10 +45,16 @@ header {
 
 main #sidebar {
     position: fixed;
-    top: 55px;
+    top: 0;
     left: 0;
     height: 100%;
     z-index: 2;
+}
+
+#collapsible {
+    width: 200px;
+    height: 100%;
+    background: #212529;;
 }
 
 main .doc {
@@ -132,7 +138,7 @@ pre:hover {
 
 .doc img {
     width: 723px;
-    max-width: 75%;
+    max-width: 50%;
     border-radius: 10px;
 }
 
