@@ -1,6 +1,5 @@
 # ☄️ Welcome Commanders
 
 <br>
-pawiki will a place for pa-related documentation
-
-These are very very early stages, most things are subject to change
+pawiki is a place for Planetary-Annihilation-related documentation.<br>
+These are very very early stages so most things will be subject to change.
