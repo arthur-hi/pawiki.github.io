@@ -93,14 +93,14 @@ h1 p {
 .visible {
     visibility: visible;
     opacity: 1;
-    transition: opacity .5s linear;
-    transition-delay: .25s;
+    transition: opacity .25s linear;
+    transition-delay: .125s;
 }
 
 .hidden {
     visibility: hidden;
     opacity: 0;
-    transition: visibility 0s .25s, opacity .25s linear;
+    transition: visibility 0s .125s, opacity .125s linear;
     pointer-events: none;
 }
 
@@ -111,7 +111,7 @@ h1 p {
     top: 45px;
     left: 190px;
     
-    transition: .5s;
+    transition: .25s;
 }
 
 pre {
@@ -120,7 +120,7 @@ pre {
     padding: 20px;
     width: fit-content;
     border-radius: 15px;
-    transition: .5s;
+    transition: .25s;
 }
 
 .dark pre {
