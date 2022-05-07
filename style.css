@@ -58,7 +58,7 @@ main #docs {
 }
 
 #btn {
-    transition: .25s;
+    transition: color .25s;
     position: fixed;
     top: 16px;
     right: -24px;
