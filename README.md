@@ -11,6 +11,14 @@ If you want to contribute, please do so on Github, there is a Contributing Guide
 
 <br>
 
+# 🧑‍💻 GitHub Repository
+
+Make sure to check out the Contributing Guide first unless you are sure you know what you are doing.
+
+<a class="text-decoration-none" href="https://github.com/asanull/pawiki.github.io">Github/asanull/pawiki.github.io</a>
+
+<br>
+
 # 📝 Credits / Contributors
 
 - asa  -  pawiki development

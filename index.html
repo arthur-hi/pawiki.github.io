@@ -37,16 +37,19 @@
         </div>
 
         <ul class="nav col-12 col-md-auto mb-2 justify-content-center mb-md-0">
+            <li><a id="news-nav" href="#" class="nav-link px-2 link-secondary">News</a></li>
+            <li><a id="docs-nav" href="#" class="nav-link px-2 link-secondary link-light">Docs</a></li>
             <li><a id="home-nav" href="#" class="nav-link px-2 link-secondary">About</a></li>
-            <li><a id="docs-nav" href="#docs" class="nav-link px-2 link-secondary link-light">Docs</a></li>
-            <li><a href="https://github.com/asanull/pawiki.github.io" target="_blank"
-                    class="nav-link px-2 link-secondary">Repo</a></li>
         </ul>
         <a class="col-md-3"></a>
     </header>
 
     <main>
-        <div id="home" class="hidden"></div>
+        <div id="home" class="hidden" style="height: 100%"></div>
+        <div id="news" class="hidden" style="height: 100%">
+            <div id="news-content" class="flex-grow-1">
+            </div>
+        </div>
         <div id="docs" class="visible">
             <div id="sidebar">
                 <div class="flex-shrink-0 p-3" id="collapsible">
@@ -54,7 +57,7 @@
                     </ul>
                 </div>
             </div>
-            <div id="content" class="flex-grow-1">
+            <div id="docs-content" class="flex-grow-1">
             </div>
         </div>
     </main>

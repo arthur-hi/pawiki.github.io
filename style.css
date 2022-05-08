@@ -47,8 +47,20 @@ main #home {
     position: absolute;
     top: 75px;
     left: 15px;
-    width: 81%;
+    width: 100%;
     padding-top: 25px;
+    padding-right: 25%;
+    overflow-y: scroll;
+    overflow-x: hidden;
+}
+
+main #news {
+    position: absolute;
+    top: 75px;
+    left: 15px;
+    width: 100%;
+    padding-top: 25px;
+    padding-right: 25%;
 }
 
 main #docs {
@@ -96,6 +108,10 @@ main #sidebar {
     overflow: scroll;
 }
 
+#list {
+    padding-bottom: 64px;
+}
+
 main .doc {
     position: absolute;
     height: 100%;
@@ -108,7 +124,15 @@ main .doc {
     overflow-x: hidden;
 }
 
-#content {
+#news-content {
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    overflow-y: scroll;
+    overflow-x: hidden;
+}
+
+#docs-content {
     width: 100%;
     height: 100%;
     position: relative;
@@ -173,7 +197,7 @@ pre:hover {
     transition: .25s;
 }
 
-.doc img {
+main img {
     border-radius: 10px;
     width: 400px;
     max-width: 100%;

@@ -1,7 +1,7 @@
 # TRANSLATIONS, AI AND MODERN UPDATES
 Mar 8, 2019 - Jun 29, 2019
 
-<img id="big" src="https://cdn.planetaryannihilation.com/wp-content/uploads/2019/03/113034-1024x640.png">
+<img src="https://cdn.planetaryannihilation.com/wp-content/uploads/2019/03/113034-1024x640.png">
 
 Hello Commanders,
 

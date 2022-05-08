@@ -1,7 +1,7 @@
 # BALANCE UPDATE
 Mon, April 11, 2022
 
-<img id="big" src="https://cdn.planetaryannihilation.com/wp-content/uploads/2021/06/img_imperial_fusion-1024x1024.png">
+<img src="https://cdn.planetaryannihilation.com/wp-content/uploads/2021/06/img_imperial_fusion-1024x1024.png">
 <br>
 
 Greetings Commanders,

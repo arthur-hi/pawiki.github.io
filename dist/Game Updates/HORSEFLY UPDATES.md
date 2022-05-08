@@ -1,7 +1,7 @@
 # HORSEFLY UPDATES
 Oct 5, 2019 - Jul 8, 2020
 
-<img id="big" src="https://cdn.planetaryannihilation.com/wp-content/uploads/2019/10/horsefly-1024x722.png">
+<img src="https://cdn.planetaryannihilation.com/wp-content/uploads/2019/10/horsefly-1024x722.png">
 <br>
 Hello Commanders,
 

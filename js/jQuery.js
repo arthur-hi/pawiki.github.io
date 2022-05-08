@@ -23,19 +23,33 @@ jQuery.fn.selectText = function () {
 
 let home = $('#home')[0]
 let docs = $('#docs')[0]
+let news = $('#news')[0]
 $('#home-nav').click(async event => {
     event.preventDefault();
     $('#home-nav')[0].classList.add('link-light')
     $('#docs-nav')[0].classList.remove('link-light')
+    $('#news-nav')[0].classList.remove('link-light')
     home.className = 'visible'
     docs.className = 'hidden'
+    news.className = 'hidden'
 })
 $('#docs-nav').click(async event => {
     event.preventDefault();
     $('#docs-nav')[0].classList.add('link-light')
     $('#home-nav')[0].classList.remove('link-light')
+    $('#news-nav')[0].classList.remove('link-light')
     home.className = 'hidden'
     docs.className = 'visible'
+    news.className = 'hidden'
+})
+$('#news-nav').click(async event => {
+    event.preventDefault();
+    $('#home-nav')[0].classList.remove('link-light')
+    $('#docs-nav')[0].classList.remove('link-light')
+    $('#news-nav')[0].classList.add('link-light')
+    home.className = 'hidden'
+    docs.className = 'hidden'
+    news.className = 'visible'
 })
 $('.toggle').click(event => {
     document.body.classList.toggle('dark');
@@ -47,11 +61,11 @@ $('.left').click(event => {
 
     if ($('#sidebar')[0].classList.contains('hide')) {
         $('#sidebar')[0].style.left = `-${offset}px`
-        $('#content')[0].style.left = `0px`
+        $('#docs-content')[0].style.left = `0px`
     }
     else {
         $('#sidebar')[0].style.left = `0px`
-        $('#content')[0].style.left = `${offset}px`
+        $('#docs-content')[0].style.left = `${offset}px`
     }
 
 });

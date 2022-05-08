@@ -1,7 +1,7 @@
 # RAINBOWS & UNICORNS UPDATES
 Jun 25, 2020 - Jun 17, 2021
 
-<img id="big" src="https://cdn.planetaryannihilation.com/wp-content/uploads/2020/06/unicorn-commander-1024x1024.png">
+<img src="https://cdn.planetaryannihilation.com/wp-content/uploads/2020/06/unicorn-commander-1024x1024.png">
 <br>
 Scroll to the end for latest patch notes.
 

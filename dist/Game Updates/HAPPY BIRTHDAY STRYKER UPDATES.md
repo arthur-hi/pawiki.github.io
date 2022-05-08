@@ -1,7 +1,7 @@
 # HAPPY BIRTHDAY STRYKER UPDATES
 Aug 18, 2019 - May 18, 2021
 
-<img id="big" src="https://cdn.planetaryannihilation.com/wp-content/uploads/2019/08/stryker-768x768.png">
+<img src="https://cdn.planetaryannihilation.com/wp-content/uploads/2019/08/stryker-768x768.png">
 <br>
 113583 / 113600 Balance Changes
 

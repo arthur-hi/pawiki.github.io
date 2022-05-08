@@ -1,7 +1,7 @@
 # HAPPY NEW YEAR UPDATES
 Dec 31, 2018 - Apr 2, 2019
 
-<img id="big" src="https://cdn.planetaryannihilation.com/wp-content/uploads/2019/01/112595-1024x640.png">
+<img src="https://cdn.planetaryannihilation.com/wp-content/uploads/2019/01/112595-1024x640.png">
 
 Happy New Year Commanders,
 

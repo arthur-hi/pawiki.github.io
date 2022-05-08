@@ -1,7 +1,7 @@
 # FUSION UPDATES
 Jun 24, 2021 - Aug 14, 2021
 
-<img id="big" src="https://cdn.planetaryannihilation.com/wp-content/uploads/2021/06/img_imperial_fusion-1024x1024.png">
+<img src="https://cdn.planetaryannihilation.com/wp-content/uploads/2021/06/img_imperial_fusion-1024x1024.png">
 <br>
 Hello Commanders,
 
@@ -281,4 +281,4 @@ gw_specs
  - Added ``--single-material`` to ``papatran`` to combine multiple materials in units that should have only a single material group and material
 
 https://planetaryannihilation.com/timeline
-<img id="big" src="https://cdn.planetaryannihilation.com/wp-content/uploads/2021/06/bot_aa_profile-150x150@2x.png">
+<img src="https://cdn.planetaryannihilation.com/wp-content/uploads/2021/06/bot_aa_profile-150x150@2x.png">
