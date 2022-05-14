@@ -21,33 +21,33 @@ jQuery.fn.selectText = function () {
     }
 };
 
-let home = $('#home')[0]
+let units = $('#units')[0]
 let docs = $('#docs')[0]
 let news = $('#news')[0]
-$('#home-nav').click(async event => {
+$('#units-nav').click(async event => {
     event.preventDefault();
-    $('#home-nav')[0].classList.add('link-light')
+    $('#units-nav')[0].classList.add('link-light')
     $('#docs-nav')[0].classList.remove('link-light')
     $('#news-nav')[0].classList.remove('link-light')
-    home.className = 'visible'
+    units.className = 'visible'
     docs.className = 'hidden'
     news.className = 'hidden'
 })
 $('#docs-nav').click(async event => {
     event.preventDefault();
     $('#docs-nav')[0].classList.add('link-light')
-    $('#home-nav')[0].classList.remove('link-light')
+    $('#units-nav')[0].classList.remove('link-light')
     $('#news-nav')[0].classList.remove('link-light')
-    home.className = 'hidden'
+    units.className = 'hidden'
     docs.className = 'visible'
     news.className = 'hidden'
 })
 $('#news-nav').click(async event => {
     event.preventDefault();
-    $('#home-nav')[0].classList.remove('link-light')
+    $('#units-nav')[0].classList.remove('link-light')
     $('#docs-nav')[0].classList.remove('link-light')
     $('#news-nav')[0].classList.add('link-light')
-    home.className = 'hidden'
+    units.className = 'hidden'
     docs.className = 'hidden'
     news.className = 'visible'
 })
@@ -56,16 +56,22 @@ $('.toggle').click(event => {
     document.body.classList.toggle('light');
 });
 $('.left').click(event => {
-    let offset = $('#sidebar')[0].offsetWidth
-    $('#sidebar')[0].classList.toggle('hide')
+    let offset = $('#docs-sidebar')[0].offsetWidth
+    $('#docs-sidebar')[0].classList.toggle('hide')
 
-    if ($('#sidebar')[0].classList.contains('hide')) {
-        $('#sidebar')[0].style.left = `-${offset}px`
+    if ($('#docs-sidebar')[0].classList.contains('hide')) {
+        $('#docs-sidebar')[0].style.left = `-${offset}px`
         $('#docs-content')[0].style.left = `0px`
+        
+        $('#units-sidebar')[0].style.left = `-${offset}px`
+        $('#units-content')[0].style.left = `0px`
     }
     else {
-        $('#sidebar')[0].style.left = `0px`
+        $('#docs-sidebar')[0].style.left = `0px`
         $('#docs-content')[0].style.left = `${offset}px`
+        
+        $('#units-sidebar')[0].style.left = `0px`
+        $('#units-content')[0].style.left = `${offset}px`
     }
 
 });

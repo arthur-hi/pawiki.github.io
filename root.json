@@ -1,6 +1,6 @@
 {
     "filesRemaining": 0,
-    "directories": [
+    "documentDirectories": [
         "Introduction",
         "Game Updates",
         "Unit Specs",
@@ -11,7 +11,8 @@
     ],
     "Introduction": [
         "Welcome",
-        "Contribution"
+        "Contribution",
+        "About"
     ],
     "Game Updates": [
         "BALANCE UPDATE",

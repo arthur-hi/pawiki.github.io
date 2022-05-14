@@ -23,25 +23,16 @@ async function setNewspage() {
 }
 setNewspage()
 
-async function setHomepage() {
-    const response = await fetch('/README.md');
-    const data = await response.text();
-    var converter = new showdown.Converter();
-    html = converter.makeHtml(data);
-    
-    // temp fix for a problem I don't wanna solve rn
-    home.innerHTML = html + "<br><br><br>"
-}
-setHomepage()
-
 setInterval(() => {
-    $('#sidebar')[0].style.top = $('header')[0].offsetHeight + 'px'
-    $('#docs-content')[0].style.top = $('header')[0].offsetHeight + 'px'
-    $('#home')[0].style.top = $('header')[0].offsetHeight + 'px'
+    $('#docs-sidebar')[0].style.top = $('header')[0].offsetHeight + 'px'
+    $('#docs')[0].style.top = $('header')[0].offsetHeight + 'px'
+    $('#units-sidebar')[0].style.top = $('header')[0].offsetHeight + 'px'
+    $('#units')[0].style.top = $('header')[0].offsetHeight + 'px'
+    $('#units')[0].style.top = $('header')[0].offsetHeight + 'px'
     $('#news')[0].style.top = $('header')[0].offsetHeight + 'px'
     $('.material-symbols-outlined').each(function (i, btn) {
         let headerOffset = ($('header')[0].offsetHeight / 2) - 12
-        let sidebarOffset = $('#sidebar')[0].offsetWidth
+        let sidebarOffset = $('#docs-sidebar')[0].offsetWidth
         btn.style.top = headerOffset + 'px'
         if (btn.classList.contains('left')) {
             switch (headerOffset) {
@@ -53,9 +44,14 @@ setInterval(() => {
                     btn.style.left = '-24px';
                     btn.style.color = 'transparent';
 
-                    $('#sidebar')[0].classList.remove('hide')
-                    $('#sidebar')[0].style.left = `0px`
+                    $('#docs-sidebar')[0].classList.remove('hide')
+                    $('#docs-sidebar')[0].style.left = `0px`
                     $('#docs-content')[0].style.left = `${sidebarOffset}px`
+
+
+                    $('#units-sidebar')[0].classList.remove('hide')
+                    $('#units-sidebar')[0].style.left = `0px`
+                    $('#units-content')[0].style.left = `${sidebarOffset}px`
             }
         } else {
             switch (headerOffset) {
@@ -70,52 +66,83 @@ setInterval(() => {
     });
 }, 100);
 
-document.addEventListener('DOMContentLoaded', fetchDocs(async () => {
+let pos = { x: 0, y: 0 }
+document.addEventListener('mousemove', event => {
+    pos.x = event.pageX
+    pos.y = event.pageY
+    $('.toast')[0].style.left = pos.x + 24 + 'px'
+    $('.toast')[0].style.top = pos.y - 24 + 'px'
+    $('.toast')[0].classList = "toast hide"
+})
 
-    list.forEach(doc => {
+document.addEventListener('DOMContentLoaded', () => {
+    fetchDocs(async () => {
 
-        let element = document.createElement('div')
-        element.id = `${doc.file}.md`
-        element.classList.add('hidden')
-        element.classList.add('doc')
-        var converter = new showdown.Converter();
-        converter.setOption('literalMidWordAsterisks', true)
-        converter.setOption('literalMidWordUnderscores', true)
-        html = converter.makeHtml(doc.content);
-        element.innerHTML = html
-        $('#docs-content')[0].appendChild(element)
+        list.forEach(doc => {
 
-        doc.link.addEventListener('click', async () => {
+            let element = document.createElement('div')
+            element.id = `${doc.file}.md`
+            element.classList.add('hidden')
+            element.classList.add('doc')
+            var converter = new showdown.Converter();
+            converter.setOption('literalMidWordAsterisks', true)
+            converter.setOption('literalMidWordUnderscores', true)
+            html = converter.makeHtml(doc.content);
+            element.innerHTML = html
+            $('#docs-content')[0].appendChild(element)
 
-            $('.collapse-link').each(function () {
-                $(this)[0].style = "color: var(--bs-gray-500)"
+            doc.link.addEventListener('click', async () => {
+
+                $('.collapse-link').each(function () {
+                    $(this)[0].style = "color: var(--bs-gray-500)"
+                })
+                doc.link.children[0].style = "color: #f1662f"
+
+                $('.doc').addClass('hidden');
+                element.classList.add('visible');
+                element.classList.remove('hidden');
             })
-            doc.link.children[0].style = "color: #f1662f"
 
-            $('.doc').addClass('hidden');
-            element.classList.add('visible');
-            element.classList.remove('hidden');
-        })
-
-    });
-
-    $('pre').each(function (i, block) {
-        $(block).click(function () {
-            $(this).selectText();
-            navigator.clipboard.writeText($(this).text())
         });
-    });
 
-    await new Promise(r => setTimeout(r, 10));
-    let introductionCollapse = document.getElementById('Introduction-collapse')
-    introductionCollapse.classList.add('show')
-    let welcomeLink = document.getElementById('Welcome-link')
-    welcomeLink.click()
+        await new Promise(r => setTimeout(r, 10));
+        let introductionCollapse = document.getElementById('Introduction-collapse')
+        introductionCollapse.classList.add('show')
+        let welcomeLink = document.getElementById('Welcome-link')
+        welcomeLink.click()
 
-}));
+        await new Promise(r => setTimeout(r, 1000));
+        $('pre').each(function (i, block) {
+            $(block).click(async () => {
+                navigator.clipboard.writeText($(this).text())
+                $("#copied").toast("show");
+            });
+        });
+        $('.value').each(function (i, block) {
+            $(block).click(async () => {
+                navigator.clipboard.writeText($(this).text())
+                $("#copied").toast("show");
+            });
+        });
 
-$(document).ready(function () {
-    $("body").tooltip({
-        selector: '[data-toggle=tooltip]'
-    });
+    })
+
+    fetchUnits(async () => {
+
+        $('.btn-unit').each(function () {
+            $(this)[0].style = "color: var(--bs-gray-500)"
+            $(this).click(function () {
+                $('.btn-unit').each(function () {
+                    $(this)[0].style = "color: var(--bs-gray-500)"
+                })
+                $(this)[0].style = "color: white"
+            })
+        })
+    })
+
+    $(document).ready(function () {
+        $("body").tooltip({
+            selector: '[data-toggle=tooltip]'
+        });
+    })
 });

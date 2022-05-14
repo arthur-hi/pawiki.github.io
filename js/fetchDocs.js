@@ -6,13 +6,12 @@ async function fetchDocs(callback) {
     const response = await fetch('/root.json');
     const root = JSON.parse(await response.text());
 
-    root.directories.forEach(dir => {
+    root.documentDirectories.forEach(dir => {
         root[dir].forEach(file => {
             root.filesRemaining++;
         })
     })
-
-    root.directories.forEach(async directory => {
+    root.documentDirectories.forEach(async directory => {
 
         let format = directory.replace(/\s/g, '-');
 
@@ -29,7 +28,7 @@ async function fetchDocs(callback) {
                         </ul>
                     </div>
                 `
-        $('#list').append(li)
+        $('#docs-list').append(li)
         let collapse = $(`#${format}-collapse`)[0]
 
         root[directory].forEach(async file => {
