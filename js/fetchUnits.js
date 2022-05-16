@@ -48,10 +48,33 @@ async function fetchUnits(callback) {
                 let data = {
                     "faction": faction,
                     "type": unittype,
-                    "name": unit,
+                    "unit": unit,
                     "factionpath": `resources/units/${faction}`,
                     "unitpath": `resources/units/${faction}/${unittype}/${unit}`,
                 }
+
+                let markdown = {
+                    "max_range": "",
+                    "total_dps": "",
+
+                    "max_speed": "",
+                    "acceleration": "",
+                    "braking_rate": "",
+                    "turn_speed": "",
+                    "type": "",
+
+                    "observer": {
+                        "sight": [],
+                        "radar": [],
+                        "radar_jammer": []
+                    },
+
+                    "json": "",
+                    "recon": "",
+                    "tools": ""
+                }
+                let max_range = 0
+                let total_dps = 0
 
                 let id = `${faction.replace(/\s/g, '-')}-${unittype.replace(/\s/g, '-')}-${unit.replace(/\s/g, '-')}`
 
@@ -63,22 +86,26 @@ async function fetchUnits(callback) {
                     style = "style='width: 100px; height: 100px;'"
                 }
 
-                const response = await fetch(`${data.unitpath}/${unit}.json`);
+                const response = await fetch(`${data.unitpath}/${data.unit}.json`);
                 let json = JSON.parse(await response.text());
                 if (json.base_spec != undefined) {
                     let split = json.base_spec.split("/")
                     path = split[split.length - 3].charAt(0).toUpperCase() + split[split.length - 3].slice(1);
-                    let base_spec = `${path}/${split[split.length - 2]}/${split.pop()}`
+                    let base_spec = `${path}/${split[split.length - 2]}/${split[split.length - 1]}`
                     const response = await fetch(`${data.factionpath}/${base_spec}`);
                     base_spec = JSON.parse(await response.text());
+                    markdown.json += `${split.pop()}<pre><code>${base_spec.prettyPrint()}</code></pre>`
                     json = Object.assign({}, base_spec, json);
                 }
 
                 let name = json.display_name.replace('!LOC:', '');
-                let format = unit.replace(/\s/g, '-');
+                let format = data.unit.replace(/\s/g, '-');
                 let link = document.createElement('li')
                 link.innerHTML =
-                    `<a class="link-light rounded text-decoration-none" style="color: transparent">${name}</a>`
+                    `<a class="link-light rounded text-decoration-none" style="display: none; opacity: 0">
+                        <img src="${imgpath}" style="position: absolute; left: -16px; top: 7; width: 32px">
+                        <span style="position: relative; left: 16px">${name}</span>
+                    </a>`
                 link.children[0].classList.add('collapse-link')
                 link.children[0].id = `${format}-link`
                 link.style.padding = "10px"
@@ -111,29 +138,9 @@ async function fetchUnits(callback) {
                         .replace(jsonLine, replacer);
                 }
 
-                let markdown = {
-                    "max_range": "",
-                    "total_dps": "",
-
-                    "max_speed": "",
-                    "acceleration": "",
-                    "braking_rate": "",
-                    "turn_speed": "",
-                    "type": "",
-
-                    "observer": {
-                        "sight": [],
-                        "radar": [],
-                        "radar_jammer": []
-                    },
-
-                    "recon": "",
-                    "tools": ""
-                }
-                let max_range = 0
-                let total_dps = 0
-
                 // Behold the power of bad code!
+
+                markdown.json += `${data.unit}.json<pre><code>${json.prettyPrint()}</code></pre>`
 
                 async function prep() {
                     if (json.max_health != undefined) {
@@ -152,17 +159,19 @@ async function fetchUnits(callback) {
 `
                         json.tools.forEach(async tool => {
                             let file = tool.spec_id.split("/")
-                            let path = `${data.factionpath}/${data.type}/${file[file.length - 2]}/${file.pop()}`
+                            let path = `${data.factionpath}/${data.type}/${file[file.length - 2]}/${file[file.length - 1]}`
 
                             const response = await fetch(`${path}`);
                             let _tool = JSON.parse(await response.text());
+                            markdown.json += `${file[file.length - 1]}<pre><code>${_tool.prettyPrint()}</code></pre>`
+
                             let weapon = {}
                             weapon.name = tool.spec_id.split("/")
-                            .pop()
-                            .replace(".json", "")
-                            .replace(`${data.name}_`, "")
-                            .replace(/_/g, ' ')
-                            .replace(/(^\w|\s\w)/g, m => m.toUpperCase());
+                                .pop()
+                                .replace(".json", "")
+                                .replace(`${data.unit}_`, "")
+                                .replace(/_/g, ' ')
+                                .replace(/(^\w|\s\w)/g, m => m.toUpperCase());
                             if (_tool.max_range > max_range) {
                                 max_range = _tool.max_range
                                 markdown.max_range = `Max Range: <v class="value">${max_range}</v><br>`
@@ -175,27 +184,43 @@ async function fetchUnits(callback) {
                                 }
                                 let unitpath = altfile[altfile.length - 3].charAt(0).toUpperCase() + altfile[altfile.length - 3].slice(1);
 
-                                let ammo = `${data.factionpath}/${unitpath}/${altfile[altfile.length - 2]}/${altfile.pop()}`
+                                let ammo = `${data.factionpath}/${unitpath}/${altfile[altfile.length - 2]}/${altfile[altfile.length - 1]}`
 
                                 const response = await fetch(`${ammo}`);
                                 let _ammo = JSON.parse(await response.text());
+                                markdown.json += `${altfile[altfile.length - 1]}<pre><code>${_ammo.prettyPrint()}</code></pre>`
+
+                                if (_ammo.base_spec != undefined) {
+                                    let split = _ammo.base_spec.split("/").pop().replace(".json", "")
+                                    const response = await fetch(`${data.factionpath}/ammo/${split}/${split}.json`);
+                                    let _ammo_base = JSON.parse(await response.text());
+                                    markdown.json += `${split}.json<pre><code>${_ammo_base.prettyPrint()}</code></pre>`
+                                }
 
                                 total_dps += _ammo.damage * _tool.rate_of_fire
                                 markdown.total_dps = `Total DPS: <v class="value">${total_dps}</v><br>`
 
                                 weapon.layers = _tool.target_layers
                                 if (weapon.layers != undefined) {
-                                    
+
                                     markdown.tools += `#### ${weapon.name}:\n`
-                                    markdown.tools += `\nTarget Layers:\n`
-                                    weapon.layers.forEach(layer => {
-                                        markdown.tools += `- ${layer}\n`
-                                    })
 
                                     markdown.tools += `\nAmmo Damage: ${_ammo.damage}<br>`
                                     markdown.tools += `Rate of Fire: ${_tool.rate_of_fire}<br>`
                                     markdown.tools += `Damage Per Second: ${_ammo.damage * _tool.rate_of_fire}<br>\n`
 
+                                    markdown.tools += `\nTarget Layers:\n`
+                                    weapon.layers.forEach(layer => {
+                                        markdown.tools += `- ${layer.replace("WL_","")}\n`
+                                    })
+                                    if (_ammo.armor_damage_map != undefined) {
+                                        markdown.tools += `\nArmor Damage Map:\n`
+                                        for (var entry in _ammo.armor_damage_map) {
+                                            if (entry != "prettyPrint") {
+                                                markdown.tools += `- ${entry.replace("AT_","")}: <v class="value">${_ammo.armor_damage_map[entry]}</v>\n`
+                                            }
+                                        }
+                                    }
                                 }
                             }
                         });
@@ -225,7 +250,7 @@ async function fetchUnits(callback) {
 
                         if (json.navigation.type != undefined) {
                             markdown.type =
-                                `<v class="value">${json.navigation.type.charAt(0).toUpperCase() + json.navigation.type.slice(1)}</v><br>`
+                                `Navigation type: <v class="value">${json.navigation.type.charAt(0).toUpperCase() + json.navigation.type.slice(1)}</v><br>`
                         } else markdown.type = ""
                     }
 
@@ -237,7 +262,7 @@ async function fetchUnits(callback) {
                     }
 
                     await new Promise(resolve => setTimeout(resolve, 3000)); // 3 sec
-                    
+
                     //synchronously tell the user that things have pretty much finished loading
                     if (loading) {
                         loading = false
@@ -251,11 +276,11 @@ async function fetchUnits(callback) {
                     if (json.navigation != undefined) {
                         markdown.navigation =
                             `### Navigation
+${markdown.type}
 ${markdown.max_speed}
 ${markdown.acceleration}
 ${markdown.braking_rate}
-${markdown.turn_speed}
-${markdown.type}`
+${markdown.turn_speed}`
                     }
 
                     if (markdown.observer.sight.length > 0) {
@@ -299,6 +324,11 @@ ${markdown.type}`
                         });
                     }
 
+                    if (json.armor_type != undefined) {
+                        markdown.armor_type =
+                            `Armor Type: <v class="value">${json.armor_type.replace("AT_","")}</v><br>`
+                    } else markdown.armor_type = ""
+
                     markdown.content =
                         `# ${name}
 <img src="${imgpath}" ${style}>
@@ -309,11 +339,12 @@ ${markdown.type}`
 <input class="form-check-input" type="checkbox" id="${id}-switch">
 </div>
 <div class="hidden" id="${id}-json">
-<br><pre><code>${json.prettyPrint()}</code></pre>
+<br>${markdown.json}
 </div><br>
 ### Overview
 ${markdown.max_health}
 ${markdown.build_metal_cost}
+${markdown.armor_type}
 ${markdown.max_range}
 ${markdown.total_dps}
 

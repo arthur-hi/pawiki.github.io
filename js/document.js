@@ -130,7 +130,6 @@ document.addEventListener('DOMContentLoaded', () => {
     fetchUnits(async () => {
 
         $('.btn-unit').each(function () {
-            $(this)[0].style = "color: var(--bs-gray-500)"
             $(this).click(function () {
                 $('.btn-unit').each(function () {
                     $(this)[0].style = "color: var(--bs-gray-500)"
