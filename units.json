@@ -349,8 +349,7 @@
             "l_almaz",
             "l_orbital_anti_nuke",
             "l_orbital_jammer",
-            "l_orbital_power",
-            "l_orbital_anti_nuke"
+            "l_orbital_power"
         ],
         "Sea": [
             "fabrication_sub",

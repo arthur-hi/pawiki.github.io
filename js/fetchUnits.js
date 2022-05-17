@@ -1,6 +1,6 @@
 let unitlist = []
 let factions = {}
-loading = true
+
 async function fetchUnits(callback) {
     $('.units-loading')[0].style.display = null
     let count = {
@@ -8,11 +8,17 @@ async function fetchUnits(callback) {
         total: 0
     }
 
-    function updateProgress() {
+    async function updateProgress() {
         count.current++
         $('.progress-bar')[0].setAttribute('aria-valuenow', count.current)
         $('.progress-bar')[0].style.width = `${(count.current / count.total) * 100}%`
-        $('.progress-bar')[0].innerHTML = `${count.current} / ${count.total}`
+        let style = `font-family: var(--font-head); font-size: 14px`
+        $('.progress-bar')[0].innerHTML = `<span style="${style}">${count.total-count.current} to go</span>`
+        if (count.total==count.current) {
+            //$('.progress-bar')[0].innerHTML = `<span style="${style}">done</span>`
+            await new Promise(resolve => setTimeout(resolve, 500))
+            $('.units-loading')[0].style.display = "none"
+        }
     }
 
     const response = await fetch('/units.json');
@@ -148,8 +154,8 @@ async function fetchUnits(callback) {
                 Object.prototype.prettyPrint = function () {
                     var jsonLine = /^( *)("[\w]+": )?("[^"]*"|[\w.+-]*)?([,[{])?$/mg;
                     var replacer = function (match, pIndent, pKey, pVal, pEnd) {
-                        var key = '<span class="json-key" style="color: #ea6b33">',
-                            val = '<span class="json-value" style="color: #69e8fc">',
+                        var key = '<span class="json-key" style="color: var(--bs-orange)">',
+                            val = '<span class="json-value" style="color: var(--bs-blue)">',
                             str = '<span class="json-string" style="color: white">',
                             r = pIndent || '';
                         if (pKey)
@@ -292,13 +298,6 @@ async function fetchUnits(callback) {
                             markdown.observer[item.channel].push(`${name} radius: <v class="value">${item.radius}</v><br>`)
                         });
                     }
-
-                    await new Promise(resolve => setTimeout(resolve, 0))
-                    // fake delay because lag == bad UX
-                    updateProgress()
-
-                    await new Promise(resolve => setTimeout(resolve, 4500))
-
                 }
                 prep().then(async () => {
 
@@ -391,6 +390,8 @@ ${markdown.tools}
                     element.id = `${format}.md`
                     element.classList.add('hidden')
                     element.classList.add('doc')
+                    element.classList.add('unit-doc')
+                    element.classList.add('d-none')
                     var converter = new showdown.Converter();
                     converter.setOption('literalMidWordAsterisks', true)
                     converter.setOption('literalMidWordUnderscores', true)
@@ -398,12 +399,6 @@ ${markdown.tools}
                     element.innerHTML = html
                     $('#units-content')[0].appendChild(element)
 
-                    await new Promise(resolve => setTimeout(resolve, 2000))
-                    if (loading) {
-                        loading = false
-                        $('.units-loading')[0].style.display = "none"
-                    }
-                    $('.doc').addClass('d-none');
                     link.addEventListener('click', async () => {
 
                         $('.collapse-link').each(function () {
@@ -411,7 +406,7 @@ ${markdown.tools}
                         })
                         link.children[0].style = "color: #f1662f"
 
-                        $('.doc').addClass('hidden');
+                        $('.unit-doc').addClass('hidden');
                         element.classList.remove('d-none');
                         await new Promise(resolve => setTimeout(resolve, 1))
                         // second d-none just to be safe
@@ -435,6 +430,10 @@ ${markdown.tools}
                     link.style.position = 'relative'
                     link.style.top = "10px"
                     link.style.left = "10px"
+
+                    // This should force this to come once the unit is entirely loaded
+                    await new Promise(resolve => setTimeout(resolve, 1))
+                    updateProgress()
                 })
 
             })

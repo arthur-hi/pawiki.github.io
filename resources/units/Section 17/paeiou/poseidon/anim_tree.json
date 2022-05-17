@@ -1,0 +1,7 @@
+{
+    "blend_root": {
+        "type": "bind_pose"
+    },
+    "skeleton_controls": [
+    ]
+}

@@ -286,12 +286,12 @@ main img {
 
 .dark {
     transition: .25s;
-    --bs-blue: #0d6efd;
+    --bs-blue: #69e8fc;
     --bs-indigo: #6610f2;
     --bs-purple: #6f42c1;
     --bs-pink: #d63384;
     --bs-red: #dc3545;
-    --bs-orange: #fd7e14;
+    --bs-orange: #ea6b33;
     --bs-yellow: #ffc107;
     --bs-green: #198754;
     --bs-teal: #20c997;
