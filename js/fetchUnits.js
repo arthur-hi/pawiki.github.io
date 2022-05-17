@@ -1,5 +1,6 @@
 let unitlist = []
-let factions = {};
+let factions = {}
+loading = true
 async function fetchUnits(callback) {
     $('.units-loading')[0].style.display = null
     let count = {
@@ -13,7 +14,6 @@ async function fetchUnits(callback) {
         $('.progress-bar')[0].style.width = `${(count.current / count.total) * 100}%`
         $('.progress-bar')[0].innerHTML = `${count.current} / ${count.total}`
     }
-    loading = true
 
     const response = await fetch('/units.json');
     factions.json = JSON.parse(await response.text());
@@ -283,19 +283,14 @@ async function fetchUnits(callback) {
                         });
                     }
 
-                    await new Promise(resolve => setTimeout(resolve, 1500))
+                    await new Promise(resolve => setTimeout(resolve, 0))
                     // fake delay because lag == bad UX
                     updateProgress()
 
-                    await new Promise(resolve => setTimeout(resolve, 3000))
+                    await new Promise(resolve => setTimeout(resolve, 4500))
 
-                    //synchronously tell the user that things have pretty much finished loading
-                    if (loading) {
-                        loading = false
-                        $('.units-loading')[0].style.display = "none"
-                    }
                 }
-                prep().then(() => {
+                prep().then(async () => {
 
                     markdown.navigation = ""
                     if (json.navigation != undefined) {
@@ -393,6 +388,14 @@ ${markdown.tools}
                     element.innerHTML = html
                     $('#units-content')[0].appendChild(element)
 
+                    await new Promise(resolve => setTimeout(resolve, 0))
+                    
+                    //synchronously tell the user that things have pretty much finished loading
+                    if (loading) {
+                        loading = false
+                        $('.units-loading')[0].style.display = "none"
+                    }
+                    $('.doc').addClass('d-none');
                     link.addEventListener('click', async () => {
 
                         $('.collapse-link').each(function () {
@@ -401,6 +404,10 @@ ${markdown.tools}
                         link.children[0].style = "color: #f1662f"
 
                         $('.doc').addClass('hidden');
+                        element.classList.remove('d-none');
+                        await new Promise(resolve => setTimeout(resolve, 1))
+                        // second d-none just to be safe
+                        element.classList.remove('d-none');
                         element.classList.add('visible');
                         element.classList.remove('hidden');
                     })

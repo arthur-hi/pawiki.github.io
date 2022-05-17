@@ -223,6 +223,8 @@ h1 p {
     transition: visibility 0s .125s, opacity .125s linear;
     pointer-events: none;
     height: 0 !important;
+    transition: height 0s .125s;
+    transition-delay: height 0s .125s;
 }
 
 v {
