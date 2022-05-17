@@ -125,7 +125,7 @@ async function fetchUnits(callback) {
                 let link = document.createElement('li')
                 link.innerHTML =
                     `<a class="link-light rounded text-decoration-none" style="opacity: 0; color: transparent">
-                        <img src="${imgpath}" style="position: absolute; left: -16px; top: 7; width: 32px">
+                        <img src="${imgpath}" style="position: absolute; left: -16px; top: calc(50% - 16px); width: 32px">
                         <span style="position: relative; left: 16px">${name}</span>
                     </a>`
                 link.children[0].classList.add('collapse-link')
