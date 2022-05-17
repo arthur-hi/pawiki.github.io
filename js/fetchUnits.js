@@ -410,6 +410,7 @@ ${markdown.tools}
                 count.current++
                 $('.progress-bar')[0].setAttribute('aria-valuenow', count.current)
                 $('.progress-bar')[0].style.width = `${(count.current / count.total) * 100}%`
+                $('.progress-bar')[0].innerHTML = `${count.current} / ${count.total}`
 
             })
             let br = document.createElement('br')
