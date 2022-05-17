@@ -156,7 +156,7 @@ async function fetchUnits(callback) {
                     var replacer = function (match, pIndent, pKey, pVal, pEnd) {
                         var key = '<span class="json-key" style="color: var(--bs-orange)">',
                             val = '<span class="json-value" style="color: var(--bs-blue)">',
-                            str = '<span class="json-string" style="color: white">',
+                            str = '<span class="json-string" style="color: var(--bs-dark)">',
                             r = pIndent || '';
                         if (pKey)
                             r = r + key + pKey.replace(/[": ]/g, '') + '</span>: ';
@@ -398,6 +398,9 @@ ${markdown.tools}
                     html = converter.makeHtml(markdown.content);
                     element.innerHTML = html
                     $('#units-content')[0].appendChild(element)
+                    
+                    $('#units-intro')[0].classList.remove('hidden')
+                    $('#units-intro')[0].classList.remove('d-none')
 
                     link.addEventListener('click', async () => {
 

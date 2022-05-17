@@ -77,7 +77,7 @@ document.addEventListener('mousemove', event => {
     $('.toast')[0].classList = "toast hide"
 })
 
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('DOMContentLoaded', async () => {
     fetchDocs(async () => {
 
         list.forEach(doc => {
@@ -128,6 +128,21 @@ document.addEventListener('DOMContentLoaded', () => {
         });
 
     })
+
+    let unitsDoc = document.createElement('div')
+    unitsDoc.id = "units-intro"
+    unitsDoc.className = "doc unit-doc"
+    
+    const response = await fetch(`/resources/units/README.md`);
+    const data = await response.text();
+
+    var converter = new showdown.Converter();
+    converter.setOption('literalMidWordAsterisks', true)
+    converter.setOption('literalMidWordUnderscores', true)
+    html = converter.makeHtml(data);
+    unitsDoc.innerHTML = html
+
+    $('#units-content')[0].appendChild(unitsDoc)
 
     $('#units-nav').one('click', function () {
         fetchUnits(async () => {

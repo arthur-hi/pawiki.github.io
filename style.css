@@ -49,7 +49,7 @@ html, body {
     display: flex;
     justify-content: center;
     align-items: center;
-    background-color: rgba(0, 0, 0, 0.1);
+    background-color: rgba(20, 22, 23, 0.9);
 
     backdrop-filter: blur(5px);
     -webkit-backdrop-filter: blur(5px);
@@ -248,6 +248,7 @@ pre {
     width: 100%;
     border-radius: 15px;
     transition: .25s;
+    width: fit-content;
     
     overflow-x: auto;
     white-space: pre-wrap;
@@ -341,12 +342,12 @@ main img {
 
 .light {
     transition: .25s;
-    --bs-blue: #0d6efd;
+    --bs-blue: #6610f2;
     --bs-indigo: #6610f2;
     --bs-purple: #6f42c1;
     --bs-pink: #d63384;
     --bs-red: #dc3545;
-    --bs-orange: #fd7e14;
+    --bs-orange: #212529;
     --bs-yellow: #ffc107;
     --bs-green: #198754;
     --bs-teal: #20c997;
