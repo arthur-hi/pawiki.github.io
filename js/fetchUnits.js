@@ -123,7 +123,7 @@ async function fetchUnits(callback) {
 
                 if (json.base_spec != undefined) {
                     let split = json.base_spec.split("/")
-                    path = split[split.length - 3].charAt(0).toUpperCase() + split[split.length - 3].slice(1);
+                    path = split[split.length - 3];
                     let base_spec = `${path}/${split[split.length - 2]}/${split[split.length - 1]}`
                     const response = await fetch(`${data.factionpath}/${base_spec}`);
                     base_spec = JSON.parse(await response.text());
@@ -219,7 +219,7 @@ async function fetchUnits(callback) {
                                     } catch (error) {
                                         altfile = _tool.ammo_id[0].id.split("/")
                                     }
-                                    let unitpath = altfile[altfile.length - 3].charAt(0).toUpperCase() + altfile[altfile.length - 3].slice(1);
+                                    let unitpath = altfile[altfile.length - 3];
 
                                     let ammo = `${data.factionpath}/${unitpath}/${altfile[altfile.length - 2]}/${altfile[altfile.length - 1]}`
 
