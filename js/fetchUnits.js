@@ -412,6 +412,10 @@ ${markdown.tools}
                         element.classList.remove('hidden');
                     })
 
+                    element.addEventListener('click', function() {
+                        hideSidebar()
+                    })
+
                     $(`#${id}-switch`).on('change', function () {
                         if (this.checked) {
                             $(`#${id}-json`)[0].classList = "visible"

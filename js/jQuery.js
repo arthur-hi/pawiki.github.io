@@ -24,6 +24,7 @@ jQuery.fn.selectText = function () {
 let units = $('#units')[0]
 let docs = $('#docs')[0]
 let news = $('#news')[0]
+
 function resetUnitsNav() {
     $('#units-nav').click(async event => {
         event.preventDefault();
@@ -58,23 +59,35 @@ $('.toggle').click(event => {
     document.body.classList.toggle('dark');
     document.body.classList.toggle('light');
 });
-$('.left').click(event => {
-    let offset = $('#docs-sidebar')[0].offsetWidth
-    $('#docs-sidebar')[0].classList.toggle('hide')
 
-    if ($('#docs-sidebar')[0].classList.contains('hide')) {
-        $('#docs-sidebar')[0].style.left = `-${offset}px`
-        $('#docs-content')[0].style.left = `0px`
-        
-        $('#units-sidebar')[0].style.left = `-${offset}px`
-        $('#units-content')[0].style.left = `0px`
-    }
-    else {
-        $('#docs-sidebar')[0].style.left = `0px`
-        $('#docs-content')[0].style.left = `${offset}px`
-        
-        $('#units-sidebar')[0].style.left = `0px`
-        $('#units-content')[0].style.left = `${offset}px`
-    }
+function toggleSidebar() {
+    let headerOffset = ($('header')[0].offsetHeight / 2) - 12
+    let sidebarOffset = $('#docs-sidebar')[0].offsetWidth
 
+    switch (headerOffset) {
+        case 36:
+            $('#docs-sidebar')[0].classList.toggle('hide')
+
+            if ($('#docs-sidebar')[0].classList.contains('hide')) {
+                $('#docs-sidebar')[0].style.left = `-${sidebarOffset}px`
+                $('#docs-content')[0].style.left = `0px`
+
+                $('#units-sidebar')[0].style.left = `-${sidebarOffset}px`
+                $('#units-content')[0].style.left = `0px`
+            } else {
+                $('#docs-sidebar')[0].style.left = `0px`
+                $('#docs-content')[0].style.left = `${sidebarOffset}px`
+
+                $('#units-sidebar')[0].style.left = `0px`
+                $('#units-content')[0].style.left = `${sidebarOffset}px`
+            }
+        break;
+    }
+}
+function hideSidebar() {
+    if (!$('#docs-sidebar')[0].classList.contains('hide'))
+        toggleSidebar()
+}
+$('.left').click(function() {
+    toggleSidebar()
 });

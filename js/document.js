@@ -48,7 +48,6 @@ setInterval(() => {
                     $('#docs-sidebar')[0].style.left = `0px`
                     $('#docs-content')[0].style.left = `${sidebarOffset}px`
 
-
                     $('#units-sidebar')[0].classList.remove('hide')
                     $('#units-sidebar')[0].style.left = `0px`
                     $('#units-content')[0].style.left = `${sidebarOffset}px`
