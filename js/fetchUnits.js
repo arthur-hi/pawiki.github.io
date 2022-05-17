@@ -103,7 +103,7 @@ async function fetchUnits(callback) {
 
                 const response = await fetch(`${data.unitpath}/${data.unit}.json`);
                 let json = JSON.parse(await response.text())
-
+                
                 count.current++
                 $('.progress-bar')[0].setAttribute('aria-valuenow', count.current)
                 $('.progress-bar')[0].style.width = `${(count.current / count.total) * 100}%`
