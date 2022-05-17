@@ -22,6 +22,7 @@ async function fetchUnits(callback) {
     }
 
     const response = await fetch('/units.json');
+    
     factions.json = JSON.parse(await response.text());
 
     for (var faction in factions.json) {
@@ -77,7 +78,7 @@ async function fetchUnits(callback) {
                     "type": unittype,
                     "unit": unit,
                     "factionpath": `resources/units/${faction}`,
-                    "unitpath": `resources/units/${faction}/${unittype}/${unit}`,
+                    "unitpath": `resources/units/${faction}/${unittype.toLowerCase()}/${unit}`,
                 }
 
                 let markdown = {
@@ -114,6 +115,7 @@ async function fetchUnits(callback) {
                 }
 
                 const response = await fetch(`${data.unitpath}/${data.unit}.json`);
+                
                 let json = JSON.parse(await response.text())
 
                 if (json.base_spec != undefined) {
@@ -121,6 +123,7 @@ async function fetchUnits(callback) {
                     path = split[split.length - 3].toLowerCase();
                     let base_spec = `${path}/${split[split.length - 2]}/${split[split.length - 1]}`
                     const response = await fetch(`${data.factionpath}/${base_spec}`);
+                    
                     base_spec = JSON.parse(await response.text());
                     markdown.json += `${split.pop()}<pre><code>${base_spec.prettyPrint()}</code></pre>`
                     json = Object.assign({}, base_spec, json);
@@ -193,6 +196,7 @@ async function fetchUnits(callback) {
                             } else path = `${data.factionpath}/${data.type}/${file[file.length - 2]}/${file[file.length - 1]}`
 
                             let response = await fetch(`${path}`);
+                            
                             let _tool = JSON.parse(await response.text());
                             markdown.json += `${file[file.length - 1]}<pre><code>${_tool.prettyPrint()}</code></pre>`
 
@@ -219,12 +223,14 @@ async function fetchUnits(callback) {
                                     let ammo = `${data.factionpath}/${unitpath}/${altfile[altfile.length - 2]}/${altfile[altfile.length - 1]}`
 
                                     const response = await fetch(`${ammo}`);
+                                    
                                     let _ammo = JSON.parse(await response.text());
                                     markdown.json += `${altfile[altfile.length - 1]}<pre><code>${_ammo.prettyPrint()}</code></pre>`
 
                                     if (_ammo.base_spec != undefined) {
                                         let split = _ammo.base_spec.split("/").pop().replace(".json", "")
                                         const response = await fetch(`${data.factionpath}/ammo/${split}/${split}.json`);
+                                        
                                         let _ammo_base = JSON.parse(await response.text());
                                         markdown.json += `${split}.json<pre><code>${_ammo_base.prettyPrint()}</code></pre>`
                                     }
