@@ -24,6 +24,7 @@ Make sure to check out the Contributing Guide first unless you are sure you know
 - asa  -  pawiki development
 - Luther-1  -  initial documentation
 - Ferretmaster  -  initial documentation
+- <a class="text-decoration-none link-light" href="https://github.com/AdamCornfield">Addy</a>  -  CSS and Image Optimisation
 
 <br>
 
