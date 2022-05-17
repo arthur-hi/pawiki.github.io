@@ -124,7 +124,9 @@ async function fetchUnits(callback) {
                 if (json.base_spec != undefined) {
                     let split = json.base_spec.split("/")
                     path = split[split.length - 3].toLowerCase();
+                    console.log(path)
                     let base_spec = `${path}/${split[split.length - 2]}/${split[split.length - 1]}`
+                    console.log(`${data.factionpath}/${base_spec}`)
                     const response = await fetch(`${data.factionpath}/${base_spec}`);
                     base_spec = JSON.parse(await response.text());
                     markdown.json += `${split.pop()}<pre><code>${base_spec.prettyPrint()}</code></pre>`
