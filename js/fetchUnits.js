@@ -192,11 +192,9 @@ async function fetchUnits(callback) {
                             let file = tool.spec_id.split("/")
                             let path
                             if (file[2] == 'tools') {
-                                path = `${data.factionpath}/tools/${file[file.length - 2].toLowerCase()}/${file[file.length - 1]}`
-                            } else path = `${data.factionpath}/${data.type}/${file[file.length - 2].toLowerCase()}/${file[file.length - 1]}`
-
+                                path = `${data.factionpath}/tools/${file[file.length - 2]}/${file[file.length - 1]}`
+                            } else path = `${data.factionpath}/${data.type.toLowerCase()}/${file[file.length - 2]}/${file[file.length - 1]}`
                             let response = await fetch(`${path}`);
-                            
                             let _tool = JSON.parse(await response.text());
                             markdown.json += `${file[file.length - 1]}<pre><code>${_tool.prettyPrint()}</code></pre>`
 
