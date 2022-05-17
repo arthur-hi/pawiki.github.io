@@ -75,7 +75,7 @@ async function fetchUnits(callback) {
 
                 let data = {
                     "faction": faction,
-                    "type": unittype,
+                    "type": unittype.toLowerCase(),
                     "unit": unit,
                     "factionpath": `resources/units/${faction}`,
                     "unitpath": `resources/units/${faction}/${unittype.toLowerCase()}/${unit}`,
@@ -104,13 +104,13 @@ async function fetchUnits(callback) {
                 let max_range = 0
                 let total_dps = 0
 
-                let id = `${faction.replace(/\s/g, '-')}-${unittype.replace(/\s/g, '-')}-${unit.replace(/\s/g, '-')}`
+                let id = `${faction.replace(/\s/g, '-')}-${unittype.toLowerCase().replace(/\s/g, '-')}-${unit.replace(/\s/g, '-')}`
 
                 let imgpath
                 let style = ""
-                if (unittype == "Commanders") imgpath = `/resources/img/${unittype}/img_${unit}.png`
+                if (unittype == "commanders") imgpath = `/resources/img/${unittype.toLowerCase()}/img_${unit}.png`
                 else {
-                    imgpath = `/resources/units/${faction}/${unittype}/${unit}/${unit}_icon_buildbar.png`
+                    imgpath = `/resources/units/${faction}/${unittype.toLowerCase()}/${unit}/${unit}_icon_buildbar.png`
                     style = "style='width: 100px; height: 100px;'"
                 }
 
@@ -192,8 +192,8 @@ async function fetchUnits(callback) {
                             let file = tool.spec_id.split("/")
                             let path
                             if (file[2] == 'tools') {
-                                path = `${data.factionpath}/tools/${file[file.length - 2]}/${file[file.length - 1]}`
-                            } else path = `${data.factionpath}/${data.type}/${file[file.length - 2]}/${file[file.length - 1]}`
+                                path = `${data.factionpath}/tools/${file[file.length - 2].toLowerCase()}/${file[file.length - 1]}`
+                            } else path = `${data.factionpath}/${data.type}/${file[file.length - 2].toLowerCase()}/${file[file.length - 1]}`
 
                             let response = await fetch(`${path}`);
                             
