@@ -103,11 +103,6 @@ async function fetchUnits(callback) {
 
                 const response = await fetch(`${data.unitpath}/${data.unit}.json`);
                 let json = JSON.parse(await response.text())
-                
-                count.current++
-                $('.progress-bar')[0].setAttribute('aria-valuenow', count.current)
-                $('.progress-bar')[0].style.width = `${(count.current / count.total) * 100}%`
-                
 
                 if (json.base_spec != undefined) {
                     let split = json.base_spec.split("/")
@@ -282,7 +277,7 @@ async function fetchUnits(callback) {
                         });
                     }
 
-                    await new Promise(resolve => setTimeout(resolve, 3000)); // 3 sec
+                    await new Promise(resolve => setTimeout(resolve, 3400)); // 3 sec
 
                     //synchronously tell the user that things have pretty much finished loading
                     if (loading) {
@@ -412,6 +407,9 @@ ${markdown.tools}
                     link.style.top = "10px"
                     link.style.left = "10px"
                 })
+                count.current++
+                $('.progress-bar')[0].setAttribute('aria-valuenow', count.current)
+                $('.progress-bar')[0].style.width = `${(count.current / count.total) * 100}%`
 
             })
             let br = document.createElement('br')
