@@ -7,6 +7,12 @@ async function fetchUnits(callback) {
         total: 0
     }
 
+    function updateProgress(){
+        count.current++
+        $('.progress-bar')[0].setAttribute('aria-valuenow', count.current)
+        $('.progress-bar')[0].style.width = `${(count.current / count.total) * 100}%`
+        $('.progress-bar')[0].innerHTML = `${count.current} / ${count.total}`
+    }
     loading = true
 
     const response = await fetch('/units.json');
@@ -277,7 +283,11 @@ async function fetchUnits(callback) {
                         });
                     }
 
-                    await new Promise(resolve => setTimeout(resolve, 3400)); // 3 sec
+                    await new Promise(resolve => setTimeout(resolve, 1500))
+                    // fake delay because lag == bad UX
+                    updateProgress()
+
+                    await new Promise(resolve => setTimeout(resolve, 3000))
 
                     //synchronously tell the user that things have pretty much finished loading
                     if (loading) {
@@ -407,10 +417,6 @@ ${markdown.tools}
                     link.style.top = "10px"
                     link.style.left = "10px"
                 })
-                count.current++
-                $('.progress-bar')[0].setAttribute('aria-valuenow', count.current)
-                $('.progress-bar')[0].style.width = `${(count.current / count.total) * 100}%`
-                $('.progress-bar')[0].innerHTML = `${count.current} / ${count.total}`
 
             })
             let br = document.createElement('br')
