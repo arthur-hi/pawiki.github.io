@@ -1,10 +1,25 @@
 let unitlist = []
 let factions = {};
 async function fetchUnits(callback) {
+    $('.units-loading')[0].style.display = null
+    let count = {
+        current: 0,
+        total: 0
+    }
+
     loading = true
 
     const response = await fetch('/units.json');
     factions.json = JSON.parse(await response.text());
+
+    for (var faction in factions.json) {
+        for (var unittype in factions.json[faction]) {
+            factions.json[faction][unittype].forEach(async () => {
+                count.total++
+                $('.progress-bar')[0].setAttribute('aria-valuemax', count.total)
+            })
+        }
+    }
 
     for (var faction in factions.json) {
 
@@ -87,7 +102,13 @@ async function fetchUnits(callback) {
                 }
 
                 const response = await fetch(`${data.unitpath}/${data.unit}.json`);
-                let json = JSON.parse(await response.text());
+                let json = JSON.parse(await response.text())
+
+                count.current++
+                $('.progress-bar')[0].setAttribute('aria-valuenow', count.current)
+                $('.progress-bar')[0].style.width = `${(count.current / count.total) * 100}%`
+                
+
                 if (json.base_spec != undefined) {
                     let split = json.base_spec.split("/")
                     path = split[split.length - 3].charAt(0).toUpperCase() + split[split.length - 3].slice(1);
@@ -102,7 +123,7 @@ async function fetchUnits(callback) {
                 let format = data.unit.replace(/\s/g, '-');
                 let link = document.createElement('li')
                 link.innerHTML =
-                    `<a class="link-light rounded text-decoration-none" style="display: none; opacity: 0">
+                    `<a class="link-light rounded text-decoration-none" style="opacity: 0; color: transparent">
                         <img src="${imgpath}" style="position: absolute; left: -16px; top: 7; width: 32px">
                         <span style="position: relative; left: 16px">${name}</span>
                     </a>`
@@ -266,8 +287,7 @@ async function fetchUnits(callback) {
                     //synchronously tell the user that things have pretty much finished loading
                     if (loading) {
                         loading = false
-                        // this is when units and structures are added to the dropdown
-                        // do something at some point ?
+                        $('.units-loading')[0].style.display = "none"
                     }
                 }
                 prep().then(() => {

@@ -66,7 +66,10 @@ setInterval(() => {
     });
 }, 100);
 
-let pos = { x: 0, y: 0 }
+let pos = {
+    x: 0,
+    y: 0
+}
 document.addEventListener('mousemove', event => {
     pos.x = event.pageX
     pos.y = event.pageY
@@ -127,17 +130,20 @@ document.addEventListener('DOMContentLoaded', () => {
 
     })
 
-    fetchUnits(async () => {
+    $('#units-nav').one('click', function () {
+        fetchUnits(async () => {
 
-        $('.btn-unit').each(function () {
-            $(this).click(function () {
-                $('.btn-unit').each(function () {
-                    $(this)[0].style = "color: var(--bs-gray-500)"
+            $('.btn-unit').each(function () {
+                $(this).click(function () {
+                    $('.btn-unit').each(function () {
+                        $(this)[0].style = "color: var(--bs-gray-500)"
+                    })
+                    $(this)[0].style = "color: white"
                 })
-                $(this)[0].style = "color: white"
             })
         })
-    })
+        $('#units-nav').off('click');
+    });
 
     $(document).ready(function () {
         $("body").tooltip({
