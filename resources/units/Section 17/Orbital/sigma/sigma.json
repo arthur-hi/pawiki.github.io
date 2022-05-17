@@ -1,0 +1,484 @@
+{
+    "TEMP_texelinfo": 17.7177,
+    "attachable": {
+        "offsets": {
+            "root": [
+                0,
+                0,
+                0
+            ]
+        }
+    },
+    "audio": {
+        "loops": {
+            "move": {
+                "cue": "/SE/Movement/titan/air_titan_loop",
+                "flag": "vel_changed",
+                "should_start_func": "is_moving_laterally",
+                "should_stop_func": "is_not_moving"
+            }
+        },
+        "selection_response": {
+            "cue": "/SE/Selection/titan/air"
+        }
+    },
+    "base_spec": "/pa/units/orbital/base_orbital/base_orbital.json",
+    "build_metal_cost": 90000,
+    "command_caps": [
+        "ORDER_Move",
+        "ORDER_Patrol",
+        "ORDER_Attack",
+        "ORDER_Assist"
+    ],
+    "description": "!LOC:Fathership - Long range anti-orbital railgun. Produces and carries up to 60 Avengers and 20 Slammers.",
+    "display_name": "Sigma",
+    "events": {
+        "build_complete": {
+            "audio_cue": "/SE/Build_Complete/orbital"
+        },
+        "died": {
+            "audio_cue": "/SE/Death/orbital",
+            "effect_scale": 5.0,
+            "effect_spec": "/pa/units/air/base_flyer/base_flyer_death_t2.pfx"
+        },
+        "fired0": {
+            "audio_cue": "/SE/Weapons/orb/orb_ssx_laser_fire",
+            "effect_spec": "/pa/units/paeiou/sigma/railgun_muzzle_flash.pfx.json socket_muzzle_front"
+        },
+        "fired1": {
+            "audio_cue": "/SE/Weapons/sea/T2_battleship_fire",
+            "effect_spec": "/pa/units/paeiou/sigma/railgun_muzzle_flash.pfx.json socket_muzzle_bottom_1 /pa/units/paeiou/sigma/railgun_muzzle_flash.pfx.json socket_muzzle_bottom_2 /pa/units/paeiou/sigma/railgun_muzzle_flash.pfx.json socket_muzzle_bottom_3"
+        }
+    },
+    "fx_offsets": [
+        {
+            "bone": "bone_vert_engine_2",
+            "filename": "/pa/units/paeiou/sigma/reactor.pfx",
+            "offset": [
+                0,
+                0,
+                0
+            ],
+            "orientation": [
+                0,
+                0,
+                0
+            ],
+            "type": "idle"
+        },
+        {
+            "bone": "bone_root",
+            "filename": "/pa/units/paeiou/sigma/panels.pfx",
+            "offset": [
+                0,
+                0,
+                0
+            ],
+            "orientation": [
+                0,
+                0,
+                0
+            ],
+            "type": "idle"
+        },
+        {
+            "bone": "bone_door_left_1",
+            "filename": "/pa/units/paeiou/sigma/runway_lights.pfx",
+            "offset": [
+                0,
+                0,
+                0
+            ],
+            "orientation": [
+                0,
+                -90,
+                0
+            ],
+            "type": "idle"
+        },
+        {
+            "bone": "bone_door_right_1",
+            "filename": "/pa/units/paeiou/sigma/runway_lights.pfx",
+            "offset": [
+                0,
+                0,
+                0
+            ],
+            "orientation": [
+                0,
+                -90,
+                0
+            ],
+            "type": "idle"
+        },
+        {
+            "bone": "bone_door_left_2",
+            "filename": "/pa/units/paeiou/sigma/runway_lights.pfx",
+            "offset": [
+                0,
+                0,
+                0
+            ],
+            "orientation": [
+                0,
+                -90,
+                0
+            ],
+            "type": "idle"
+        },
+        {
+            "bone": "bone_door_right_2",
+            "filename": "/pa/units/paeiou/sigma/runway_lights.pfx",
+            "offset": [
+                0,
+                0,
+                0
+            ],
+            "orientation": [
+                0,
+                -90,
+                0
+            ],
+            "type": "idle"
+        },
+        {
+            "bone": "bone_engine_1",
+            "filename": "/pa/units/paeiou/sigma/thruster_normal.pfx",
+            "offset": [
+                0,
+                0,
+                0
+            ],
+            "orientation": [
+                0,
+                90,
+                0
+            ],
+            "type": "moving_forward"
+        },
+        {
+            "bone": "bone_engine_2",
+            "filename": "/pa/units/paeiou/sigma/thruster_normal.pfx",
+            "offset": [
+                0,
+                0,
+                0
+            ],
+            "orientation": [
+                0,
+                90,
+                0
+            ],
+            "type": "moving_forward"
+        },
+        {
+            "bone": "bone_engine_3",
+            "filename": "/pa/units/paeiou/sigma/thruster_normal.pfx",
+            "offset": [
+                0,
+                0,
+                0
+            ],
+            "orientation": [
+                0,
+                90,
+                0
+            ],
+            "type": "moving_forward"
+        },
+        {
+            "bone": "bone_engine_4",
+            "filename": "/pa/units/paeiou/sigma/thruster_normal.pfx",
+            "offset": [
+                0,
+                0,
+                0
+            ],
+            "orientation": [
+                0,
+                90,
+                0
+            ],
+            "type": "moving_forward"
+        },
+        {
+            "bone": "bone_engine_5",
+            "filename": "/pa/units/paeiou/sigma/thruster_normal.pfx",
+            "offset": [
+                0,
+                0,
+                0
+            ],
+            "orientation": [
+                0,
+                90,
+                0
+            ],
+            "type": "moving_forward"
+        },
+        {
+            "bone": "bone_engine_6",
+            "filename": "/pa/units/paeiou/sigma/thruster_normal.pfx",
+            "offset": [
+                0,
+                0,
+                0
+            ],
+            "orientation": [
+                0,
+                90,
+                0
+            ],
+            "type": "moving_forward"
+        },
+        {
+            "bone": "bone_engine_7",
+            "filename": "/pa/units/paeiou/sigma/thruster_normal.pfx",
+            "offset": [
+                0,
+                0,
+                0
+            ],
+            "orientation": [
+                0,
+                90,
+                0
+            ],
+            "type": "moving_forward"
+        },
+        {
+            "bone": "bone_engine_8",
+            "filename": "/pa/units/paeiou/sigma/thruster_normal.pfx",
+            "offset": [
+                0,
+                0,
+                0
+            ],
+            "orientation": [
+                0,
+                90,
+                0
+            ],
+            "type": "moving_forward"
+        },
+        {
+            "bone": "bone_engine_9",
+            "filename": "/pa/units/paeiou/sigma/thruster_normal.pfx",
+            "offset": [
+                0,
+                0,
+                0
+            ],
+            "orientation": [
+                0,
+                90,
+                0
+            ],
+            "type": "moving_forward"
+        },
+        {
+            "bone": "bone_engine_10",
+            "filename": "/pa/units/paeiou/sigma/thruster_normal.pfx",
+            "offset": [
+                0,
+                0,
+                0
+            ],
+            "orientation": [
+                0,
+                90,
+                0
+            ],
+            "type": "moving_forward"
+        },
+        {
+            "bone": "bone_engine_11",
+            "filename": "/pa/units/paeiou/sigma/thruster_normal.pfx",
+            "offset": [
+                0,
+                0,
+                0
+            ],
+            "orientation": [
+                0,
+                90,
+                0
+            ],
+            "type": "moving_forward"
+        },
+        {
+            "bone": "bone_engine_12",
+            "filename": "/pa/units/paeiou/sigma/thruster_normal.pfx",
+            "offset": [
+                0,
+                0,
+                0
+            ],
+            "orientation": [
+                0,
+                90,
+                0
+            ],
+            "type": "moving_forward"
+        },
+        {
+            "bone": "bone_engine_13",
+            "filename": "/pa/units/paeiou/sigma/thruster_normal.pfx",
+            "offset": [
+                0,
+                0,
+                0
+            ],
+            "orientation": [
+                0,
+                90,
+                0
+            ],
+            "type": "moving_forward"
+        },
+        {
+            "bone": "bone_engine_14",
+            "filename": "/pa/units/paeiou/sigma/thruster_normal.pfx",
+            "offset": [
+                0,
+                0,
+                0
+            ],
+            "orientation": [
+                0,
+                90,
+                0
+            ],
+            "type": "moving_forward"
+        },
+        {
+            "bone": "bone_engine_15",
+            "filename": "/pa/units/paeiou/sigma/thruster_normal.pfx",
+            "offset": [
+                0,
+                0,
+                0
+            ],
+            "orientation": [
+                0,
+                90,
+                0
+            ],
+            "type": "moving_forward"
+        }
+    ],
+    "gravwell_velocity_multiplier": 6.0,
+    "guard_layer": "WL_Orbital",
+    "max_health": 80000,
+    "mesh_bounds": [
+        50,
+        100,
+        18
+    ],
+    "model": [
+        {
+            "animations": {
+                "idle": "/pa/units/paeiou/sigma/anim_idle.papa"
+            },
+            "animtree": "/pa/units/paeiou/sigma/anim_tree.json",
+            "filename": "/pa/units/paeiou/sigma/model.papa"
+        }
+    ],
+    "navigation": {
+        "acceleration": 30,
+        "bank_factor": 0.0,
+        "brake": 80,
+        "circle_max_time": 4,
+        "circle_min_time": 2,
+        "hover_time": -1.0,
+        "move_speed": 15,
+        "turn_speed": 15,
+        "type": "orbital"
+    },
+    "nearby_target_tick_update_interval": 20,
+    "physics": {
+        "gravity_scalar": 0.001,
+        "radius": 30
+    },
+    "recon": {
+        "observable": {
+            "always_visible": true
+        },
+        "observer": {
+            "items": [
+                {
+                    "channel": "sight",
+                    "layer": "orbital",
+                    "radius": 650,
+                    "shape": "sphere"
+                },
+                {
+                    "channel": "sight",
+                    "layer": "surface_and_air",
+                    "radius": 400,
+                    "shape": "capsule"
+                },
+                {
+                    "channel": "sight",
+                    "layer": "underwater",
+                    "radius": 400,
+                    "shape": "capsule"
+                }
+            ]
+        }
+    },
+    "selection_icon": {
+        "diameter": 100.0,
+        "vertical_offset": -3.0
+    },
+    "spawn_layers": "WL_Orbital",
+    "tools": [
+        {
+            "aim_bone": "bone_turret_front",
+            "fire_event": "fired0",
+            "muzzle_bone": "socket_muzzle_front",
+            "record_index": 0,
+            "spec_id": "/pa/units/paeiou/sigma/railgun_weapon.json"
+        },
+        {
+            "aim_bone": "bone_turret_bottom",
+            "fire_event": "fired1",
+            "muzzle_bone": [
+                "socket_muzzle_1_bottom",
+                "socket_muzzle_2_bottom",
+                "socket_muzzle_3_bottom"
+            ],
+            "projectiles_per_fire": 3,
+            "record_index": 1,
+            "spec_id": "/pa/units/paeiou/sigma/bottom_weapon.json"
+        },
+        {
+            "aim_bone": "bone_drop_pods",
+            "muzzle_bone": "bone_drop_pods",
+            "spec_id": "/pa/units/paeiou/sigma/dropper_weapon.json"
+        },
+        {
+            "aim_bone": "bone_carrier_1",
+            "muzzle_bone": "bone_carrier_1",
+            "spec_id": "/pa/units/paeiou/sigma/avenger_weapon.json"
+        },
+        {
+            "aim_bone": "bone_carrier_2",
+            "muzzle_bone": "bone_carrier_2",
+            "spec_id": "/pa/units/paeiou/sigma/avenger_weapon.json"
+        }
+    ],
+    "unit_types": [
+        "UNITTYPE_Mobile",
+        "UNITTYPE_Offense",
+        "UNITTYPE_Orbital",
+        "UNITTYPE_Fighter",
+        "UNITTYPE_Heavy",
+        "UNITTYPE_Advanced",
+        "UNITTYPE_FabberBuild",
+        "UNITTYPE_Interplanetary",
+        "UNITTYPE_Important",
+        "UNITTYPE_FabOrbBuild"
+    ],
+    "wreckage_health_frac": 0.0
+}

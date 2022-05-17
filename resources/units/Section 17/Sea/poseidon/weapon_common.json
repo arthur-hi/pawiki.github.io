@@ -1,0 +1,9 @@
+{
+    "ammo_capacity": 2000,
+    "ammo_demand": 200,
+    "ammo_per_shot": 50,
+    "ammo_source": "metal",
+    "auto_attack": true,
+    "base_spec": "/pa/tools/base_missile_tactical_turret/base_missile_tactical_turret.json",
+    "max_range": 275
+}

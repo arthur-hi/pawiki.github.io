@@ -1,0 +1,20 @@
+{
+    "base_spec": "/pa/tools/base_artillery_turret/base_artillery_turret.json",
+    "ammo_id": "/pa/units/paeiou/pineapple/ammo.json",
+    "ammo_source": "energy",
+    "ammo_capacity": 7500,
+    "ammo_demand": 7500,
+    "ammo_per_shot": 7500,
+    "rate_of_fire": 1.0,
+    "start_fully_charged": true,
+    "auto_fire_when_charged": false,
+    "max_range": 80,
+    "fire_delay": 0,
+    "firing_arc_pitch": 360,
+    "firing_arc_yaw": 360,
+    "only_fire_once": false,
+    "pitch_range": 0,
+    "pitch_rate": 0,
+    "yaw_range": 0,
+    "yaw_rate": 0
+}

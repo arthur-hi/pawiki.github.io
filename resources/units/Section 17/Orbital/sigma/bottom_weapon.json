@@ -1,0 +1,28 @@
+{
+    "ammo_id": "/pa/units/paeiou/sigma/bottom_ammo.json",
+    "auto_attack": true,
+    "base_spec": "/pa/tools/base_bot_weapon/base_bot_weapon.json",
+    "max_range": 275,
+    "pitch_range": 180,
+    "pitch_rate": 180,
+    "rate_of_fire": 0.5,
+    "firing_standard_deviation": 1.5,
+    "spread_fire": true,
+    "target_layers": [
+        "WL_Air",
+        "WL_LandHorizontal",
+        "WL_WaterSurface",
+        "WL_SeaFloor"
+    ],
+    "yaw_range": 180,
+    "yaw_rate": 180,
+    "ammo_capacity": 24000,
+    "ammo_demand": 6000,
+    "ammo_per_shot": 24000,
+    "ammo_source": "energy",
+    "target_priorities": [
+        "Commander",
+        "OrbitalDefense",
+        "Important"
+    ]
+}

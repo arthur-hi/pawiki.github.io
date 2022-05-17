@@ -310,5 +310,72 @@
             "l_torpedo_launcher",
             "l_torpedo_launcher_adv"
          ]
+    },
+    "Second Wave": {
+        "Air": [
+            "adv_stealth_transport",
+            "swordfish"
+        ],
+        "Land": [
+            "adv_energy_storage",
+            "adv_fab_tower",
+            "adv_heavy_bot",
+            "adv_metal_generator",
+            "adv_metal_storage",
+            "adv_tank_hover",
+            "anti_missile_tower",
+            "basic_missile_defence",
+            "demi_titan_bot",
+            "fab_tower",
+            "jammer",
+            "jammer_titan",
+            "l_adv_fab_turret",
+            "l_adv_mass_generator",
+            "l_basic_missile_defence",
+            "l_demi_titan_bot",
+            "l_fab_turret",
+            "l_jammer_station",
+            "l_lynx",
+            "l_mass_generator",
+            "l_system_radar",
+            "metal_generator",
+            "pounder",
+            "rex",
+            "stalker",
+            "system_radar"
+        ],
+        "Orbital": [
+            "andreas",
+            "l_almaz",
+            "l_orbital_anti_nuke",
+            "l_orbital_jammer",
+            "l_orbital_power",
+            "l_orbital_anti_nuke"
+        ],
+        "Sea": [
+            "fabrication_sub",
+            "naval_anti_orbital",
+            "l_anti_orbital_ship"
+        ]
+    },
+    "Section 17": {
+        "Air": [
+            "horntail",
+            "yellowjacket"
+        ],
+        "Land": [
+            "big_bill",
+            "experimental_gantry",
+            "floater",
+            "pineapple",
+            "spider"
+        ],
+        "Orbital": [
+            "sigma"
+        ],
+        "Sea": [
+            "dolfin",
+            "poseidon"
+        ]
     }
 } 
