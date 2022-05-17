@@ -24,15 +24,18 @@ jQuery.fn.selectText = function () {
 let units = $('#units')[0]
 let docs = $('#docs')[0]
 let news = $('#news')[0]
-$('#units-nav').click(async event => {
-    event.preventDefault();
-    $('#units-nav')[0].classList.add('link-light')
-    $('#docs-nav')[0].classList.remove('link-light')
-    $('#news-nav')[0].classList.remove('link-light')
-    units.className = 'visible'
-    docs.className = 'hidden'
-    news.className = 'hidden'
-})
+function resetUnitsNav() {
+    $('#units-nav').click(async event => {
+        event.preventDefault();
+        $('#units-nav')[0].classList.add('link-light')
+        $('#docs-nav')[0].classList.remove('link-light')
+        $('#news-nav')[0].classList.remove('link-light')
+        units.className = 'visible'
+        docs.className = 'hidden'
+        news.className = 'hidden'
+    })
+}
+resetUnitsNav()
 $('#docs-nav').click(async event => {
     event.preventDefault();
     $('#docs-nav')[0].classList.add('link-light')

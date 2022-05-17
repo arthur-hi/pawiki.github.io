@@ -143,6 +143,7 @@ document.addEventListener('DOMContentLoaded', () => {
             })
         })
         $('#units-nav').off('click');
+        resetUnitsNav()
     });
 
     $(document).ready(function () {
