@@ -181,9 +181,13 @@ async function fetchUnits(callback) {
 `
                         json.tools.forEach(async tool => {
                             let file = tool.spec_id.split("/")
-                            let path = `${data.factionpath}/${data.type}/${file[file.length - 2]}/${file[file.length - 1]}`
+                            let path
+                            if (file[2] == 'tools') {
+                                path = `${data.factionpath}/tools/${file[file.length - 2]}/${file[file.length - 1]}`
+                            }
+                            else path = `${data.factionpath}/${data.type}/${file[file.length - 2]}/${file[file.length - 1]}`
 
-                            const response = await fetch(`${path}`);
+                            let response = await fetch(`${path}`);
                             let _tool = JSON.parse(await response.text());
                             markdown.json += `${file[file.length - 1]}<pre><code>${_tool.prettyPrint()}</code></pre>`
 
