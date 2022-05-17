@@ -1,0 +1,27 @@
+{
+  "blend_root": {
+    "nodes": {
+      "being_built": {
+        "type": "bind_pose"
+      },
+      "dead": {
+        "type": "bind_pose"
+      },
+      "ghost": {
+        "type": "bind_pose"
+      },
+      "living": {
+        "node_fly": {
+          "anim_name": "fly",
+          "type": "playback"
+        },
+        "node_idle": {
+          "anim_name": "idle",
+          "type": "playback"
+        },
+        "type": "fly"
+      }
+    },
+    "type": "unit_state"
+  }
+}

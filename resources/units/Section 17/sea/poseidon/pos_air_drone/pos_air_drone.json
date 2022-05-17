@@ -1,0 +1,110 @@
+{
+    "TEMP_texelinfo": 6.1803,
+    "audio": {
+        "loops": {
+            "move": {
+                "cue": "/SE/Movement/air/air_fighter_loop",
+                "flag": "vel_changed",
+                "should_start_func": "is_moving_laterally",
+                "should_stop_func": "is_not_moving"
+            }
+        },
+        "selection_response": {
+            "cue": "/SE/Selection/air/fighter"
+        }
+    },
+    "base_spec": "/pa/units/air/base_flyer/base_flyer.json",
+    "build_metal_cost": 220,
+    "command_caps": [],
+    "description": "!LOC:Fighter Drone. Only attacks air targets.",
+    "display_name": "Oceanic Two-Wing Flyingfish",
+    "events": {
+        "build_complete": {
+            "audio_cue": "/SE/Build_Complete/air"
+        },
+        "died": {
+            "audio_cue": "/SE/Death/Air",
+            "effect_scale": 0.85,
+            "effect_spec": "/pa/units/air/base_flyer/base_flyer_death.pfx"
+        },
+        "fired": {
+            "audio_cue": "/SE/Weapons/air/fighter_fire"
+        }
+    },
+    "fx_offsets": [
+        {
+            "filename": "/pa/units/air/fighter/fighter_jets.pfx",
+            "offset": [
+                0,
+                2.9,
+                0.836
+            ],
+            "type": "moving_forward"
+        }
+    ],
+    "guard_layer": "WL_Air",
+    "guard_radius": 1000,
+    "max_health": 120,
+    "mesh_bounds": [
+        9,
+        6.5,
+        3.1
+    ],
+    "model": {
+        "arrows": 5,
+        "filename": "/pa/units/paeiou/poseidon/pos_air_drone/model.papa"
+    },
+    "navigation": {
+        "acceleration": 40,
+        "aggressive_behavior": "circle",
+        "aggressive_distance": 50.0,
+        "bank_factor": 1,
+        "brake": 20,
+        "hover_time": -1.0,
+        "move_speed": 70,
+        "turn_speed": 180,
+        "type": "air",
+        "vertical_speed": 90
+    },
+    "passive_health_regen": -6,
+    "physics": {
+        "gravity_scalar": 1,
+        "radius": 6
+    },
+    "recon": {
+        "observer": {
+            "items": [
+                {
+                    "channel": "sight",
+                    "layer": "surface_and_air",
+                    "radius": 50,
+                    "shape": "capsule"
+                },
+                {
+                    "channel": "sight",
+                    "layer": "underwater",
+                    "radius": 50,
+                    "shape": "capsule"
+                }
+            ]
+        }
+    },
+    "selection_icon": {
+        "diameter": 16.0
+    },
+    "tools": [
+        {
+            "aim_bone": "bone_root",
+            "muzzle_bone": "bone_root",
+            "spec_id": "/pa/units/paeiou/poseidon/pos_air_drone/weapon.json"
+        }
+    ],
+    "unit_types": [
+        "UNITTYPE_Fighter",
+        "UNITTYPE_Air",
+        "UNITTYPE_Mobile",
+        "UNITTYPE_Offense",
+        "UNITTYPE_Basic",
+        "UNITTYPE_NoBuild"
+    ]
+}

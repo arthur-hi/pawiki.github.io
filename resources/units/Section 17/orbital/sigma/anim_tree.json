@@ -1,0 +1,31 @@
+{
+    "blend_root": {
+        "type": "bind_pose"
+    },
+    "skeleton_controls": [
+        {
+            "type": "procedural_aim",
+            "rotation_bone": "bone_turret_front",
+            "rotation_axis": "z",
+            "weapon_index": 0
+        },
+        {
+            "type": "procedural_aim",
+            "rotation_bone": "bone_pitch_front",
+            "rotation_axis": "x",
+            "weapon_index": 0
+        },
+        {
+            "type": "procedural_aim",
+            "rotation_bone": "bone_turret_bottom",
+            "rotation_axis": "z",
+            "weapon_index": 1
+        },
+        {
+            "type": "procedural_aim",
+            "rotation_bone": "bone_pitch_bottom",
+            "rotation_axis": "x",
+            "weapon_index": 1
+        }
+    ]
+}

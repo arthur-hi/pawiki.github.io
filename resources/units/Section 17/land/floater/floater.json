@@ -1,0 +1,144 @@
+{
+    "TEMP_texelinfo": 10.3794,
+    "armor_type": "AT_Hover",
+    "attachable": {
+        "offsets": {
+            "head": [
+                0,
+                0,
+                3.4
+            ],
+            "root": [
+                0,
+                0,
+                0
+            ]
+        }
+    },
+    "audio": {
+        "loops": {
+            "move": {
+                "cue": "/SE/Movement/veh/tank_leveler_loop_T2",
+                "flag": "vel_changed",
+                "should_start_func": "is_moving",
+                "should_stop_func": "is_not_moving"
+            }
+        },
+        "selection_response": {
+            "cue": "/SE/Selection/veh/tank_leveler_T2"
+        }
+    },
+    "base_spec": "/pa/units/land/base_vehicle/base_vehicle.json",
+    "build_metal_cost": 4000,
+    "description": "!LOC: Experimental Assault Hover Tank - Attacks land and sea targets. Draws large amounts of energy to deal devastating damage.",
+    "display_name": "Floater",
+    "events": {
+        "build_complete": {
+            "audio_cue": "/SE/Build_Complete/veh"
+        },
+        "died": {
+            "audio_cue": "/SE/Death/Veh",
+            "effect_scale": 5.0,
+            "effect_spec": "/pa/effects/specs/default_explosion_bot_t2.pfx"
+        },
+        "fired0": {
+            "audio_cue": "/SE/Weapons/sea/destroyer_fire",
+            "effect_scale": 5.0,
+            "effect_spec": "/pa/effects/specs/tank_muzzle_flash.pfx socket_muzzle"
+        },
+        "fired1": {
+            "audio_cue": "/SE/Weapons/veh/tank_hover_fire",
+            "effect_scale": 3.0,
+            "effect_spec": "/pa/effects/specs/tank_muzzle_flash.pfx socket_right_muzzle"
+        },
+        "fired2": {
+            "audio_cue": "/SE/Weapons/veh/tank_hover_fire",
+            "effect_scale": 3.0,
+            "effect_spec": "/pa/effects/specs/tank_muzzle_flash.pfx socket_left_muzzle"
+        }
+    },
+    "guard_layer": "WL_LandHorizontal",
+    "max_health": 5000,
+    "mesh_bounds": [
+        13,
+        13,
+        5
+    ],
+    "model": {
+        "animtree": "/pa/units/paeiou/floater/anim_tree.json",
+        "filename": "/pa/units/paeiou/floater/model.papa"
+    },
+    "navigation": {
+        "acceleration": 100,
+        "brake": 100,
+        "move_speed": 11,
+        "turn_speed": 50,
+        "type": "hover"
+    },
+    "physics": {
+        "radius": 10
+    },
+    "production": {
+        "energy": -3750
+    },
+    "recon": {
+        "observer": {
+            "items": [
+                {
+                    "channel": "sight",
+                    "layer": "surface_and_air",
+                    "radius": 180,
+                    "shape": "capsule"
+                }
+            ]
+        }
+    },
+    "selection_icon": {
+        "diameter": 25.0
+    },
+    "tools": [
+        {
+            "aim_bone": "bone_pitch",
+            "fire_event": "fired0",
+            "muzzle_bone": [
+                "socket_muzzle"
+            ],
+            "projectiles_per_fire": 1,
+            "record_index": 0,
+            "spec_id": "/pa/units/paeiou/floater/main_weapon.json"
+        },
+        {
+            "aim_bone": "bone_right_pitch",
+            "fire_event": "fired1",
+            "muzzle_bone": [
+                "socket_right_muzzle"
+            ],
+            "projectiles_per_fire": 1,
+            "record_index": 1,
+            "spec_id": "/pa/units/paeiou/floater/second_weapon.json"
+        },
+        {
+            "aim_bone": "bone_left_pitch",
+            "fire_event": "fired2",
+            "muzzle_bone": [
+                "socket_left_muzzle"
+            ],
+            "projectiles_per_fire": 1,
+            "record_index": 2,
+            "spec_id": "/pa/units/paeiou/floater/second_weapon.json"
+        }
+    ],
+    "transportable": {
+        "size": 1
+    },
+    "unit_types": [
+        "UNITTYPE_Tank",
+        "UNITTYPE_Hover",
+        "UNITTYPE_Mobile",
+        "UNITTYPE_Offense",
+        "UNITTYPE_Land",
+        "UNITTYPE_Advanced",
+        "UNITTYPE_FactoryBuild",
+        "UNITTYPE_Titan"
+    ]
+}
