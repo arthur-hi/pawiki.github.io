@@ -145,9 +145,10 @@ async function fetchUnits(callback) {
                         method: "HEAD"
                     })
                     if (response.ok) {
+                        console.log(`${data.factionpath}/${base_spec}`)
                         const response = await fetch(`${data.factionpath}/${base_spec}`)
                         base_spec = JSON.parse(await response.text());
-                        markdown.json += `${split.pop()}<pre><code>${base_spec.prettyPrint()}</code></pre>`
+                        markdown.json += `${split.pop()}<pre><code>${await base_spec.prettyPrint()}</code></pre>`
                         json = Object.assign({}, base_spec, json);
                     }
 
