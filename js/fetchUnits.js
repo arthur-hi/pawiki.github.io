@@ -257,8 +257,8 @@ async function fetchUnits(callback) {
                                 }
 
                                 total_dps += _ammo.damage * _tool.rate_of_fire
-                                markdown.total_dps = `Total DPS: <v class="value">${total_dps}</v><br>`
 
+                                let ppf = 1
                                 weapon.layers = _tool.target_layers
                                 if (weapon.layers != undefined) {
 
@@ -266,7 +266,12 @@ async function fetchUnits(callback) {
 
                                     markdown.tools += `\nAmmo Damage: <v class="value">${_ammo.damage}</v><br>`
                                     markdown.tools += `Rate of Fire: <v class="value">${_tool.rate_of_fire}</v><br>`
-                                    markdown.tools += `Damage Per Second: <v class="value">${_ammo.damage * _tool.rate_of_fire}</v><br>\n`
+
+                                    if (tool.projectiles_per_fire != undefined) {
+                                        ppf = tool.projectiles_per_fire
+                                        markdown.tools += `Projectiles per Fire: <v class="value">${ppf}</v><br>`
+                                    }
+                                    markdown.tools += `Damage Per Second: <v class="value">${_ammo.damage * _tool.rate_of_fire * ppf}</v><br>\n`
 
                                     markdown.tools += `\nTarget Layers:\n`
                                     weapon.layers.forEach(layer => {
@@ -281,6 +286,10 @@ async function fetchUnits(callback) {
                                         }
                                     }
                                 }
+
+                                total_dps *= ppf
+                                markdown.total_dps = `Total DPS: <v class="value">${total_dps}</v><br>`
+
                             } else if (isFabber) {
                                 markdown.tools += `### ${weapon.name}\n\n`
                                 if (_tool.max_range != undefined) {
@@ -329,7 +338,7 @@ async function fetchUnits(callback) {
 
                         if (json.navigation.type != undefined) {
                             markdown.type =
-                                `Navigation type: <v class="value">${json.navigation.type.charAt(0).toUpperCase() + json.navigation.type.slice(1)}</v><br>`
+                                `Type: <v class="value">${json.navigation.type.charAt(0).toUpperCase() + json.navigation.type.slice(1)}</v><br>`
                         } else markdown.type = ""
                     }
 
@@ -432,35 +441,6 @@ ${markdown.turn_speed}`
                         style = ""
                     }
 
-                    markdown.content =
-                        `# ${name}
-<img src="${imgpath}" ${style}>
-<br>
-#### ${json.description}\n
-<div class="form-check form-switch">
-<label class="form-check-label" for="${id}-switch">View RAW File</label>
-<input class="form-check-input" type="checkbox" id="${id}-switch" disabled>
-</div>
-<div class="hidden" id="${id}-json">
-<br>${markdown.json}
-</div><br>
-### Overview
-${markdown.max_health}
-${markdown.build_metal_cost}
-${markdown.armor_type}
-${markdown.max_range}
-${markdown.total_dps}
-
-${markdown.navigation}
-
-${markdown.storageandproduction}
-
-### Recon
-${markdown.recon}
-
-${markdown.unit_types}
-`
-
                     let element = document.createElement('div')
                     element.id = `${format}.md`
                     element.classList.add('hidden')
@@ -470,8 +450,7 @@ ${markdown.unit_types}
                     var converter = new showdown.Converter();
                     converter.setOption('literalMidWordAsterisks', true)
                     converter.setOption('literalMidWordUnderscores', true)
-                    html = converter.makeHtml(markdown.content);
-                    element.innerHTML = html
+
                     $('#units-content')[0].appendChild(element)
 
                     $('#units-intro')[0].classList.remove('hidden')
@@ -507,7 +486,38 @@ ${markdown.unit_types}
                     updateProgress()
 
                     await tools.loaded
-                    element.innerHTML += `\n${converter.makeHtml(markdown.tools)}`
+                    
+                    markdown.content =
+                        `# ${name}
+<img src="${imgpath}" ${style}>
+<br>
+#### ${json.description}\n
+<div class="form-check form-switch">
+<label class="form-check-label" for="${id}-switch">View RAW File</label>
+<input class="form-check-input" type="checkbox" id="${id}-switch" disabled>
+</div>
+<div class="hidden" id="${id}-json">
+<br>${markdown.json}
+</div><br>
+### Overview
+${markdown.max_health}
+${markdown.build_metal_cost}
+${markdown.armor_type}
+${markdown.max_range}
+${markdown.total_dps}
+
+${markdown.navigation}
+
+${markdown.storageandproduction}
+
+### Recon
+${markdown.recon}
+
+${markdown.unit_types}
+${markdown.tools}
+`
+                    html = converter.makeHtml(markdown.content);
+                    element.innerHTML = html
 
                     document.getElementById(`${id}-switch`).addEventListener('click', function () {                        
                         if (this.checked) {

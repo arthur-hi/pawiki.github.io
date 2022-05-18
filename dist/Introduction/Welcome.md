@@ -1,7 +1,7 @@
 # ☄️ Welcome Commanders
 
 <br>
-Welcome to pawiki! This is a wiki for the [Planetary-Annihilation](https://https://planetaryannihilation.com/) community.
+Welcome to pawiki! This is a wiki for the [Planetary-Annihilation](https://planetaryannihilation.com/) community.
 
 This is a place for Planetary-Annihilation-related documentation from the community regarding things like unit specificications and external tools.
 
