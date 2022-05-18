@@ -128,24 +128,29 @@ async function fetchUnits(callback) {
                 }
 
                 const response = await fetch(`${data.unitpath}/${data.unit}.json`);
-
                 let json = JSON.parse(await response.text())
+
+                try {
+                    json.description = json.description.replace('!LOC:', '')
+                } catch (error) {
+                    // legion siege walker causing errors i cba bro
+                }
 
                 if (json.base_spec != undefined) {
                     let split = json.base_spec.split("/")
                     path = split[split.length - 3].toLowerCase();
                     let base_spec = `${path}/${split[split.length - 2]}/${split[split.length - 1]}`
-                    
-                    fetch(`${data.factionpath}/${base_spec}`, {
+
+                    const response = await fetch(`${data.factionpath}/${base_spec}`, {
                         method: "HEAD"
-                    }).then((res) => {
-                        if (res.ok) {
-                            const response = await fetch(`${data.factionpath}/${base_spec}`)
-                            base_spec = JSON.parse(await response.text());
-                            markdown.json += `${split.pop()}<pre><code>${base_spec.prettyPrint()}</code></pre>`
-                            json = Object.assign({}, base_spec, json);
-                        }
                     })
+                    if (response.ok) {
+                        const response = await fetch(`${data.factionpath}/${base_spec}`)
+                        base_spec = JSON.parse(await response.text());
+                        markdown.json += `${split.pop()}<pre><code>${base_spec.prettyPrint()}</code></pre>`
+                        json = Object.assign({}, base_spec, json);
+                    }
+
                 }
 
                 let name = json.display_name.replace('!LOC:', '');
@@ -402,7 +407,7 @@ ${markdown.turn_speed}`
                         `# ${name}
 <img src="${imgpath}" ${style}>
 <br>
-#### ${json.description.replace('!LOC:', '')}\n
+#### ${json.description}\n
 <div class="form-check form-switch">
 <label class="form-check-label" for="${id}-switch">View RAW File</label>
 <input class="form-check-input" type="checkbox" id="${id}-switch">
