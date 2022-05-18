@@ -30,3 +30,5 @@ The units page contains a list of all the units and structures from several diff
 For information on how to navigate the units page there is documentation upon opening the page on each visit to the domain.
 
 There is also information regarding adding & requesting new units available from the same documentation as mentioned before.
+
+There are known issues with the units page not fully loading on specific browsers, if you are having issues with the units page please open an issue on the GitHub repository detailing specific versions of your browser and OS.
