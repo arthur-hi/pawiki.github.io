@@ -136,10 +136,11 @@ async function fetchUnits(callback) {
                     path = split[split.length - 3].toLowerCase();
                     let base_spec = `${path}/${split[split.length - 2]}/${split[split.length - 1]}`
                     const response = await fetch(`${data.factionpath}/${base_spec}`);
-
-                    base_spec = JSON.parse(await response.text());
-                    markdown.json += `${split.pop()}<pre><code>${base_spec.prettyPrint()}</code></pre>`
-                    json = Object.assign({}, base_spec, json);
+                    if (response.ok) {
+                        base_spec = JSON.parse(await response.text());
+                        markdown.json += `${split.pop()}<pre><code>${base_spec.prettyPrint()}</code></pre>`
+                        json = Object.assign({}, base_spec, json);
+                    }
                 }
 
                 let name = json.display_name.replace('!LOC:', '');
