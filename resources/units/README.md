@@ -2,6 +2,8 @@
 <br>
 The units page contains a list of all the units and structures from several different factions and addons from Planetary Annihilation Titans.
 
+This page is still under development and will be subject to changes.
+
 <br>
 
 ### How to navigate
