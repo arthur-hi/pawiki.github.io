@@ -279,7 +279,6 @@ main img {
 .update {
     position: relative;
     top: -105px;
-    left: 5px;
     width: 200px;
     color: transparent;
     transition: 0.125s;
