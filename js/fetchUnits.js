@@ -342,6 +342,32 @@ async function fetchUnits(callback) {
                             markdown.observer[item.channel].push(`${name} radius: <v class="value">${item.radius}</v><br>`)
                         });
                     }
+
+                    markdown.storageandproduction = ""
+
+                    if (json.storage != undefined || json.production != undefined) {
+                        markdown.storageandproduction += "### Storage & Production\n"
+
+                        if (json.storage != undefined) {
+                            markdown.storageandproduction += "#### Storage:\n"
+                            if (json.storage.energy != undefined) {
+                                markdown.storageandproduction += `Energy: <v class="value">${json.storage.energy}</v><br>`
+                            }
+                            if (json.storage.metal != undefined) {
+                                markdown.storageandproduction += `Metal: <v class="value">${json.storage.metal}</v><br>`
+                            }
+                        }
+                        if (json.production != undefined) {
+                            markdown.storageandproduction += "#### Production:\n"
+                            if (json.production.energy != undefined) {
+                                markdown.storageandproduction += `Energy: <v class="value">${json.production.energy}</v><br>`
+                            }
+                            if (json.production.metal != undefined) {
+                                markdown.storageandproduction += `Metal: <v class="value">${json.production.metal}</v><br>`
+                            }
+                        }
+                        
+                    }
                 }
 
                 prep().then(async () => {
@@ -423,6 +449,8 @@ ${markdown.max_range}
 ${markdown.total_dps}
 
 ${markdown.navigation}
+
+${markdown.storageandproduction}
 
 ### Recon
 ${markdown.recon}
