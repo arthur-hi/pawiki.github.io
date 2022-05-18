@@ -376,5 +376,10 @@
             "dolfin",
             "poseidon"
         ]
+    },
+    "Dozer": {
+        "Land": [
+            "dozer"
+        ]
     }
 } 
