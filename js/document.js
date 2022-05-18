@@ -5,17 +5,18 @@ async function setNewspage() {
     const response = await fetch('/root.json');
     const root = JSON.parse(await response.text());
 
-    root.news.forEach(async entry => {
-
+    let count = 0
+    root.news.forEach(() => count++)
+    root.news.forEach(async (entry, i) => {
         let news = $('#news-content')[0]
         const response = await fetch(`/dist/${entry}.md`);
         const data = await response.text();
         var converter = new showdown.Converter();
         let doc = document.createElement('div')
-
         // temp fix for a problem I don't wanna solve rn
         doc.innerHTML = converter.makeHtml(data) + "<br><br><br><br>";
 
+        await new Promise(resolve => setTimeout(resolve, (i-count)*100))
         news.insertBefore(doc, news.firstChild)
     })
 
