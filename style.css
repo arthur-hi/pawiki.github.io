@@ -276,6 +276,22 @@ main img {
     max-width: 100%;
 }
 
+.update {
+    position: relative;
+    top: -105px;
+    left: 5px;
+    width: 200px;
+    color: transparent;
+    transition: 0.125s;
+    transition-delay: 0.125s;
+}
+.update:hover {
+    color: var(--bs-gray-500);
+    transition: 0.125s;
+    transition-delay: 0.125s;
+    cursor: default
+}
+
 .toast {
     position: absolute;
     z-index: 11;

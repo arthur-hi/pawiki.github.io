@@ -164,5 +164,17 @@ document.addEventListener('DOMContentLoaded', async () => {
         $("body").tooltip({
             selector: '[data-toggle=tooltip]'
         });
+
+        let update = document.createElement('div')
+        document.getElementById('docs-sidebar').appendChild(update)
+
+        update.className = "update"
+
+        fetch('https://api.github.com/repos/asanull/pawiki.github.io/commits?per_page=1')
+        .then(res => res.json())
+        .then(res => {
+            let date = new Date(res[0].commit.author.date)
+            update.innerText = `latest commit:\n${date.toString()}`
+        })
     })
 });
