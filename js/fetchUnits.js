@@ -14,7 +14,7 @@ async function fetchUnits(callback) {
         $('.progress-bar')[0].style.width = `${(count.current / count.total) * 100}%`
         let style = `font-family: var(--font-head); font-size: 14px`
         $('.progress-bar')[0].innerHTML = `<span style="${style}">${count.total-count.current} to go</span>`
-        if (count.total==count.current) {
+        if (count.total == count.current) {
             //$('.progress-bar')[0].innerHTML = `<span style="${style}">done</span>`
             await new Promise(resolve => setTimeout(resolve, 500))
             $('.units-loading')[0].style.display = "none"
@@ -22,7 +22,7 @@ async function fetchUnits(callback) {
     }
 
     const response = await fetch('/units.json');
-    
+
     factions.json = JSON.parse(await response.text());
 
     for (var faction in factions.json) {
@@ -74,7 +74,9 @@ async function fetchUnits(callback) {
             factions.json[faction][unittype].forEach(async unit => {
 
                 let tools = {}
-                tools.loaded = new Promise(resolve => {tools.resolve = resolve})
+                tools.loaded = new Promise(resolve => {
+                    tools.resolve = resolve
+                })
 
                 let data = {
                     "faction": faction,
@@ -109,16 +111,24 @@ async function fetchUnits(callback) {
 
                 let id = `${faction.replace(/\s/g, '-')}-${unittype.toLowerCase().replace(/\s/g, '-')}-${unit.replace(/\s/g, '-')}`
 
-                let imgpath
+                let imgpath = "resources/img/placeholder.png"
                 let style = ""
                 if (unittype == "commanders") imgpath = `/resources/img/${unittype.toLowerCase()}/img_${unit}.png`
                 else {
-                    imgpath = `/resources/units/${faction}/${unittype.toLowerCase()}/${unit}/${unit}_icon_buildbar.png`
-                    style = "style='width: 100px; height: 100px;'"
+
+                    let testpath = `/resources/img/upscaled/${unit}_icon_buildbar.png`
+                    let response = await fetch(testpath)
+                    if (response.ok) imgpath = testpath
+                    else {
+                        let testpath = `/resources/units/${data.faction}/${data.type}/${data.unit}/${data.unit}_icon_buildbar.png`
+                        let response = await fetch(testpath)
+                        if (response.ok) imgpath = testpath
+                    }
+                    style = "style='width: 128px; height: 128px;'"
                 }
 
                 const response = await fetch(`${data.unitpath}/${data.unit}.json`);
-                
+
                 let json = JSON.parse(await response.text())
 
                 if (json.base_spec != undefined) {
@@ -126,7 +136,7 @@ async function fetchUnits(callback) {
                     path = split[split.length - 3].toLowerCase();
                     let base_spec = `${path}/${split[split.length - 2]}/${split[split.length - 1]}`
                     const response = await fetch(`${data.factionpath}/${base_spec}`);
-                    
+
                     base_spec = JSON.parse(await response.text());
                     markdown.json += `${split.pop()}<pre><code>${base_spec.prettyPrint()}</code></pre>`
                     json = Object.assign({}, base_spec, json);
@@ -197,7 +207,7 @@ async function fetchUnits(callback) {
                             } else path = `${data.factionpath}/${data.type.toLowerCase()}/${file[file.length - 2]}/${file[file.length - 1]}`
                             let response = await fetch(`${path}`);
                             let _tool = JSON.parse(await response.text());
-                            
+
                             let isFabber
                             if (_tool.construction_demand != undefined) isFabber = true
 
@@ -214,76 +224,76 @@ async function fetchUnits(callback) {
                                 max_range = _tool.max_range
                                 markdown.max_range = `Max Range: <v class="value">${max_range}</v><br>`
                             }
-                                if (_tool.ammo_id != undefined) {
-                                    let altfile
-                                    try {
-                                        altfile = _tool.ammo_id.split("/")
-                                    } catch (error) {
-                                        altfile = _tool.ammo_id[0].id.split("/")
-                                    }
-                                    let unitpath = altfile[altfile.length - 3].toLowerCase();
+                            if (_tool.ammo_id != undefined) {
+                                let altfile
+                                try {
+                                    altfile = _tool.ammo_id.split("/")
+                                } catch (error) {
+                                    altfile = _tool.ammo_id[0].id.split("/")
+                                }
+                                let unitpath = altfile[altfile.length - 3].toLowerCase();
 
-                                    let ammo = `${data.factionpath}/${unitpath}/${altfile[altfile.length - 2]}/${altfile[altfile.length - 1]}`
+                                let ammo = `${data.factionpath}/${unitpath}/${altfile[altfile.length - 2]}/${altfile[altfile.length - 1]}`
 
-                                    const response = await fetch(`${ammo}`);
-                                    
-                                    let _ammo = JSON.parse(await response.text());
-                                    markdown.json += `${altfile[altfile.length - 1]}<pre><code>${_ammo.prettyPrint()}</code></pre>`
+                                const response = await fetch(`${ammo}`);
 
-                                    if (_ammo.base_spec != undefined) {
-                                        let split = _ammo.base_spec.split("/").pop().replace(".json", "")
-                                        const response = await fetch(`${data.factionpath}/ammo/${split}/${split}.json`);
-                                        
-                                        let _ammo_base = JSON.parse(await response.text());
-                                        markdown.json += `${split}.json<pre><code>${_ammo_base.prettyPrint()}</code></pre>`
-                                    }
+                                let _ammo = JSON.parse(await response.text());
+                                markdown.json += `${altfile[altfile.length - 1]}<pre><code>${_ammo.prettyPrint()}</code></pre>`
 
-                                    total_dps += _ammo.damage * _tool.rate_of_fire
-                                    markdown.total_dps = `Total DPS: <v class="value">${total_dps}</v><br>`
+                                if (_ammo.base_spec != undefined) {
+                                    let split = _ammo.base_spec.split("/").pop().replace(".json", "")
+                                    const response = await fetch(`${data.factionpath}/ammo/${split}/${split}.json`);
 
-                                    weapon.layers = _tool.target_layers
-                                    if (weapon.layers != undefined) {
+                                    let _ammo_base = JSON.parse(await response.text());
+                                    markdown.json += `${split}.json<pre><code>${_ammo_base.prettyPrint()}</code></pre>`
+                                }
 
-                                        markdown.tools += `### ${weapon.name}:\n`
+                                total_dps += _ammo.damage * _tool.rate_of_fire
+                                markdown.total_dps = `Total DPS: <v class="value">${total_dps}</v><br>`
 
-                                        markdown.tools += `\nAmmo Damage: <v class="value">${_ammo.damage}</v><br>`
-                                        markdown.tools += `Rate of Fire: <v class="value">${_tool.rate_of_fire}</v><br>`
-                                        markdown.tools += `Damage Per Second: <v class="value">${_ammo.damage * _tool.rate_of_fire}</v><br>\n`
+                                weapon.layers = _tool.target_layers
+                                if (weapon.layers != undefined) {
 
-                                        markdown.tools += `\nTarget Layers:\n`
-                                        weapon.layers.forEach(layer => {
-                                            markdown.tools += `- <v class="value">${layer.replace("WL_","")}</v>\n`
-                                        })
-                                        if (_ammo.armor_damage_map != undefined) {
-                                            markdown.tools += `\nArmor Damage Map:\n`
-                                            for (var entry in _ammo.armor_damage_map) {
-                                                if (entry != "prettyPrint") {
-                                                    markdown.tools += `- ${entry.replace("AT_","")}: <v class="value">${_ammo.armor_damage_map[entry]}</v>\n`
-                                                }
+                                    markdown.tools += `### ${weapon.name}:\n`
+
+                                    markdown.tools += `\nAmmo Damage: <v class="value">${_ammo.damage}</v><br>`
+                                    markdown.tools += `Rate of Fire: <v class="value">${_tool.rate_of_fire}</v><br>`
+                                    markdown.tools += `Damage Per Second: <v class="value">${_ammo.damage * _tool.rate_of_fire}</v><br>\n`
+
+                                    markdown.tools += `\nTarget Layers:\n`
+                                    weapon.layers.forEach(layer => {
+                                        markdown.tools += `- <v class="value">${layer.replace("WL_","")}</v>\n`
+                                    })
+                                    if (_ammo.armor_damage_map != undefined) {
+                                        markdown.tools += `\nArmor Damage Map:\n`
+                                        for (var entry in _ammo.armor_damage_map) {
+                                            if (entry != "prettyPrint") {
+                                                markdown.tools += `- ${entry.replace("AT_","")}: <v class="value">${_ammo.armor_damage_map[entry]}</v>\n`
                                             }
                                         }
                                     }
-                                } else if (isFabber) {
-                                    markdown.tools += `### ${weapon.name}\n\n`
-                                    if(_tool.max_range != undefined) {
-                                        markdown.tools += `Max Range: <v class="value">${_tool.max_range}</v>\n<br>`
-                                    }
+                                }
+                            } else if (isFabber) {
+                                markdown.tools += `### ${weapon.name}\n\n`
+                                if (_tool.max_range != undefined) {
+                                    markdown.tools += `Max Range: <v class="value">${_tool.max_range}</v>\n<br>`
+                                }
 
-                                    markdown.tools += `Energy Consumption: <v class="value">${_tool.construction_demand.energy}</v><br>`
-                                    markdown.tools += `Metal Consumption: <v class="value">${_tool.construction_demand.metal}</v>\n<br>`
-                                    
-                                    if(_tool.reclaim_types != undefined && _tool.reclaim_types.length > 0) {
-                                        markdown.tools += `Reclaim Types:`
-                                        _tool.reclaim_types.forEach(type => {
-                                            markdown.tools += `\n- ${type}`
-                                        })
-                                    }
+                                markdown.tools += `Energy Consumption: <v class="value">${_tool.construction_demand.energy}</v><br>`
+                                markdown.tools += `Metal Consumption: <v class="value">${_tool.construction_demand.metal}</v>\n<br>`
+
+                                if (_tool.reclaim_types != undefined && _tool.reclaim_types.length > 0) {
+                                    markdown.tools += `Reclaim Types:`
+                                    _tool.reclaim_types.forEach(type => {
+                                        markdown.tools += `\n- ${type}`
+                                    })
                                 }
-                                markdown.tools += `<br>\n`
-                                toolcount++
-                                if (toolcount == json.tools.length) {
-                                    tools.resolve("loaded!")
-                                }
+                            }
+                            markdown.tools += `<br>\n`
+                            toolcount++
+                            if (toolcount == json.tools.length) {
+                                tools.resolve("loaded!")
+                            }
                         });
                     }
 
@@ -421,7 +431,7 @@ ${markdown.unit_types}
                     html = converter.makeHtml(markdown.content);
                     element.innerHTML = html
                     $('#units-content')[0].appendChild(element)
-                    
+
                     $('#units-intro')[0].classList.remove('hidden')
                     $('#units-intro')[0].classList.remove('d-none')
 
