@@ -29,4 +29,6 @@ the purpose of the units.json file is so that you can include dependencies for t
 
 Once the fork is complete, you can then request the changes be made by sending a pull request via the main GitHub repository of said fork.
 
+There are known issues with the units page not fully loading on specific browsers, if you are having issues with the units page please open an issue on the GitHub repository detailing specific versions of your browser and OS.
+
 <br>
