@@ -235,7 +235,7 @@ h1 p {
 }
 
 v {
-    color: #69e8fc;
+    color: var(--bs-blue);
 }
 v:hover {
     cursor: pointer;

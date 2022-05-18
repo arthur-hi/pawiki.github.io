@@ -73,6 +73,9 @@ async function fetchUnits(callback) {
 
             factions.json[faction][unittype].forEach(async unit => {
 
+                let tools = {}
+                tools.loaded = new Promise(resolve => {tools.resolve = resolve})
+
                 let data = {
                     "faction": faction,
                     "type": unittype.toLowerCase(),
@@ -184,10 +187,8 @@ async function fetchUnits(callback) {
                             `Build Metal Cost: <v class="value">${json.build_metal_cost}</v><br>`
                     } else markdown.build_metal_cost = ""
 
-                    if (json.tools != undefined) {
-
-                        markdown.tools = `### Tools
-`
+                    let toolcount = 0
+                    if (json.tools != undefined && json.tools.length > 0) {
                         json.tools.forEach(async tool => {
                             let file = tool.spec_id.split("/")
                             let path
@@ -196,6 +197,10 @@ async function fetchUnits(callback) {
                             } else path = `${data.factionpath}/${data.type.toLowerCase()}/${file[file.length - 2]}/${file[file.length - 1]}`
                             let response = await fetch(`${path}`);
                             let _tool = JSON.parse(await response.text());
+                            
+                            let isFabber
+                            if (_tool.construction_demand != undefined) isFabber = true
+
                             markdown.json += `${file[file.length - 1]}<pre><code>${_tool.prettyPrint()}</code></pre>`
 
                             let weapon = {}
@@ -208,7 +213,7 @@ async function fetchUnits(callback) {
                             if (_tool.max_range > max_range) {
                                 max_range = _tool.max_range
                                 markdown.max_range = `Max Range: <v class="value">${max_range}</v><br>`
-
+                            }
                                 if (_tool.ammo_id != undefined) {
                                     let altfile
                                     try {
@@ -239,15 +244,15 @@ async function fetchUnits(callback) {
                                     weapon.layers = _tool.target_layers
                                     if (weapon.layers != undefined) {
 
-                                        markdown.tools += `#### ${weapon.name}:\n`
+                                        markdown.tools += `### ${weapon.name}:\n`
 
-                                        markdown.tools += `\nAmmo Damage: ${_ammo.damage}<br>`
-                                        markdown.tools += `Rate of Fire: ${_tool.rate_of_fire}<br>`
-                                        markdown.tools += `Damage Per Second: ${_ammo.damage * _tool.rate_of_fire}<br>\n`
+                                        markdown.tools += `\nAmmo Damage: <v class="value">${_ammo.damage}</v><br>`
+                                        markdown.tools += `Rate of Fire: <v class="value">${_tool.rate_of_fire}</v><br>`
+                                        markdown.tools += `Damage Per Second: <v class="value">${_ammo.damage * _tool.rate_of_fire}</v><br>\n`
 
                                         markdown.tools += `\nTarget Layers:\n`
                                         weapon.layers.forEach(layer => {
-                                            markdown.tools += `- ${layer.replace("WL_","")}\n`
+                                            markdown.tools += `- <v class="value">${layer.replace("WL_","")}</v>\n`
                                         })
                                         if (_ammo.armor_damage_map != undefined) {
                                             markdown.tools += `\nArmor Damage Map:\n`
@@ -258,8 +263,27 @@ async function fetchUnits(callback) {
                                             }
                                         }
                                     }
+                                } else if (isFabber) {
+                                    markdown.tools += `### ${weapon.name}\n\n`
+                                    if(_tool.max_range != undefined) {
+                                        markdown.tools += `Max Range: <v class="value">${_tool.max_range}</v>\n<br>`
+                                    }
+
+                                    markdown.tools += `Energy Consumption: <v class="value">${_tool.construction_demand.energy}</v><br>`
+                                    markdown.tools += `Metal Consumption: <v class="value">${_tool.construction_demand.metal}</v>\n<br>`
+                                    
+                                    if(_tool.reclaim_types != undefined && _tool.reclaim_types.length > 0) {
+                                        markdown.tools += `Reclaim Types:`
+                                        _tool.reclaim_types.forEach(type => {
+                                            markdown.tools += `\n- ${type}`
+                                        })
+                                    }
                                 }
-                            }
+                                markdown.tools += `<br>\n`
+                                toolcount++
+                                if (toolcount == json.tools.length) {
+                                    tools.resolve("loaded!")
+                                }
                         });
                     }
 
@@ -298,6 +322,7 @@ async function fetchUnits(callback) {
                         });
                     }
                 }
+
                 prep().then(async () => {
 
                     markdown.navigation = ""
@@ -382,7 +407,6 @@ ${markdown.navigation}
 ${markdown.recon}
 
 ${markdown.unit_types}
-${markdown.tools}
 `
 
                     let element = document.createElement('div')
@@ -433,9 +457,12 @@ ${markdown.tools}
                     link.style.top = "10px"
                     link.style.left = "10px"
 
-                    // This should force this to come once the unit is entirely loaded
                     await new Promise(resolve => setTimeout(resolve, 1))
+                    // not all commanders are loading so I can't move this under wait tools.loaded yet
                     updateProgress()
+
+                    await tools.loaded
+                    element.innerHTML += `\n${converter.makeHtml(markdown.tools)}`
                 })
 
             })
