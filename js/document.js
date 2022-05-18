@@ -16,7 +16,7 @@ async function setNewspage() {
         // temp fix for a problem I don't wanna solve rn
         doc.innerHTML = converter.makeHtml(data) + "<br><br><br><br>";
 
-        await new Promise(resolve => setTimeout(resolve, (i-count)*100))
+        await new Promise(resolve => setTimeout(resolve, (i-count)*250))
         news.insertBefore(doc, news.firstChild)
     })
 
