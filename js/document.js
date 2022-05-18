@@ -176,5 +176,17 @@ document.addEventListener('DOMContentLoaded', async () => {
             let date = new Date(res[0].commit.author.date)
             update.innerText = `latest commit:\n${date.toString()}`
         })
+
+        let confetti = true
+        setInterval(async () => {
+            let news = document.getElementById('news')
+            let pawikilaunch = document.getElementById('pawikixyzofficiallaunch')
+            if (news.classList.contains("visible") && pawikilaunch.parentNode.clientHeight-12 > pawikilaunch.parentNode.getBoundingClientRect().top && confetti) {
+                
+                await new Promise(resolve => setTimeout(resolve, 100))
+                party.confetti(pawikilaunch)
+                confetti = false
+            }
+        },250)
     })
 });
