@@ -312,6 +312,10 @@ async function fetchUnits(callback) {
                                 tools.resolve("loaded!")
                             }
                         });
+                    } else {
+                        // Allow units/structures without tools to load with some headroom of loading time
+                        await new Promise(resolve => setTimeout(resolve, 1000))
+                        tools.resolve("loaded!")
                     }
 
                     if (json.navigation != undefined) {
