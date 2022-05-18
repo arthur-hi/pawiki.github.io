@@ -109,25 +109,22 @@ async function fetchUnits(callback) {
                 let max_range = 0
                 let total_dps = 0
 
-                let id = `${faction.replace(/\s/g, '-')}-${unittype.toLowerCase().replace(/\s/g, '-')}-${unit.replace(/\s/g, '-')}`
+                let id = `${data.faction.replace(/\s/g, '-')}-${data.type.replace(/\s/g, '-')}-${data.unit.replace(/\s/g, '-')}`
 
                 let imgpath = "resources/img/placeholder.png"
                 let style = ""
-                if (unittype == "commanders") imgpath = `/resources/img/${unittype.toLowerCase()}/img_${unit}.png`
+                
+                let testpath = `/resources/img/upscaled/${unit}_icon_buildbar.png`
+                let response = await fetch(testpath)
+                if (response.ok) imgpath = testpath
                 else {
-
-                    let testpath = `/resources/img/upscaled/${unit}_icon_buildbar.png`
+                    let testpath = `/resources/units/${data.faction}/${data.type}/${data.unit}/${data.unit}_icon_buildbar.png`
                     let response = await fetch(testpath)
                     if (response.ok) imgpath = testpath
-                    else {
-                        let testpath = `/resources/units/${data.faction}/${data.type}/${data.unit}/${data.unit}_icon_buildbar.png`
-                        let response = await fetch(testpath)
-                        if (response.ok) imgpath = testpath
-                    }
-                    style = "style='width: 128px; height: 128px;'"
                 }
+                style = "style='width: 128px; height: 128px;'"
 
-                const response = await fetch(`${data.unitpath}/${data.unit}.json`);
+                response = await fetch(`${data.unitpath}/${data.unit}.json`);
                 let json = JSON.parse(await response.text())
 
                 try {
@@ -159,7 +156,7 @@ async function fetchUnits(callback) {
                 link.innerHTML =
                     `<a class="link-light rounded text-decoration-none" style="opacity: 0; color: transparent">
                         <img src="${imgpath}" style="position: absolute; left: -16px; top: calc(50% - 16px); width: 32px">
-                        <span style="position: relative; left: 16px">${name}</span>
+                        <span style="position: relative; left: 16px;">${name}</span>
                     </a>`
                 link.children[0].classList.add('collapse-link')
                 link.children[0].id = `${format}-link`
@@ -193,7 +190,7 @@ async function fetchUnits(callback) {
                         .replace(jsonLine, replacer);
                 }
 
-                // Behold the power of bad code!
+                // Behold the power of jank* code!
 
                 markdown.json += `${data.unit}.json<pre><code>${json.prettyPrint()}</code></pre>`
 
@@ -429,6 +426,12 @@ ${markdown.turn_speed}`
                             `Armor Type: <v class="value">${json.armor_type.replace("AT_","")}</v><br>`
                     } else markdown.armor_type = ""
 
+                    
+                    if (data.type == "commanders") {
+                        imgpath = `/resources/img/${data.type}/img_${data.unit}.png`
+                        style = ""
+                    }
+
                     markdown.content =
                         `# ${name}
 <img src="${imgpath}" ${style}>
@@ -436,7 +439,7 @@ ${markdown.turn_speed}`
 #### ${json.description}\n
 <div class="form-check form-switch">
 <label class="form-check-label" for="${id}-switch">View RAW File</label>
-<input class="form-check-input" type="checkbox" id="${id}-switch">
+<input class="form-check-input" type="checkbox" id="${id}-switch" disabled>
 </div>
 <div class="hidden" id="${id}-json">
 <br>${markdown.json}
@@ -494,13 +497,6 @@ ${markdown.unit_types}
                         hideSidebar()
                     })
 
-                    $(`#${id}-switch`).on('change', function () {
-                        if (this.checked) {
-                            $(`#${id}-json`)[0].classList = "visible"
-                        } else
-                            $(`#${id}-json`)[0].classList = "hidden"
-                    })
-
                     link.children[0].style = "color: var(--bs-gray-500)"
                     link.style.position = 'relative'
                     link.style.top = "10px"
@@ -512,6 +508,15 @@ ${markdown.unit_types}
 
                     await tools.loaded
                     element.innerHTML += `\n${converter.makeHtml(markdown.tools)}`
+
+                    document.getElementById(`${id}-switch`).addEventListener('click', function () {                        
+                        if (this.checked) {
+                            document.getElementById(`${id}-json`).classList = "visible"
+                        } else
+                        document.getElementById(`${id}-json`).classList = "hidden"
+                    })
+
+                    document.getElementById(`${id}-switch`).removeAttribute('disabled')
                 })
 
             })
