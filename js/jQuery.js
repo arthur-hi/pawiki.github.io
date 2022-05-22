@@ -21,9 +21,9 @@ jQuery.fn.selectText = function () {
     }
 };
 
-let units = $('#units')[0]
-let docs = $('#docs')[0]
-let news = $('#news')[0]
+let units = $('#units-main')[0]
+let docs = $('#docs-main')[0]
+let news = $('#news-main')[0]
 
 function resetUnitsNav() {
     $('#units-nav').click(async event => {
@@ -46,16 +46,19 @@ $('#docs-nav').click(async event => {
     docs.className = 'visible'
     news.className = 'hidden'
 })
-$('#news-nav').click(async event => {
-    event.preventDefault();
-    $('#units-nav')[0].classList.remove('link-light')
-    $('#docs-nav')[0].classList.remove('link-light')
-    $('#news-nav')[0].classList.add('link-light')
-    units.className = 'hidden'
-    docs.className = 'hidden'
-    news.className = 'visible'
-})
-$('.toggle').click(event => {
+function resetNewsNav() {
+    $('#news-nav').click(async event => {
+        event.preventDefault();
+        $('#units-nav')[0].classList.remove('link-light')
+        $('#docs-nav')[0].classList.remove('link-light')
+        $('#news-nav')[0].classList.add('link-light')
+        units.className = 'hidden'
+        docs.className = 'hidden'
+        news.className = 'visible'
+    })
+}
+resetNewsNav()
+$('.toggle').click(() => {
     document.body.classList.toggle('dark');
     document.body.classList.toggle('light');
 });

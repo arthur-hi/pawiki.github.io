@@ -2,6 +2,14 @@ let unitlist = []
 let factions = {}
 
 async function fetchUnits(callback) {
+
+    let fragments = window.location.hash.split('/')
+    let hash = window.location.hash
+    if (fragments[0] == '#units') {
+        window.location.hash = 'loading...'
+    }
+
+
     $('.units-loading')[0].style.display = null
     let count = {
         current: 0,
@@ -10,14 +18,14 @@ async function fetchUnits(callback) {
 
     async function updateProgress() {
         count.current++
-        $('.progress-bar')[0].setAttribute('aria-valuenow', count.current)
-        $('.progress-bar')[0].style.width = `${(count.current / count.total) * 100}%`
+        $('#units-progress')[0].setAttribute('aria-valuenow', count.current)
+        $('#units-progress')[0].style.width = `${(count.current / count.total) * 100}%`
         let style = `font-family: var(--font-head); font-size: 14px`
-        $('.progress-bar')[0].innerHTML = `<span style="${style}">${count.total-count.current} to go</span>`
+        $('#units-progress')[0].innerHTML = `<span style="${style}">${count.total-count.current} to go</span>`
         if (count.total == count.current) {
-            //$('.progress-bar')[0].innerHTML = `<span style="${style}">done</span>`
             await new Promise(resolve => setTimeout(resolve, 500))
             $('.units-loading')[0].style.display = "none"
+            window.location.hash = hash
         }
     }
 
@@ -29,14 +37,14 @@ async function fetchUnits(callback) {
         for (var unittype in factions.json[faction]) {
             factions.json[faction][unittype].forEach(async () => {
                 count.total++
-                $('.progress-bar')[0].setAttribute('aria-valuemax', count.total)
+                $('#units-progress')[0].setAttribute('aria-valuemax', count.total)
             })
         }
     }
 
     for (var faction in factions.json) {
 
-        let format = faction.replace(/\s/g, '-');
+        let format = faction.replace(/\s/g, '-').toLowerCase()
 
         let li = document.createElement('li')
         li.classList.add('mb-1')
@@ -55,21 +63,23 @@ async function fetchUnits(callback) {
         let collapse = $(`#${format}-collapse`)[0]
 
         for (var unittype in factions.json[faction]) {
+            type = unittype.toLowerCase()
+
             let li = document.createElement('li')
             li.classList.add('mb-1')
             li.innerHTML = `
                         <button class="btn btn-toggle btn-unit align-items-center rounded collapsed"
-                            data-bs-toggle="collapse" data-bs-target="#${format}-${unittype}-collapse" aria-expanded="false"
+                            data-bs-toggle="collapse" data-bs-target="#${format}-${type}-collapse" aria-expanded="false"
                             style="text-align: start; width: 100%;">
                             ${unittype}
                         </button>
-                        <div class="collapse" id="${format}-${unittype}-collapse">
+                        <div class="collapse" id="${format}-${type}-collapse">
                             <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
                             </ul>
                         </div>
                     `
             collapse.append(li)
-            let _collapse = $(`#${format}-${unittype}-collapse`)[0]
+            let _collapse = $(`#${format}-${type}-collapse`)[0]
 
             factions.json[faction][unittype].forEach(async (unit, i) => {
 
@@ -109,7 +119,7 @@ async function fetchUnits(callback) {
                 let max_range = 0
                 let total_dps = 0
 
-                let id = `${data.faction.replace(/\s/g, '-')}-${data.type.replace(/\s/g, '-')}-${data.unit.replace(/\s/g, '-')}`
+                let id = `${data.faction.replace(/\s/g, '-').toLowerCase()}-${data.type.replace(/\s/g, '-').toLowerCase()}-${data.unit.replace(/\s/g, '-').toLowerCase()}`
 
                 let imgpath = "resources/img/placeholder.png"
                 let style = ""
@@ -150,8 +160,8 @@ async function fetchUnits(callback) {
 
                 }
 
-                let name = json.display_name.replace('!LOC:', '');
-                let format = data.unit.replace(/\s/g, '-');
+                let name = json.display_name.replace('!LOC:', '')
+                let format = data.unit.replace(/\s/g, '-').toLowerCase()
                 let link = document.createElement('li')
                 link.innerHTML =
                     `<a class="link-light rounded text-decoration-none" style="opacity: 0; color: transparent">

@@ -1,15 +1,112 @@
-window.location.hash = ''
+let lastHash
+let overrideWelcome = false
+async function focusFragment() {
+    if (window.location.hash !== lastHash) {
+        lastHash = window.location.hash
+        let fragments = window.location.hash.split('/')
+        await new Promise(r => setTimeout(r, 250));
+        switch (fragments[0]) {
 
-async function setNewspage() {
+            case '#news':
+                let news = document.getElementById('news-nav')
+                news.click()
+                if (fragments[1] != undefined) {
+                    let newsDoc = document.getElementById(`${fragments[1].replace(/\s/g, '-').toLowerCase()}-news`)
+                    if (newsDoc != null) {
+                        let newsContent = document.getElementById('news-content')
+                        let headerOffset = 50
+                        if(window.innerWidth < 768) headerOffset = 100
+                        newsContent.scrollTo(0, (newsDoc.getBoundingClientRect().top)-headerOffset)
+                    }
+                }
+            break;
+            case '#docs':
+                let docs = document.getElementById('docs-nav')
+                docs.click()
+                if (fragments[1] != undefined) {
+                    let docsCollapse = document.getElementById(`${fragments[1].toLowerCase()}-collapse`)
+                    if (docsCollapse != undefined) {
+                        docsCollapse.classList.add('show')
+                        if (fragments[2] != undefined) {
+                            overrideWelcome = true
+                            let docLink = document.getElementById(`${fragments[2].toLowerCase()}-link`)
+                            if (docLink != undefined) docLink.click()
+                        }
+                    }
+                }
+            break;
+            case '#units':
+                let units = document.getElementById('units-nav')
+                units.click()
+                if (fragments[1] != undefined) {
+                    let collapse = document.getElementById(`${fragments[1].toLowerCase()}-collapse`)
+                    if (collapse != undefined) {
+                        collapse.classList.add('show')
+                        if (fragments[2] != undefined) {
+                            let collapse = document.getElementById(`${fragments[1].toLowerCase()}-${fragments[2].toLowerCase()}-collapse`)
+                            if (collapse != undefined) {
+                                collapse.classList.add('show')
+                                if (fragments[3] != undefined) {
+                                    let docLink = document.getElementById(`${fragments[3].toLowerCase()}-link`)
+                                    if (docLink != undefined) docLink.click()
+                                }
+                            }
+                        }
+                    }
+                }
+            break;
+        }
+        if (!overrideWelcome) {
+            let introductionCollapse = document.getElementById('introduction-collapse')
+            introductionCollapse.classList.add('show')
+            let welcomeLink = document.getElementById('welcome-link')
+            welcomeLink.click()
+        }
+    }
+}
+setInterval(() => {
+    focusFragment()
+}, 250)
+
+newsLoaded = false
+async function fetchNews() {
+
+    let fragments = window.location.hash.split('/')
+    let hash = window.location.hash
+    if (fragments[0] == '#news') {
+        window.location.hash = 'loading...'
+    }
+    
+    $('.news-loading')[0].style.display = null
+    let count = {
+        current: 0,
+        total: 0
+    }
+
+    async function updateProgress() {
+        count.current++
+        $('#news-progress')[0].setAttribute('aria-valuenow', count.current)
+        $('#news-progress')[0].style.width = `${(count.current / count.total) * 100}%`
+        let style = `font-family: var(--font-head); font-size: 14px`
+        $('#news-progress')[0].innerHTML = `<span style="${style}">${count.total-count.current} to go</span>`
+        if (count.total == count.current) {
+            await new Promise(resolve => setTimeout(resolve, 500))
+            $('.news-loading')[0].style.display = "none"
+            window.location.hash = hash
+            newsLoaded = true
+        }
+    }
 
     const response = await fetch('/root.json')
     const root = JSON.parse(await response.text())
 
-    let count = 0
-    root.news.forEach(() => count++)
+    root.news.forEach(() => {
+        count.total++
+        $('#news-progress')[0].setAttribute('aria-valuemax', count.total)
+    })
     root.news.forEach(async (entry, i) => {
 
-        let wait = (-(i-count)*200)-200
+        let wait = (-(i-count.total)*200)-200
 
         let news = $('#news-content')[0]
         const response = await fetch(`/dist/${entry}.md`)
@@ -18,18 +115,18 @@ async function setNewspage() {
         let doc = document.createElement('div')
         doc.innerHTML = converter.makeHtml(data)
         await new Promise(resolve => setTimeout(resolve, wait))
+        doc.id = `${(entry.replace(/\s/g, '-').toLowerCase()).split('/')[1]}-news`
         news.appendChild(doc)
+        updateProgress()
     })
-
 }
-setNewspage()
 
 setInterval(() => {
     $('#docs-sidebar')[0].style.top = $('header')[0].offsetHeight + 'px'
     $('#units-sidebar')[0].style.top = $('header')[0].offsetHeight + 'px'
-    $('#docs')[0].style.top = $('header')[0].offsetHeight + 'px'
-    $('#units')[0].style.paddingTop = $('header')[0].offsetHeight + 'px'
-    $('#news')[0].style.top = $('header')[0].offsetHeight + 'px'
+    $('#docs-main')[0].style.top = $('header')[0].offsetHeight + 'px'
+    $('#units-main')[0].style.paddingTop = $('header')[0].offsetHeight + 'px'
+    $('#news-main')[0].style.top = $('header')[0].offsetHeight + 'px'
     $('.material-symbols-outlined').each(function (i, btn) {
         let headerOffset = ($('header')[0].offsetHeight / 2) - 12
         let sidebarOffset = $('#docs-sidebar')[0].offsetWidth
@@ -69,7 +166,7 @@ setInterval(() => {
             let calc = (window.innerWidth - 10) - sidebarOffset
             $(doc).css('width', `${calc}px`)
         })
-        $('#news').children().each(function (i, news) {
+        $('#news-main').children().each(function (i, news) {
             let calc = (window.innerWidth - 10)
             $(news).css('width', `${calc}px`)
         })
@@ -126,12 +223,6 @@ document.addEventListener('DOMContentLoaded', async () => {
 
         });
 
-        await new Promise(r => setTimeout(r, 10));
-        let introductionCollapse = document.getElementById('Introduction-collapse')
-        introductionCollapse.classList.add('show')
-        let welcomeLink = document.getElementById('Welcome-link')
-        welcomeLink.click()
-
         await new Promise(r => setTimeout(r, 1000));
         $('pre').each(function (i, block) {
             $(block).click(async () => {
@@ -179,7 +270,14 @@ document.addEventListener('DOMContentLoaded', async () => {
         resetUnitsNav()
     });
 
-    $(document).ready(function () {
+    
+    $('#news-nav').one('click', function () {
+        fetchNews()
+        $('#news-nav').off('click');
+        resetNewsNav()
+    });
+
+    $(document).ready(async function () {
         $("body").tooltip({
             selector: '[data-toggle=tooltip]'
         });
@@ -198,13 +296,15 @@ document.addEventListener('DOMContentLoaded', async () => {
 
         let confetti = true
         setInterval(async () => {
-            let news = document.getElementById('news')
+            let news = document.getElementById('news-main')
             let pawikilaunch = document.getElementById('pawikixyzofficiallaunch')
-            if (news.classList.contains("visible") && pawikilaunch.parentNode.clientHeight-12 > pawikilaunch.parentNode.getBoundingClientRect().top && confetti) {
-                
-                await new Promise(resolve => setTimeout(resolve, 250))
-                party.confetti(pawikilaunch)
-                confetti = false
+            
+            if (newsLoaded && news.classList.contains("visible") && pawikilaunch.parentNode.clientHeight-12 > pawikilaunch.parentNode.getBoundingClientRect().top && confetti) {
+                await new Promise(r => setTimeout(r, 250))
+                if (newsLoaded && news.classList.contains("visible") && pawikilaunch.parentNode.clientHeight-12 > pawikilaunch.parentNode.getBoundingClientRect().top && confetti) {
+                    party.confetti(pawikilaunch)
+                    confetti = false
+                }
             }
         },250)
     })

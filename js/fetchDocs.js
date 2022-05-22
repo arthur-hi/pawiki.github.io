@@ -13,7 +13,7 @@ async function fetchDocs(callback) {
     })
     root.documentDirectories.forEach(async directory => {
 
-        let format = directory.replace(/\s/g, '-');
+        let format = directory.replace(/\s/g, '-').toLowerCase()
 
         let li = document.createElement('li')
         li.classList.add('mb-1')
@@ -33,7 +33,7 @@ async function fetchDocs(callback) {
 
         root[directory].forEach(async file => {
 
-            let format = file.replace(/\s/g, '-');
+            let format = file.replace(/\s/g, '-').toLowerCase();
             let link = document.createElement('li')
             link.innerHTML =
                 `<a class="link-light rounded text-decoration-none" style="color: var(--bs-gray-500)">${file}</a>`
