@@ -2,11 +2,16 @@
     "filesRemaining": 0,
     "documentDirectories": [
         "Introduction",
-        "Game Updates",
         "Unit Specs",
         "Tools"
     ],
     "news": [
+        "Game Updates/HAPPY NEW YEAR UPDATES",
+        "Game Updates/TRANSLATIONS, AI AND MODERN UPDATES",
+        "Game Updates/HAPPY BIRTHDAY STRYKER UPDATES",
+        "Game Updates/HORSEFLY UPDATES",
+        "Game Updates/STAY SAFE UPDATES",
+        "Game Updates/RAINBOWS & UNICORNS UPDATES",
         "Game Updates/BALANCE UPDATE",
         "News/pawiki launch"
     ],
@@ -14,16 +19,6 @@
         "Welcome",
         "Contribution",
         "About"
-    ],
-    "Game Updates": [
-        "BALANCE UPDATE",
-        "FUSION UPDATES",
-        "RAINBOWS & UNICORNS UPDATES",
-        "STAY SAFE UPDATES",
-        "HORSEFLY UPDATES",
-        "HAPPY BIRTHDAY STRYKER UPDATES",
-        "TRANSLATIONS, AI AND MODERN UPDATES",
-        "HAPPY NEW YEAR UPDATES"
     ],
     "Unit Specs": [
         "README",

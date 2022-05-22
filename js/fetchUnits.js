@@ -71,7 +71,7 @@ async function fetchUnits(callback) {
             collapse.append(li)
             let _collapse = $(`#${format}-${unittype}-collapse`)[0]
 
-            factions.json[faction][unittype].forEach(async unit => {
+            factions.json[faction][unittype].forEach(async (unit, i) => {
 
                 let tools = {}
                 tools.loaded = new Promise(resolve => {
@@ -161,7 +161,6 @@ async function fetchUnits(callback) {
                 link.children[0].classList.add('collapse-link')
                 link.children[0].id = `${format}-link`
                 link.style.padding = "10px"
-                _collapse.children[0].appendChild(link)
 
                 /**
                  * Pretty Print JSON Objects.
@@ -191,6 +190,9 @@ async function fetchUnits(callback) {
                 }
 
                 // Behold the power of jank* code!
+
+                await new Promise(resolve => setTimeout(resolve, i*200))
+                _collapse.children[0].appendChild(link)
 
                 markdown.json += `${data.unit}.json<pre><code>${json.prettyPrint()}</code></pre>`
 
@@ -484,8 +486,6 @@ ${markdown.turn_speed}`
                     link.style.position = 'relative'
                     link.style.top = "10px"
                     link.style.left = "10px"
-
-                    await new Promise(resolve => setTimeout(resolve, 1))
                     // not all commanders are loading so I can't move this under wait tools.loaded yet
                     updateProgress()
 

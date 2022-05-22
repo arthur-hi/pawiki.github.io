@@ -16,17 +16,17 @@
   
   /* Track */
   ::-webkit-scrollbar-track {
-    background: transparent;
+    background: #212529;
   }
   
   /* Handle */
   ::-webkit-scrollbar-thumb {
-    background: transparent;
+    background: #495057;
   }
   
   /* Handle on hover */
   ::-webkit-scrollbar-thumb:hover {
-    background: transparent;
+    background: #343a40;
   }
 
 * {
@@ -67,27 +67,22 @@ main {
 
 main #units {
     position: absolute;
-    top: 75px;
     left: 15px;
     width: 100%;
     padding-top: 25px;
-    padding-right: 2%;
     overflow-y: scroll;
     overflow-x: hidden;
 }
 
 main #news {
     position: absolute;
-    top: 75px;
-    left: 30px;
     width: 100%;
-    padding-top: 25px;
 }
 
 main #docs {
     position: absolute;
     width: 100%;
-    height: 93.5%;
+    height: 100%;
     padding-right: 5%;
 }
 
@@ -160,11 +155,11 @@ main .doc {
     width: 100%;
     padding-top: 25px;
     padding-left: 25px;
-    padding-bottom: 80;
+    padding-bottom: 100px;
     overflow-y: scroll;
     overflow-x: hidden;
     overflow-wrap: break-word;
-    padding-right: 25%
+    padding-right: 25px;
 }
 
 #news-content {
@@ -175,11 +170,20 @@ main .doc {
     overflow-x: hidden;
 }
 
+#news-content div {
+    padding-top: 25px;
+    padding-left: 25px;
+    padding-bottom: 100px;
+    overflow-y: scroll;
+    overflow-x: hidden;
+    overflow-wrap: break-word;
+    padding-right: 25px;
+}
+
 #docs-content {
     width: 100%;
     height: 100%;
     position: relative;
-    left: 200px;
     transition: .25s;
 }
 
@@ -187,7 +191,6 @@ main .doc {
     width: 100%;
     height: 100%;
     position: relative;
-    left: 200px;
     transition: .25s;
 }
 
@@ -229,6 +232,12 @@ h1 p {
     opacity: 0;
     transition: visibility 0s .125s, opacity .125s linear;
     pointer-events: none;
+    height: 0 !important;
+    transition: height 0s .125s;
+    transition-delay: height 0s .125s;
+}
+
+.hidden pre {
     height: 0 !important;
     transition: height 0s .125s;
     transition-delay: height 0s .125s;

@@ -1,35 +1,34 @@
-window.location.hash = '';
+window.location.hash = ''
 
 async function setNewspage() {
 
-    const response = await fetch('/root.json');
-    const root = JSON.parse(await response.text());
+    const response = await fetch('/root.json')
+    const root = JSON.parse(await response.text())
 
     let count = 0
     root.news.forEach(() => count++)
     root.news.forEach(async (entry, i) => {
+
+        let wait = (-(i-count)*200)-200
+
         let news = $('#news-content')[0]
-        const response = await fetch(`/dist/${entry}.md`);
-        const data = await response.text();
-        var converter = new showdown.Converter();
+        const response = await fetch(`/dist/${entry}.md`)
+        const data = await response.text()
+        var converter = new showdown.Converter()
         let doc = document.createElement('div')
-        // temp fix for a problem I don't wanna solve rn
-        doc.innerHTML = converter.makeHtml(data) + "<br><br><br><br>";
-
-        await new Promise(resolve => setTimeout(resolve, (i-count)*250))
-        news.insertBefore(doc, news.firstChild)
+        doc.innerHTML = converter.makeHtml(data)
+        await new Promise(resolve => setTimeout(resolve, wait))
+        news.appendChild(doc)
     })
-
 
 }
 setNewspage()
 
 setInterval(() => {
     $('#docs-sidebar')[0].style.top = $('header')[0].offsetHeight + 'px'
-    $('#docs')[0].style.top = $('header')[0].offsetHeight + 'px'
     $('#units-sidebar')[0].style.top = $('header')[0].offsetHeight + 'px'
-    $('#units')[0].style.top = $('header')[0].offsetHeight + 'px'
-    $('#units')[0].style.top = $('header')[0].offsetHeight + 'px'
+    $('#docs')[0].style.top = $('header')[0].offsetHeight + 'px'
+    $('#units')[0].style.paddingTop = $('header')[0].offsetHeight + 'px'
     $('#news')[0].style.top = $('header')[0].offsetHeight + 'px'
     $('.material-symbols-outlined').each(function (i, btn) {
         let headerOffset = ($('header')[0].offsetHeight / 2) - 12
@@ -47,11 +46,11 @@ setInterval(() => {
 
                     $('#docs-sidebar')[0].classList.remove('hide')
                     $('#docs-sidebar')[0].style.left = `0px`
-                    $('#docs-content')[0].style.left = `${sidebarOffset}px`
+                    $('#docs-content')[0].style.left = `${sidebarOffset+25}px`
 
                     $('#units-sidebar')[0].classList.remove('hide')
                     $('#units-sidebar')[0].style.left = `0px`
-                    $('#units-content')[0].style.left = `${sidebarOffset}px`
+                    $('#units-content')[0].style.left = `${sidebarOffset+25}px`
             }
         } else {
             switch (headerOffset) {
@@ -63,8 +62,27 @@ setInterval(() => {
             }
         }
 
+        $('.doc').each(function (i, doc) {
+            let sidebarOffset = 0
+            if (!$('#docs-sidebar')[0].classList.contains('hide')) sidebarOffset = $('#docs-sidebar')[0].offsetWidth
+
+            let calc = (window.innerWidth - 10) - sidebarOffset
+            $(doc).css('width', `${calc}px`)
+        })
+        $('#news').children().each(function (i, news) {
+            let calc = (window.innerWidth - 10)
+            $(news).css('width', `${calc}px`)
+        })
+        $('#news-content').children().each(function (i, doc) {
+            let calc = (window.innerWidth - 10)
+            $(doc).css('width', `${calc}px`)
+        })
     });
 }, 100);
+
+let sidebarOffset = $('#docs-sidebar')[0].offsetWidth
+$('#docs-content')[0].style.left = `${sidebarOffset+25}px`
+$('#units-content')[0].style.left = `${sidebarOffset+25}px`
 
 let pos = {
     x: 0,
@@ -184,7 +202,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             let pawikilaunch = document.getElementById('pawikixyzofficiallaunch')
             if (news.classList.contains("visible") && pawikilaunch.parentNode.clientHeight-12 > pawikilaunch.parentNode.getBoundingClientRect().top && confetti) {
                 
-                await new Promise(resolve => setTimeout(resolve, 100))
+                await new Promise(resolve => setTimeout(resolve, 250))
                 party.confetti(pawikilaunch)
                 confetti = false
             }
