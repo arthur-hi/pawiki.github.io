@@ -1,21 +1,16 @@
 let unitlist = []
 let factions = {}
-
 async function fetchUnits(callback) {
-
     let fragments = window.location.hash.split('/')
     let hash = window.location.hash
     if (fragments[0] == '#units') {
         window.location.hash = 'loading'
     }
-
-
     $('.units-loading')[0].style.display = null
     let count = {
         current: 0,
         total: 0
     }
-
     async function updateProgress() {
         count.current++
         $('#units-progress')[0].setAttribute('aria-valuenow', count.current)
@@ -23,29 +18,15 @@ async function fetchUnits(callback) {
         let style = `font-family: var(--font-head); font-size: 14px`
         $('#units-progress')[0].innerHTML = `<span style="${style}">${count.total-count.current} to go</span>`
         if (count.total == count.current) {
-            await new Promise(resolve => setTimeout(resolve, 500))
+            await new Promise(resolve => setTimeout(resolve, 100))
             $('.units-loading')[0].style.display = "none"
             window.location.hash = hash
         }
     }
-
     const response = await fetch('/units.json');
-
     factions.json = JSON.parse(await response.text());
-
     for (var faction in factions.json) {
-        for (var unittype in factions.json[faction]) {
-            factions.json[faction][unittype].forEach(async () => {
-                count.total++
-                $('#units-progress')[0].setAttribute('aria-valuemax', count.total)
-            })
-        }
-    }
-
-    for (var faction in factions.json) {
-
         let format = faction.replaceAll(/\s/g, '-').toLowerCase()
-
         let li = document.createElement('li')
         li.classList.add('mb-1')
         li.innerHTML = `
@@ -61,10 +42,8 @@ async function fetchUnits(callback) {
                 `
         $('#unit-list').append(li)
         let collapse = $(`#${format}-collapse`)[0]
-
         for (var unittype in factions.json[faction]) {
             type = unittype.toLowerCase()
-
             let li = document.createElement('li')
             li.classList.add('mb-1')
             li.innerHTML = `
@@ -79,6 +58,23 @@ async function fetchUnits(callback) {
                         </div>
                     `
             collapse.append(li)
+            let _collapse = $(`#${format}-${type}-collapse`)[0]
+            factions.json[faction][unittype].forEach(unit => {
+                count.total++
+                $('#units-progress')[0].setAttribute('aria-valuemax', count.total)
+                let link = document.createElement('li')
+                link.id = `${format}-${type}-${unit}`
+                _collapse.children[0].appendChild(link)
+            })
+        }
+    }
+    for (var faction in factions.json) {
+
+        let format = faction.replaceAll(/\s/g, '-').toLowerCase()
+        let collapse = $(`#${format}-collapse`)[0]
+
+        for (var unittype in factions.json[faction]) {
+            type = unittype.toLowerCase()
             let _collapse = $(`#${format}-${type}-collapse`)[0]
 
             factions.json[faction][unittype].forEach(async (unit, i) => {
@@ -123,7 +119,7 @@ async function fetchUnits(callback) {
 
                 let imgpath = "resources/img/placeholder.png"
                 let style = ""
-                
+
                 let testpath = `/resources/img/upscaled/${unit}_icon_buildbar.png`
                 let response = await fetch(testpath)
                 if (response.ok) imgpath = testpath
@@ -162,7 +158,7 @@ async function fetchUnits(callback) {
 
                 let name = json.display_name.replaceAll('!LOC:', '')
                 let format = data.unit.replaceAll(/\s/g, '-').toLowerCase()
-                let link = document.createElement('li')
+                let link = document.getElementById(`${data.faction.replaceAll(' ','-').toLowerCase()}-${data.type}-${data.unit}`)
                 link.innerHTML =
                     `<a class="link-light rounded text-decoration-none" style="opacity: 0; color: transparent">
                         <img src="${imgpath}" style="position: absolute; left: -16px; top: calc(50% - 16px); width: 32px">
@@ -201,12 +197,11 @@ async function fetchUnits(callback) {
 
                 // Behold the power of jank* code!
 
-                await new Promise(resolve => setTimeout(resolve, i*200))
-                _collapse.children[0].appendChild(link)
-
                 markdown.json += `${data.unit}.json<pre><code>${json.prettyPrint()}</code></pre>`
 
                 async function prep() {
+                    updateProgress()
+                    
                     if (json.max_health != undefined) {
                         markdown.max_health =
                             `Max Health: <v class="value">${json.max_health}</v><br>`
@@ -325,8 +320,6 @@ async function fetchUnits(callback) {
                             }
                         });
                     } else {
-                        // Allow units/structures without tools to load with some headroom of loading time
-                        await new Promise(resolve => setTimeout(resolve, 1000))
                         tools.resolve("loaded!")
                     }
 
@@ -388,7 +381,7 @@ async function fetchUnits(callback) {
                                 markdown.storageandproduction += `Metal: <v class="value">${json.production.metal}</v><br>`
                             }
                         }
-                        
+
                     }
                 }
 
@@ -451,7 +444,7 @@ ${markdown.turn_speed}`
                             `Armor Type: <v class="value">${json.armor_type.replaceAll("AT_","")}</v><br>`
                     } else markdown.armor_type = ""
 
-                    
+
                     if (data.type == "commanders") {
                         imgpath = `/resources/img/${data.type}/img_${data.unit}.png`
                         style = ""
@@ -481,9 +474,6 @@ ${markdown.turn_speed}`
 
                         $('.unit-doc').addClass('hidden');
                         element.classList.remove('d-none');
-                        await new Promise(resolve => setTimeout(resolve, 1))
-                        // second d-none just to be safe
-                        element.classList.remove('d-none');
                         element.classList.add('visible');
                         element.classList.remove('hidden');
                     })
@@ -496,11 +486,8 @@ ${markdown.turn_speed}`
                     link.style.position = 'relative'
                     link.style.top = "10px"
                     link.style.left = "10px"
-                    // not all commanders are loading so I can't move this under wait tools.loaded yet
-                    updateProgress()
 
                     await tools.loaded
-                    
                     markdown.content =
                         `# ${name}
 <img src="${imgpath}" ${style}>
@@ -536,20 +523,20 @@ ${markdown.tools}
                     copy.style.position = 'absolute'
                     copy.style.top = '32px'
                     copy.style.right = '64px'
-                    copy.innerHTML = 
-                    `<span class="material-symbols-outlined" id="url">
+                    copy.innerHTML =
+                        `<span class="material-symbols-outlined" id="url">
                         link
                     </span>`
                     element.appendChild(copy)
                     let faction = data.faction.replaceAll(' ', '-').toLowerCase()
-                    let local = location.protocol+'//'+location.host
+                    let local = location.protocol + '//' + location.host
                     copy.setAttribute('url', `${local}/#units/${faction}/${data.type}/${data.unit}`)
 
-                    document.getElementById(`${id}-switch`).addEventListener('click', function () {                        
+                    document.getElementById(`${id}-switch`).addEventListener('click', function () {
                         if (this.checked) {
                             document.getElementById(`${id}-json`).classList = "visible"
                         } else
-                        document.getElementById(`${id}-json`).classList = "hidden"
+                            document.getElementById(`${id}-json`).classList = "hidden"
                     })
 
                     document.getElementById(`${id}-switch`).removeAttribute('disabled')
@@ -557,16 +544,16 @@ ${markdown.tools}
                     copy.addEventListener('click', async function () {
 
                         await new Promise(r => setTimeout(r, 250))
-                        copy.innerHTML = 
-                        `<span class="material-symbols-outlined" id="tick">
+                        copy.innerHTML =
+                            `<span class="material-symbols-outlined" id="tick">
                             check
                         </span>`
                         navigator.clipboard.writeText(copy.getAttribute('url'))
                     })
                     copy.addEventListener('mouseleave', async function () {
                         await new Promise(r => setTimeout(r, 5000))
-                        copy.innerHTML = 
-                        `<span class="material-symbols-outlined" id="url">
+                        copy.innerHTML =
+                            `<span class="material-symbols-outlined" id="url">
                             link
                         </span>`
                     })
