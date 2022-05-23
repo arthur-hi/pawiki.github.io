@@ -55,6 +55,7 @@ function resetNewsNav() {
         units.className = 'hidden'
         docs.className = 'hidden'
         news.className = 'visible'
+        window.location.hash='#news'
     })
 }
 resetNewsNav()

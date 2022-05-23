@@ -1,3 +1,4 @@
+if (window.location.hash == '') window.location.hash = '#docs/introduction/welcome'
 let lastHash
 let overrideWelcome = false
 async function focusFragment() {
@@ -9,6 +10,7 @@ async function focusFragment() {
             case '#news':
                 let news = document.getElementById('news-nav')
                 news.click()
+                overrideWelcome = true
                 if (fragments[1] != undefined) {
                     let newsDoc = document.getElementById(`${fragments[1].replace(/\s/g, '-').toLowerCase()}-news`)
                     if (newsDoc != null) {
@@ -25,6 +27,7 @@ async function focusFragment() {
                 if (fragments[1] != undefined) {
                     let docsCollapse = document.getElementById(`${fragments[1].toLowerCase()}-collapse`)
                     if (docsCollapse != undefined) {
+                        overrideWelcome = true
                         docsCollapse.classList.add('show')
                         if (fragments[2] != undefined) {
                             overrideWelcome = true
@@ -37,8 +40,9 @@ async function focusFragment() {
             case '#units':
                 let units = document.getElementById('units-nav')
                 units.click()
+                overrideWelcome = true
                 if (fragments[1] != undefined) {
-                    await new Promise(resolve => setTimeout(resolve, 1000))
+                    await new Promise(resolve => setTimeout(resolve, 250))
                     let collapse = document.getElementById(`${fragments[1].toLowerCase()}-collapse`)
                     if (collapse != undefined) {
                         collapse.classList.add('show')
@@ -121,16 +125,15 @@ async function fetchNews() {
         
         let copy = document.createElement('div')
         copy.style.position = 'absolute'
-        copy.style.right = '0'
         copy.classList.add('noscroll')
         copy.innerHTML = 
         `<span class="material-symbols-outlined" id="url">
             link
         </span>`
         doc.appendChild(copy)
-
         setInterval(() => {
-            copy.style.top = `${(doc.getBoundingClientRect().top + document.querySelector('#news-content').scrollTop - 110) + (window.innerWidth/25)}px`
+            copy.style.top = `${(doc.getBoundingClientRect().top + document.querySelector('#news-content').scrollTop - 36) - (window.innerWidth/1000)}px`
+            copy.style.left = `${doc.firstChild.getBoundingClientRect().width + 32}px`
         }, 250);
         
         let local = location.protocol+'//'+location.host
@@ -158,7 +161,7 @@ async function fetchNews() {
 setInterval(() => {
     $('#docs-sidebar')[0].style.top = $('header')[0].offsetHeight + 'px'
     $('#units-sidebar')[0].style.top = $('header')[0].offsetHeight + 'px'
-    $('#docs-main')[0].style.top = $('header')[0].offsetHeight + 'px'
+    $('#docs-main')[0].style.paddingTop = $('header')[0].offsetHeight + 'px'
     $('#units-main')[0].style.paddingTop = $('header')[0].offsetHeight + 'px'
     $('#news-main')[0].style.top = $('header')[0].offsetHeight + 'px'
     $('#btn').each(function (i, btn) {
@@ -243,6 +246,9 @@ document.addEventListener('DOMContentLoaded', async () => {
             element.innerHTML = html
             $('#docs-content')[0].appendChild(element)
 
+            let collapse = doc.collapse.replace('#','').split('-')
+            collapse.pop()
+
             doc.link.addEventListener('click', async () => {
 
                 $('.collapse-link').each(function () {
@@ -253,21 +259,22 @@ document.addEventListener('DOMContentLoaded', async () => {
                 $('.doc').addClass('hidden');
                 element.classList.add('visible');
                 element.classList.remove('hidden');
+                window.location.hash = `#docs/${collapse.toString().replace(',','-')}/${doc.file}`
             })
 
             let copy = document.createElement('div')
             copy.style.position = 'absolute'
-            copy.style.top = '32px'
-            copy.style.right = '64px'
             copy.innerHTML = 
             `<span class="material-symbols-outlined" id="url">
                 link
             </span>`
             element.appendChild(copy)
+            setInterval(() => {
+                copy.style.top = `${24 + (window.innerWidth/1000)}px`
+                copy.style.left = `${element.firstChild.getBoundingClientRect().width + 32}px`
+            }, 250);
             
             let local = location.protocol+'//'+location.host
-            let collapse = doc.collapse.replace('#','').split('-')
-            collapse.pop()
             copy.setAttribute('url', `${local}/#docs/${collapse.toString().replace(',','-')}/${doc.file}`)
 
             copy.addEventListener('click', async function () {
@@ -369,6 +376,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                 if (newsLoaded && news.classList.contains("visible") && pawikilaunch.parentNode.clientHeight-12 > pawikilaunch.parentNode.getBoundingClientRect().top && confetti) {
                     party.confetti(pawikilaunch)
                     confetti = false
+                    pawikilaunch.addEventListener('click', () => confetti = true)
                 }
             }
         },250)

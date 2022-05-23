@@ -6,6 +6,11 @@ async function fetchUnits(callback) {
     if (fragments[0] == '#units') {
         window.location.hash = 'loading'
     }
+    else {
+        window.location.hash = 'loading'
+        hash = 'units'
+    }
+
     $('.units-loading')[0].style.display = null
     let count = {
         current: 0,
@@ -466,8 +471,10 @@ ${markdown.turn_speed}`
                     $('#units-intro')[0].classList.remove('d-none')
 
                     link.addEventListener('click', async () => {
-
-                        console.log('click!')
+                        
+                        let hash = `#units/${data.faction.replaceAll(' ','-').toLowerCase()}/${data.type}/${data.unit}`
+                        lastHash = hash
+                        window.location.hash = hash
 
                         $('.collapse-link').each(function () {
                             $(this)[0].style = "color: var(--bs-gray-500)"
@@ -528,8 +535,7 @@ ${markdown.tools}
                     element.innerHTML = html
                     let copy = document.createElement('div')
                     copy.style.position = 'absolute'
-                    copy.style.top = '32px'
-                    copy.style.right = '64px'
+                    copy.style.top = `${36 - (window.innerHeight/100)}px`
                     copy.innerHTML =
                         `<span class="material-symbols-outlined" id="url">
                         link
@@ -564,6 +570,10 @@ ${markdown.tools}
                             link
                         </span>`
                     })
+
+                    setInterval(() => {
+                        copy.style.left = `${element.firstChild.getBoundingClientRect().width + 24}px`
+                    }, 250);
                 })
 
             })

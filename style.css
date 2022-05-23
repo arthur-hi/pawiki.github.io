@@ -203,8 +203,7 @@ main .doc {
     position: absolute;
     height: 100%;
     width: 100%;
-    padding-top: 25px;
-    padding-left: 25px;
+    padding-top: 16px;
     padding-bottom: 100px;
     overflow-y: scroll;
     overflow-x: hidden;
@@ -251,6 +250,7 @@ main .doc {
 h1, h2, h3 {
     font-family: var(--font-head);
     color: #f1662f;
+    width: fit-content;
 }
 
 a {
