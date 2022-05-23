@@ -18,7 +18,7 @@ async function fetchUnits(callback) {
         let style = `font-family: var(--font-head); font-size: 14px`
         $('#units-progress')[0].innerHTML = `<span style="${style}">${count.total-count.current} to go</span>`
         if (count.total == count.current) {
-            await new Promise(resolve => setTimeout(resolve, 100))
+            await new Promise(resolve => setTimeout(resolve, 500))
             $('.units-loading')[0].style.display = "none"
             window.location.hash = hash
         }
@@ -201,7 +201,7 @@ async function fetchUnits(callback) {
 
                 async function prep() {
                     updateProgress()
-                    
+
                     if (json.max_health != undefined) {
                         markdown.max_health =
                             `Max Health: <v class="value">${json.max_health}</v><br>`
@@ -467,6 +467,8 @@ ${markdown.turn_speed}`
 
                     link.addEventListener('click', async () => {
 
+                        console.log('click!')
+
                         $('.collapse-link').each(function () {
                             $(this)[0].style = "color: var(--bs-gray-500)"
                         })
@@ -474,6 +476,11 @@ ${markdown.turn_speed}`
 
                         $('.unit-doc').addClass('hidden');
                         element.classList.remove('d-none');
+
+                        await new Promise(r => setTimeout(r, 1))
+                        // Fix for loading too fast
+                        element.classList.remove('d-none');
+
                         element.classList.add('visible');
                         element.classList.remove('hidden');
                     })

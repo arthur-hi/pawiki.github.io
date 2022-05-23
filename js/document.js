@@ -38,6 +38,7 @@ async function focusFragment() {
                 let units = document.getElementById('units-nav')
                 units.click()
                 if (fragments[1] != undefined) {
+                    await new Promise(resolve => setTimeout(resolve, 1000))
                     let collapse = document.getElementById(`${fragments[1].toLowerCase()}-collapse`)
                     if (collapse != undefined) {
                         collapse.classList.add('show')
@@ -46,8 +47,8 @@ async function focusFragment() {
                             if (collapse != undefined) {
                                 collapse.classList.add('show')
                                 if (fragments[3] != undefined) {
-                                    let docLink = document.getElementById(`${fragments[3].toLowerCase()}-link`)
-                                    if (docLink != undefined) docLink.click()
+                                    let docLink = document.getElementById(`${fragments[1].toLowerCase()}-${fragments[2].toLowerCase()}-${fragments[3].toLowerCase()}`)
+                                    docLink.click()
                                 }
                             }
                         }
