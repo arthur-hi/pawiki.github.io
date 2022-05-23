@@ -4,7 +4,6 @@ async function focusFragment() {
     if (window.location.hash !== lastHash) {
         lastHash = window.location.hash
         let fragments = window.location.hash.split('/')
-        await new Promise(r => setTimeout(r, 250));
         switch (fragments[0]) {
 
             case '#news':
@@ -74,7 +73,7 @@ async function fetchNews() {
     let fragments = window.location.hash.split('/')
     let hash = window.location.hash
     if (fragments[0] == '#news') {
-        window.location.hash = 'loading...'
+        window.location.hash = 'loading'
     }
     
     $('.news-loading')[0].style.display = null
@@ -118,6 +117,40 @@ async function fetchNews() {
         doc.id = `${(entry.replace(/\s/g, '-').toLowerCase()).split('/')[1]}-news`
         news.appendChild(doc)
         updateProgress()
+        
+        let copy = document.createElement('div')
+        copy.style.position = 'absolute'
+        copy.style.right = '0'
+        copy.classList.add('noscroll')
+        copy.innerHTML = 
+        `<span class="material-symbols-outlined" id="url">
+            link
+        </span>`
+        doc.appendChild(copy)
+
+        setInterval(() => {
+            copy.style.top = `${(doc.getBoundingClientRect().top + document.querySelector('#news-content').scrollTop - 110) + (window.innerWidth/25)}px`
+        }, 250);
+        
+        let local = location.protocol+'//'+location.host
+        copy.setAttribute('url', `${local}/#news/${(entry.replace(/\s/g, '-').toLowerCase()).split('/')[1]}`)
+
+        copy.addEventListener('click', async function () {
+
+            await new Promise(r => setTimeout(r, 250))
+            copy.innerHTML = 
+            `<span class="material-symbols-outlined" id="tick">
+                check
+            </span>`
+            navigator.clipboard.writeText(copy.getAttribute('url'))
+        })
+        copy.addEventListener('mouseleave', async function () {
+            await new Promise(r => setTimeout(r, 5000))
+            copy.innerHTML = 
+            `<span class="material-symbols-outlined" id="url">
+                link
+            </span>`
+        })
     })
 }
 
@@ -127,7 +160,7 @@ setInterval(() => {
     $('#docs-main')[0].style.top = $('header')[0].offsetHeight + 'px'
     $('#units-main')[0].style.paddingTop = $('header')[0].offsetHeight + 'px'
     $('#news-main')[0].style.top = $('header')[0].offsetHeight + 'px'
-    $('.material-symbols-outlined').each(function (i, btn) {
+    $('#btn').each(function (i, btn) {
         let headerOffset = ($('header')[0].offsetHeight / 2) - 12
         let sidebarOffset = $('#docs-sidebar')[0].offsetWidth
         btn.style.top = headerOffset + 'px'
@@ -221,6 +254,37 @@ document.addEventListener('DOMContentLoaded', async () => {
                 element.classList.remove('hidden');
             })
 
+            let copy = document.createElement('div')
+            copy.style.position = 'absolute'
+            copy.style.top = '32px'
+            copy.style.right = '64px'
+            copy.innerHTML = 
+            `<span class="material-symbols-outlined" id="url">
+                link
+            </span>`
+            element.appendChild(copy)
+            
+            let local = location.protocol+'//'+location.host
+            let collapse = doc.collapse.replace('#','').split('-')
+            collapse.pop()
+            copy.setAttribute('url', `${local}/#docs/${collapse.toString().replace(',','-')}/${doc.file}`)
+
+            copy.addEventListener('click', async function () {
+
+                await new Promise(r => setTimeout(r, 250))
+                copy.innerHTML = 
+                `<span class="material-symbols-outlined" id="tick">
+                    check
+                </span>`
+                navigator.clipboard.writeText(copy.getAttribute('url'))
+            })
+            copy.addEventListener('mouseleave', async function () {
+                await new Promise(r => setTimeout(r, 5000))
+                copy.innerHTML = 
+                `<span class="material-symbols-outlined" id="url">
+                    link
+                </span>`
+            })
         });
 
         await new Promise(r => setTimeout(r, 1000));

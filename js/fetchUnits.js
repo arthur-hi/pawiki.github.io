@@ -6,7 +6,7 @@ async function fetchUnits(callback) {
     let fragments = window.location.hash.split('/')
     let hash = window.location.hash
     if (fragments[0] == '#units') {
-        window.location.hash = 'loading...'
+        window.location.hash = 'loading'
     }
 
 
@@ -44,7 +44,7 @@ async function fetchUnits(callback) {
 
     for (var faction in factions.json) {
 
-        let format = faction.replace(/\s/g, '-').toLowerCase()
+        let format = faction.replaceAll(/\s/g, '-').toLowerCase()
 
         let li = document.createElement('li')
         li.classList.add('mb-1')
@@ -119,7 +119,7 @@ async function fetchUnits(callback) {
                 let max_range = 0
                 let total_dps = 0
 
-                let id = `${data.faction.replace(/\s/g, '-').toLowerCase()}-${data.type.replace(/\s/g, '-').toLowerCase()}-${data.unit.replace(/\s/g, '-').toLowerCase()}`
+                let id = `${data.faction.replaceAll(/\s/g, '-').toLowerCase()}-${data.type.replaceAll(/\s/g, '-').toLowerCase()}-${data.unit.replaceAll(/\s/g, '-').toLowerCase()}`
 
                 let imgpath = "resources/img/placeholder.png"
                 let style = ""
@@ -138,7 +138,7 @@ async function fetchUnits(callback) {
                 let json = JSON.parse(await response.text())
 
                 try {
-                    json.description = json.description.replace('!LOC:', '')
+                    json.description = json.description.replaceAll('!LOC:', '')
                 } catch (error) {
                     // legion siege walker causing errors i cba bro
                 }
@@ -160,8 +160,8 @@ async function fetchUnits(callback) {
 
                 }
 
-                let name = json.display_name.replace('!LOC:', '')
-                let format = data.unit.replace(/\s/g, '-').toLowerCase()
+                let name = json.display_name.replaceAll('!LOC:', '')
+                let format = data.unit.replaceAll(/\s/g, '-').toLowerCase()
                 let link = document.createElement('li')
                 link.innerHTML =
                     `<a class="link-light rounded text-decoration-none" style="opacity: 0; color: transparent">
@@ -187,16 +187,16 @@ async function fetchUnits(callback) {
                             str = '<span class="json-string" style="color: var(--bs-dark)">',
                             r = pIndent || '';
                         if (pKey)
-                            r = r + key + pKey.replace(/[": ]/g, '') + '</span>: ';
+                            r = r + key + pKey.replaceAll(/[": ]/g, '') + '</span>: ';
                         if (pVal)
                             r = r + (pVal[0] == '"' ? str : val) + pVal + '</span>';
                         return r + (pEnd || '');
                     };
 
                     return JSON.stringify(this, null, 3)
-                        .replace(/&/g, '&amp;').replace(/\\"/g, '&quot;')
-                        .replace(/</g, '&lt;').replace(/>/g, '&gt;')
-                        .replace(jsonLine, replacer);
+                        .replaceAll(/&/g, '&amp;').replaceAll(/\\"/g, '&quot;')
+                        .replaceAll(/</g, '&lt;').replaceAll(/>/g, '&gt;')
+                        .replaceAll(jsonLine, replacer);
                 }
 
                 // Behold the power of jank* code!
@@ -236,10 +236,10 @@ async function fetchUnits(callback) {
                             let weapon = {}
                             weapon.name = tool.spec_id.split("/")
                                 .pop()
-                                .replace(".json", "")
-                                .replace(`${data.unit}_`, "")
-                                .replace(/_/g, ' ')
-                                .replace(/(^\w|\s\w)/g, m => m.toUpperCase());
+                                .replaceAll(".json", "")
+                                .replaceAll(`${data.unit}_`, "")
+                                .replaceAll(/_/g, ' ')
+                                .replaceAll(/(^\w|\s\w)/g, m => m.toUpperCase());
                             if (_tool.max_range > max_range) {
                                 max_range = _tool.max_range
                                 markdown.max_range = `Max Range: <v class="value">${max_range}</v><br>`
@@ -261,7 +261,7 @@ async function fetchUnits(callback) {
                                 markdown.json += `${altfile[altfile.length - 1]}<pre><code>${_ammo.prettyPrint()}</code></pre>`
 
                                 if (_ammo.base_spec != undefined) {
-                                    let split = _ammo.base_spec.split("/").pop().replace(".json", "")
+                                    let split = _ammo.base_spec.split("/").pop().replaceAll(".json", "")
                                     const response = await fetch(`${data.factionpath}/ammo/${split}/${split}.json`);
 
                                     let _ammo_base = JSON.parse(await response.text());
@@ -287,13 +287,13 @@ async function fetchUnits(callback) {
 
                                     markdown.tools += `\nTarget Layers:\n`
                                     weapon.layers.forEach(layer => {
-                                        markdown.tools += `- <v class="value">${layer.replace("WL_","")}</v>\n`
+                                        markdown.tools += `- <v class="value">${layer.replaceAll("WL_","")}</v>\n`
                                     })
                                     if (_ammo.armor_damage_map != undefined) {
                                         markdown.tools += `\nArmor Damage Map:\n`
                                         for (var entry in _ammo.armor_damage_map) {
                                             if (entry != "prettyPrint") {
-                                                markdown.tools += `- ${entry.replace("AT_","")}: <v class="value">${_ammo.armor_damage_map[entry]}</v>\n`
+                                                markdown.tools += `- ${entry.replaceAll("AT_","")}: <v class="value">${_ammo.armor_damage_map[entry]}</v>\n`
                                             }
                                         }
                                     }
@@ -360,7 +360,7 @@ async function fetchUnits(callback) {
 
                     if (json.recon != undefined) {
                         json.recon.observer.items.forEach(item => {
-                            let name = item.layer.replace(/_/g, ' ').replace(/(^\w|\s\w)/g, m => m.toUpperCase());
+                            let name = item.layer.replaceAll(/_/g, ' ').replaceAll(/(^\w|\s\w)/g, m => m.toUpperCase());
                             markdown.observer[item.channel].push(`${name} radius: <v class="value">${item.radius}</v><br>`)
                         });
                     }
@@ -440,7 +440,7 @@ ${markdown.turn_speed}`
                             `### Unit Types
 `
                         json.unit_types.forEach(item => {
-                            let type = item.replace('UNITTYPE_', '')
+                            let type = item.replaceAll('UNITTYPE_', '')
                             markdown.unit_types += (` - <v class="value">${type}</v>
 `)
                         });
@@ -448,7 +448,7 @@ ${markdown.turn_speed}`
 
                     if (json.armor_type != undefined) {
                         markdown.armor_type =
-                            `Armor Type: <v class="value">${json.armor_type.replace("AT_","")}</v><br>`
+                            `Armor Type: <v class="value">${json.armor_type.replaceAll("AT_","")}</v><br>`
                     } else markdown.armor_type = ""
 
                     
@@ -532,6 +532,18 @@ ${markdown.tools}
 `
                     html = converter.makeHtml(markdown.content);
                     element.innerHTML = html
+                    let copy = document.createElement('div')
+                    copy.style.position = 'absolute'
+                    copy.style.top = '32px'
+                    copy.style.right = '64px'
+                    copy.innerHTML = 
+                    `<span class="material-symbols-outlined" id="url">
+                        link
+                    </span>`
+                    element.appendChild(copy)
+                    let faction = data.faction.replaceAll(' ', '-').toLowerCase()
+                    let local = location.protocol+'//'+location.host
+                    copy.setAttribute('url', `${local}/#units/${faction}/${data.type}/${data.unit}`)
 
                     document.getElementById(`${id}-switch`).addEventListener('click', function () {                        
                         if (this.checked) {
@@ -541,6 +553,23 @@ ${markdown.tools}
                     })
 
                     document.getElementById(`${id}-switch`).removeAttribute('disabled')
+
+                    copy.addEventListener('click', async function () {
+
+                        await new Promise(r => setTimeout(r, 250))
+                        copy.innerHTML = 
+                        `<span class="material-symbols-outlined" id="tick">
+                            check
+                        </span>`
+                        navigator.clipboard.writeText(copy.getAttribute('url'))
+                    })
+                    copy.addEventListener('mouseleave', async function () {
+                        await new Promise(r => setTimeout(r, 5000))
+                        copy.innerHTML = 
+                        `<span class="material-symbols-outlined" id="url">
+                            link
+                        </span>`
+                    })
                 })
 
             })

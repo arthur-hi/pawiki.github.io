@@ -29,7 +29,8 @@ async function fetchDocs(callback) {
                     </div>
                 `
         $('#docs-list').append(li)
-        let collapse = $(`#${format}-collapse`)[0]
+        let _collapse = `#${format}-collapse`
+        let collapse = $(_collapse)[0]
 
         root[directory].forEach(async file => {
 
@@ -49,6 +50,7 @@ async function fetchDocs(callback) {
             doc.file = format
             doc.content = data
             doc.link = link
+            doc.collapse = _collapse
             list.push(doc)
 
             link.style.position = 'relative'

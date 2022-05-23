@@ -12,22 +12,22 @@
 /* width */
 ::-webkit-scrollbar {
     width: 10px;
-  }
+}
   
-  /* Track */
-  ::-webkit-scrollbar-track {
+/* Track */
+::-webkit-scrollbar-track {
     background: #212529;
-  }
+}
   
   /* Handle */
-  ::-webkit-scrollbar-thumb {
+::-webkit-scrollbar-thumb {
     background: #495057;
-  }
+}
   
-  /* Handle on hover */
-  ::-webkit-scrollbar-thumb:hover {
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
     background: #343a40;
-  }
+}
 
 * {
     font-family: var(--font-body);
@@ -121,6 +121,34 @@ main {
 #btn:hover {
     cursor: pointer;
     color: white;
+}
+
+#url {
+    z-index: 3;
+    color: #adb5bd;
+    width: fit-content;
+    transition: color .25s;
+}
+#url:hover {
+    cursor: pointer;
+    color: white;
+    transition: color .25s;
+}
+#url:active {
+    color: #adb5bd;
+    transition: color .25s;
+}
+
+#tick {
+    color: #20c997;
+    transition: color .25s;
+}
+
+.noscroll {
+    overflow: hidden !important
+}
+.noscroll::-webkit-scrollbar {
+  display: none !important
 }
 
 header {
