@@ -1,4 +1,7 @@
-# Factory Spec
+<h1>
+    Factory Spec
+    <p>by Ferret-Master<br>from <a href="https://github.com/Ferret-Master/Planetary-Annihilation-Modding-Documentation" target="_blank">GitHub</a></p>
+</h1>
 
 Factorys in pa merged with weapons are fairly unique so have unique tags within a factory object, these are not needed for basic factorys, but are used for things like the unit cannon and nuke/anti nuke launchers
 

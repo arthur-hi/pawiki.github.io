@@ -1,4 +1,7 @@
-# Blender PAPA IO
+<h1>
+    Blender PAPA IO
+    <p>by Luther-1<br>from <a href="https://github.com/Luther-1/Blender-PAPA-IO" target="_blank">GitHub</a></p>
+</h1>
 Blender python extension to import and export model, texture, and animation data from the .PAPA file format for Planetary Annihilation.
 
 Written by Raevn and updated by Luther.

@@ -1,4 +1,7 @@
-# Armor Types
+<h1>
+    Armor Types
+    <p>by Ferret-Master<br>from <a href="https://github.com/Ferret-Master/Planetary-Annihilation-Modding-Documentation" target="_blank">GitHub</a></p>
+</h1>
 
 Armor types are used as a way to modify damage against certain kinds of units, most units have them defined in their base file
 

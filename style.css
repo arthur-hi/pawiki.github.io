@@ -257,6 +257,11 @@ a {
     cursor: pointer;
 }
 
+.doc a {
+    color: #f1662f !important;
+    text-decoration: none !important;
+}
+
 p {
     width: 90%;
 }

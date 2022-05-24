@@ -1,4 +1,7 @@
-# Unit Spec
+<h1>
+    Unit Spec
+    <p>by Ferret-Master<br>from <a href="https://github.com/Ferret-Master/Planetary-Annihilation-Modding-Documentation" target="_blank">GitHub</a></p>
+</h1>
 
 Some of the below info is sourced from https://forums.planetaryannihilation.com/threads/reference-unit-blueprints.47378/
 

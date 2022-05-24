@@ -1,4 +1,7 @@
-# Unit Types
+<h1>
+    Unit Types
+    <p>by Ferret-Master<br>from <a href="https://github.com/Ferret-Master/Planetary-Annihilation-Modding-Documentation" target="_blank">GitHub</a></p>
+</h1>
 
 This was sourced from [https://wiki.palobby.com/wiki/Planetary_Annihilation_Unit_Types]
 

@@ -1,4 +1,7 @@
-# World Layers
+<h1>
+    World Layers
+    <p>by Ferret-Master<br>from <a href="https://github.com/Ferret-Master/Planetary-Annihilation-Modding-Documentation" target="_blank">GitHub</a></p>
+</h1>
 
 World layers are used to defined the behaviour of many other parts of a unit.
 

@@ -1,4 +1,7 @@
-# PTexEdit
+<h1>
+    PTexEdit
+    <p>by Luther-1<br>from <a href="https://github.com/Luther-1/PTexEdit" target="_blank">GitHub</a></p>
+</h1>
 PTexEdit is a graphical Java application allowing for read and write operations on papa files.
 
 ### Launching

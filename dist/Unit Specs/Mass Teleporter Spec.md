@@ -1,4 +1,7 @@
-# Mass Teleporter
+<h1>
+    Mass Teleporter
+    <p>by Ferret-Master<br>from <a href="https://github.com/Ferret-Master/Planetary-Annihilation-Modding-Documentation" target="_blank">GitHub</a></p>
+</h1>
 
 Mass teleport is a partially implemented mechanic that I have heard was going to be used for a support commander. This was never completed so using this mechanic in its current state has many issues/bugs.
 

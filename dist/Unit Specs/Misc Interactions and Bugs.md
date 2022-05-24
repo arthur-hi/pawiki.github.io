@@ -1,4 +1,7 @@
-# Miscellaneous interactions/bugs
+<h1>
+    Miscellaneous interactions/bugs
+    <p>by Ferret-Master<br>from <a href="https://github.com/Ferret-Master/Planetary-Annihilation-Modding-Documentation" target="_blank">GitHub</a></p>
+</h1>
 
 ## Transport Related
 

@@ -1,4 +1,7 @@
-# Unit Specs
+<h1>
+    Unit Specs
+    <p>by Ferret-Master<br>from <a href="https://github.com/Ferret-Master/Planetary-Annihilation-Modding-Documentation" target="_blank">GitHub</a></p>
+</h1>
 
 This directory contains the documentation related to specs found in a units Json file.
 
