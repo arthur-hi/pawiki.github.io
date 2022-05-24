@@ -173,6 +173,8 @@ setInterval(() => {
                 case 36:
                     btn.style.left = '24px';
                     btn.style.color = null;
+                    $('#docs-sidebar')[0].style.height = `calc(100% - 79px)`
+                    $('#units-sidebar')[0].style.height = `calc(100% - 79px)`
                     break;
                 default:
                     btn.style.left = '-24px';
@@ -185,6 +187,8 @@ setInterval(() => {
                     $('#units-sidebar')[0].classList.remove('hide')
                     $('#units-sidebar')[0].style.left = `0px`
                     $('#units-content')[0].style.left = `${sidebarOffset+25}px`
+                    $('#docs-sidebar')[0].style.height = `calc(100% - 39px)`
+                    $('#units-sidebar')[0].style.height = `calc(100% - 39px)`
             }
         } else {
             switch (headerOffset) {
@@ -381,4 +385,69 @@ document.addEventListener('DOMContentLoaded', async () => {
             }
         }, 250)
     })
-});
+})
+
+async function sortBy(sort) {
+    await unitList.loaded
+    switch (sort) {
+        case 'Faction':
+            for (var faction of Object.keys(unitList.units)) {
+                for (var type of Object.keys(unitList.units[faction])) {
+                    // Sort by faction
+                    // CURRENTLY SORTING BY MOD NOT ACTUAL FACTION, CHECK FOR 'L_'
+                    unitList.units[faction][type]
+                    .sort((a, b) => a.faction.localeCompare(b.faction))
+                    .forEach(unit => {
+                        let parent = unit.element.parentNode
+                        unit.element.remove()
+                        parent.appendChild(unit.element)
+                    })
+                }
+            }
+        break;
+        case 'Unit Name':
+            for (var faction of Object.keys(unitList.units)) {
+                for (var type of Object.keys(unitList.units[faction])) {
+                    // Sort by name                    
+                    unitList.units[faction][type]
+                    .sort((a, b) => a.unitName.localeCompare(b.unitName))
+                    .forEach(unit => {
+                        let parent = unit.element.parentNode
+                        unit.element.remove()
+                        parent.appendChild(unit.element)
+                    })
+                }
+            }
+        break;
+        case 'Unit Type':
+            for (var faction of Object.keys(unitList.units)) {
+                for (var type of Object.keys(unitList.units[faction])) {
+                    // Sort by type
+                    // CURRENTLY SORTING BY UNIT TYPE FOLDER NOT ACTUAL UNIT TYPE, CHECK FOR unittype i.e bot or tank
+                    unitList.units[faction][type]
+                    .sort((a, b) => a.unitType.localeCompare(b.unitType))
+                    .forEach(unit => {
+                        let parent = unit.element.parentNode
+                        unit.element.remove()
+                        parent.appendChild(unit.element)
+                    })
+                }
+            }
+        break;
+        case 'File Name':
+            for (var faction of Object.keys(unitList.units)) {
+                for (var type of Object.keys(unitList.units[faction])) {
+                    // Sort by file
+                    unitList.units[faction][type]
+                    .sort((a, b) => a.fileName.localeCompare(b.fileName))
+                    .forEach(unit => {
+                        let parent = unit.element.parentNode
+                        unit.element.remove()
+                        parent.appendChild(unit.element)
+                    })
+                }
+            }
+        break;
+        //default: sortBy('Unit Name')
+    }
+}

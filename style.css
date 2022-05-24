@@ -341,8 +341,9 @@ main img {
 }
 
 .update {
+    font-size: x-small;
     position: relative;
-    top: -105px;
+    top: -64px;
     width: 200px;
     color: transparent;
     transition: 0.125s;

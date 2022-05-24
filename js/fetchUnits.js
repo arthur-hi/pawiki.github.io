@@ -1,4 +1,10 @@
-let unitlist = []
+let unitList = {
+    units: {},
+    count: 0
+}
+unitList.loaded = new Promise(resolve => {
+    unitList.resolve = resolve
+})
 let factions = {}
 async function fetchUnits(callback) {
     let fragments = window.location.hash.split('/')
@@ -27,8 +33,8 @@ async function fetchUnits(callback) {
             window.location.hash = hash
         }
     }
-    const response = await fetch('/units.json');
-    factions.json = JSON.parse(await response.text());
+    const response = await fetch('/units.json')
+    factions.json = JSON.parse(await response.text())
     for (var faction in factions.json) {
         let format = faction.replaceAll(/\s/g, '-').toLowerCase()
         let li = document.createElement('li')
@@ -46,6 +52,7 @@ async function fetchUnits(callback) {
                 `
         $('#unit-list').append(li)
         let collapse = $(`#${format}-collapse`)[0]
+        unitList.units[faction] = {}
         for (var unittype in factions.json[faction]) {
             type = unittype.toLowerCase()
             let li = document.createElement('li')
@@ -63,12 +70,15 @@ async function fetchUnits(callback) {
                     `
             collapse.append(li)
             let _collapse = $(`#${format}-${type}-collapse`)[0]
-            factions.json[faction][unittype].forEach(unit => {
+            unitList.units[faction][unittype] = []
+            factions.json[faction][unittype].forEach(async unit => {
                 count.total++
+                unitList.count++
                 $('#units-progress')[0].setAttribute('aria-valuemax', count.total)
                 let link = document.createElement('li')
                 link.id = `${format}-${type}-${unit}`
                 _collapse.children[0].appendChild(link)
+
             })
         }
     }
@@ -93,8 +103,9 @@ async function fetchUnits(callback) {
                     "type": unittype.toLowerCase(),
                     "unit": unit,
                     "factionpath": `resources/units/${faction}`,
-                    "unitpath": `resources/units/${faction}/${unittype.toLowerCase()}/${unit}`,
+                    "unitpath": `resources/units/${faction}/${unittype.toLowerCase()}/${unit}`
                 }
+                data.unitlistpath = unitList.units[data.faction][unittype]
 
                 let markdown = {
                     "max_range": "",
@@ -498,7 +509,24 @@ ${markdown.turn_speed}`
                     link.style.top = "10px"
                     link.style.left = "10px"
 
+                    object = { 
+                        'faction': data.faction ,
+                        'fileName': unit,
+                        'unitName': link.children[0].children[1].innerText,
+                        'unitType': data.type,
+                        'element': link,
+                    }
+                    // unittype: json.unit_types[0].replace('UNITTYPE_', '').toLowerCase()
+                    data.unitlistpath.push(object)
+                    unitList.count--
+                    if (object.fileName.startsWith('l_')) object.faction = 'Legion'
+                    try {
+                        object.unitType = json.unit_types[0].replace('UNITTYPE_', '').toLowerCase()
+                    } catch (error) {}
+
+                    if (unitList.count==0) unitList.resolve()
                     await tools.loaded
+
                     markdown.content =
                         `# ${name}
 <img src="${imgpath}" ${style}>
@@ -566,7 +594,7 @@ ${markdown.tools}
 
                     setInterval(() => {
                         copy.style.left = `${element.firstChild.getBoundingClientRect().width + 24}px`
-                    }, 250);
+                    }, 250)
                 })
 
             })
