@@ -344,8 +344,11 @@ document.addEventListener('DOMContentLoaded', async () => {
         })
         $('#units-nav').off('click');
         resetUnitsNav()
-    });
-
+    })
+    
+    await unitList.loaded
+    sortBy('File Name')
+    sortBy('Unit Type')
 
     $('#news-nav').one('click', function () {
         fetchNews()
@@ -448,6 +451,5 @@ async function sortBy(sort) {
                 }
             }
         break;
-        //default: sortBy('Unit Name')
     }
 }
