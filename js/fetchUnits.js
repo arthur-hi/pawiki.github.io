@@ -5,8 +5,7 @@ async function fetchUnits(callback) {
     let hash = window.location.hash
     if (fragments[0] == '#units') {
         window.location.hash = 'loading'
-    }
-    else {
+    } else {
         window.location.hash = 'loading'
         hash = 'units'
     }
@@ -135,44 +134,7 @@ async function fetchUnits(callback) {
                 }
                 style = "style='width: 128px; height: 128px;'"
 
-                response = await fetch(`${data.unitpath}/${data.unit}.json`);
-                let json = JSON.parse(await response.text())
-
-                try {
-                    json.description = json.description.replaceAll('!LOC:', '')
-                } catch (error) {
-                    // legion siege walker causing errors i cba bro
-                }
-
-                if (json.base_spec != undefined) {
-                    let split = json.base_spec.split("/")
-                    path = split[split.length - 3].toLowerCase();
-                    let base_spec = `${path}/${split[split.length - 2]}/${split[split.length - 1]}`
-
-                    const response = await fetch(`${data.factionpath}/${base_spec}`, {
-                        method: "HEAD"
-                    })
-                    if (response.ok) {
-                        const response = await fetch(`${data.factionpath}/${base_spec}`)
-                        base_spec = JSON.parse(await response.text());
-                        markdown.json += `${split.pop()}<pre><code>${await base_spec.prettyPrint()}</code></pre>`
-                        json = Object.assign({}, base_spec, json);
-                    }
-
-                }
-
-                let name = json.display_name.replaceAll('!LOC:', '')
-                let format = data.unit.replaceAll(/\s/g, '-').toLowerCase()
-                let link = document.getElementById(`${data.faction.replaceAll(' ','-').toLowerCase()}-${data.type}-${data.unit}`)
-                link.innerHTML =
-                    `<a class="link-light rounded text-decoration-none" style="opacity: 0; color: transparent">
-                        <img src="${imgpath}" style="position: absolute; left: -16px; top: calc(50% - 16px); width: 32px">
-                        <span style="position: relative; left: 16px;">${name}</span>
-                    </a>`
-                link.children[0].classList.add('collapse-link')
-                link.children[0].id = `${format}-link`
-                link.style.padding = "10px"
-
+                // Luther pointed out that this shouldnt be in the for loop but defining this before line 127 breaks code for ?? reason
                 /**
                  * Pretty Print JSON Objects.
                  * Inspired by http://jsfiddle.net/unLSJ/
@@ -180,7 +142,7 @@ async function fetchUnits(callback) {
                  * @return {string}    html string of the formatted JS object
                  * @example:  var obj = {"foo":"bar"};  obj.prettyPrint();
                  */
-                Object.prototype.prettyPrint = function () {
+                 Object.prototype.prettyPrint = function () {
                     var jsonLine = /^( *)("[\w]+": )?("[^"]*"|[\w.+-]*)?([,[{])?$/mg;
                     var replacer = function (match, pIndent, pKey, pVal, pEnd) {
                         var key = '<span class="json-key" style="color: var(--bs-orange)">',
@@ -199,6 +161,41 @@ async function fetchUnits(callback) {
                         .replaceAll(/</g, '&lt;').replaceAll(/>/g, '&gt;')
                         .replaceAll(jsonLine, replacer);
                 }
+
+                response = await fetch(`${data.unitpath}/${data.unit}.json`);
+                let json = JSON.parse(await response.text())                
+
+                if (json.base_spec != undefined) {
+                    let split = json.base_spec.split("/")
+                    path = split[split.length - 3].toLowerCase();
+                    let base_spec = `${path}/${split[split.length - 2]}/${split[split.length - 1]}`
+
+                    const response = await fetch(`${data.factionpath}/${base_spec}`, {
+                        method: "HEAD"
+                    })
+                    if (response.ok) {
+                        const response = await fetch(`${data.factionpath}/${base_spec}`)
+                        base_spec = JSON.parse(await response.text());
+                        markdown.json += `${split.pop()}<pre><code>${await base_spec.prettyPrint()}</code></pre>`
+                        json = Object.assign({}, base_spec, json);
+                    }
+
+                }
+                if (json.description) {
+                    json.description = json.description.replaceAll('!LOC:', '')
+                }
+
+                let name = json.display_name.replaceAll('!LOC:', '')
+                let format = data.unit.replaceAll(/\s/g, '-').toLowerCase()
+                let link = document.getElementById(`${data.faction.replaceAll(' ','-').toLowerCase()}-${data.type}-${data.unit}`)
+                link.innerHTML =
+                    `<a class="link-light rounded text-decoration-none" style="opacity: 0; color: transparent">
+                        <img src="${imgpath}" style="position: absolute; left: -16px; top: calc(50% - 16px); width: 32px">
+                        <span style="position: relative; left: 16px;">${name}</span>
+                    </a>`
+                link.children[0].classList.add('collapse-link')
+                link.children[0].id = `${format}-link`
+                link.style.padding = "10px"
 
                 // Behold the power of jank* code!
 
@@ -520,14 +517,10 @@ ${markdown.build_metal_cost}
 ${markdown.armor_type}
 ${markdown.max_range}
 ${markdown.total_dps}
-
 ${markdown.navigation}
-
 ${markdown.storageandproduction}
-
 ### Recon
 ${markdown.recon}
-
 ${markdown.unit_types}
 ${markdown.tools}
 `

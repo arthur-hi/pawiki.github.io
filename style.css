@@ -359,6 +359,24 @@ main img {
     box-shadow: none !important;
 }
 
+/*  WIP, working on horizontal spacing but bootstrap is messing things up
+.unit-doc-ul > ul {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    grid-gap: 1rem;
+    list-style: none !important;
+    list-style-type: none !important;
+}
+.unit-doc-ul > ul > li {
+    list-style: none !important;
+    list-style-type: none !important;
+    width: fit-content;
+    border: 1px solid #E2E2E2;
+    border-radius: .5rem;
+    width: fit-content;
+}
+*/
+
 .dark {
     transition: .25s;
     --bs-blue: #69e8fc;

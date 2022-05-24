@@ -16,11 +16,11 @@ async function focusFragment() {
                     if (newsDoc != null) {
                         let newsContent = document.getElementById('news-content')
                         let headerOffset = 50
-                        if(window.innerWidth < 768) headerOffset = 100
-                        newsContent.scrollTo(0, (newsDoc.getBoundingClientRect().top)-headerOffset)
+                        if (window.innerWidth < 768) headerOffset = 100
+                        newsContent.scrollTo(0, (newsDoc.getBoundingClientRect().top) - headerOffset)
                     }
                 }
-            break;
+                break;
             case '#docs':
                 let docs = document.getElementById('docs-nav')
                 docs.click()
@@ -36,7 +36,7 @@ async function focusFragment() {
                         }
                     }
                 }
-            break;
+                break;
             case '#units':
                 let units = document.getElementById('units-nav')
                 units.click()
@@ -58,7 +58,7 @@ async function focusFragment() {
                         }
                     }
                 }
-            break;
+                break;
         }
         if (!overrideWelcome) {
             let introductionCollapse = document.getElementById('introduction-collapse')
@@ -80,7 +80,7 @@ async function fetchNews() {
     if (fragments[0] == '#news') {
         window.location.hash = 'loading'
     }
-    
+
     $('.news-loading')[0].style.display = null
     let count = {
         current: 0,
@@ -110,7 +110,7 @@ async function fetchNews() {
     })
     root.news.forEach(async (entry, i) => {
 
-        let wait = (-(i-count.total)*200)-200
+        let wait = (-(i - count.total) * 200) - 200
 
         let news = $('#news-content')[0]
         const response = await fetch(`/dist/${entry}.md`)
@@ -122,12 +122,12 @@ async function fetchNews() {
         doc.id = `${(entry.replace(/\s/g, '-').toLowerCase()).split('/')[1]}-news`
         news.appendChild(doc)
         updateProgress()
-        
+
         let copy = document.createElement('div')
         copy.style.position = 'absolute'
         copy.classList.add('noscroll')
-        copy.innerHTML = 
-        `<span class="material-symbols-outlined" id="url">
+        copy.innerHTML =
+            `<span class="material-symbols-outlined" id="url">
             link
         </span>`
         doc.appendChild(copy)
@@ -135,23 +135,23 @@ async function fetchNews() {
             copy.style.top = `${(doc.getBoundingClientRect().top + document.querySelector('#news-content').scrollTop - 36) - (window.innerWidth/1000)}px`
             copy.style.left = `${doc.firstChild.getBoundingClientRect().width + 32}px`
         }, 250);
-        
-        let local = location.protocol+'//'+location.host
+
+        let local = location.protocol + '//' + location.host
         copy.setAttribute('url', `${local}/#news/${(entry.replace(/\s/g, '-').toLowerCase()).split('/')[1]}`)
 
         copy.addEventListener('click', async function () {
 
             await new Promise(r => setTimeout(r, 250))
-            copy.innerHTML = 
-            `<span class="material-symbols-outlined" id="tick">
+            copy.innerHTML =
+                `<span class="material-symbols-outlined" id="tick">
                 check
             </span>`
             navigator.clipboard.writeText(copy.getAttribute('url'))
         })
         copy.addEventListener('mouseleave', async function () {
             await new Promise(r => setTimeout(r, 5000))
-            copy.innerHTML = 
-            `<span class="material-symbols-outlined" id="url">
+            copy.innerHTML =
+                `<span class="material-symbols-outlined" id="url">
                 link
             </span>`
         })
@@ -246,7 +246,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             element.innerHTML = html
             $('#docs-content')[0].appendChild(element)
 
-            let collapse = doc.collapse.replace('#','').split('-')
+            let collapse = doc.collapse.replace('#', '').split('-')
             collapse.pop()
 
             doc.link.addEventListener('click', async () => {
@@ -264,8 +264,8 @@ document.addEventListener('DOMContentLoaded', async () => {
 
             let copy = document.createElement('div')
             copy.style.position = 'absolute'
-            copy.innerHTML = 
-            `<span class="material-symbols-outlined" id="url">
+            copy.innerHTML =
+                `<span class="material-symbols-outlined" id="url">
                 link
             </span>`
             element.appendChild(copy)
@@ -273,23 +273,23 @@ document.addEventListener('DOMContentLoaded', async () => {
                 copy.style.top = `${24 + (window.innerWidth/1000)}px`
                 copy.style.left = `${element.firstChild.getBoundingClientRect().width + 32}px`
             }, 250);
-            
-            let local = location.protocol+'//'+location.host
+
+            let local = location.protocol + '//' + location.host
             copy.setAttribute('url', `${local}/#docs/${collapse.toString().replace(',','-')}/${doc.file}`)
 
             copy.addEventListener('click', async function () {
 
                 await new Promise(r => setTimeout(r, 250))
-                copy.innerHTML = 
-                `<span class="material-symbols-outlined" id="tick">
+                copy.innerHTML =
+                    `<span class="material-symbols-outlined" id="tick">
                     check
                 </span>`
                 navigator.clipboard.writeText(copy.getAttribute('url'))
             })
             copy.addEventListener('mouseleave', async function () {
                 await new Promise(r => setTimeout(r, 5000))
-                copy.innerHTML = 
-                `<span class="material-symbols-outlined" id="url">
+                copy.innerHTML =
+                    `<span class="material-symbols-outlined" id="url">
                     link
                 </span>`
             })
@@ -314,7 +314,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     let unitsDoc = document.createElement('div')
     unitsDoc.id = "units-intro"
     unitsDoc.className = "doc unit-doc"
-    
+
     const response = await fetch(`/resources/units/README.md`);
     const data = await response.text();
 
@@ -342,7 +342,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         resetUnitsNav()
     });
 
-    
+
     $('#news-nav').one('click', function () {
         fetchNews()
         $('#news-nav').off('click');
@@ -360,25 +360,25 @@ document.addEventListener('DOMContentLoaded', async () => {
         update.className = "update"
 
         fetch('https://api.github.com/repos/asanull/pawiki.github.io/commits?per_page=1')
-        .then(res => res.json())
-        .then(res => {
-            let date = new Date(res[0].commit.author.date)
-            update.innerText = `latest commit:\n${date.toString()}`
-        })
+            .then(res => res.json())
+            .then(res => {
+                let date = new Date(res[0].commit.author.date)
+                update.innerText = `latest commit:\n${date.toString()}`
+            })
 
         let confetti = true
         setInterval(async () => {
             let news = document.getElementById('news-main')
             let pawikilaunch = document.getElementById('pawikixyzofficiallaunch')
-            
-            if (newsLoaded && news.classList.contains("visible") && pawikilaunch.parentNode.clientHeight-12 > pawikilaunch.parentNode.getBoundingClientRect().top && confetti) {
+
+            if (newsLoaded && news.classList.contains("visible") && pawikilaunch.parentNode.clientHeight - 12 > pawikilaunch.parentNode.getBoundingClientRect().top && confetti) {
                 await new Promise(r => setTimeout(r, 250))
-                if (newsLoaded && news.classList.contains("visible") && pawikilaunch.parentNode.clientHeight-12 > pawikilaunch.parentNode.getBoundingClientRect().top && confetti) {
+                if (newsLoaded && news.classList.contains("visible") && pawikilaunch.parentNode.clientHeight - 12 > pawikilaunch.parentNode.getBoundingClientRect().top && confetti) {
                     party.confetti(pawikilaunch)
                     confetti = false
                     pawikilaunch.addEventListener('click', () => confetti = true)
                 }
             }
-        },250)
+        }, 250)
     })
 });
