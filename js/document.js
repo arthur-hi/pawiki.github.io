@@ -341,6 +341,13 @@ document.addEventListener('DOMContentLoaded', async () => {
                     $(this)[0].style = "color: white"
                 })
             })
+        }).then(async () => {
+            await unitList.loaded
+            for (var faction of Object.keys(unitList.units)) {
+                for (var type of Object.keys(unitList.units[faction])) {
+                    unitList.units[faction][type].forEach(unit => unit.element.children[0].dataset.bsOriginalTitle = unit.unitType)
+                }
+            }
         })
         $('#units-nav').off('click');
         resetUnitsNav()
@@ -353,10 +360,6 @@ document.addEventListener('DOMContentLoaded', async () => {
     });
 
     $(document).ready(async function () {
-        $("body").tooltip({
-            selector: '[data-toggle=tooltip]'
-        });
-
         let update = document.createElement('div')
         document.getElementById('docs-sidebar').appendChild(update)
 
@@ -387,6 +390,11 @@ document.addEventListener('DOMContentLoaded', async () => {
     await unitList.loaded
     sortBy('File Name')
     sortBy('Unit Type')
+    const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
+    const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
+    $(tooltipTriggerList).on('mouseout', function () {
+        $(this).tooltip('hide')
+    })
 })
 
 async function sortBy(sort) {
@@ -396,59 +404,57 @@ async function sortBy(sort) {
             for (var faction of Object.keys(unitList.units)) {
                 for (var type of Object.keys(unitList.units[faction])) {
                     // Sort by faction
-                    // CURRENTLY SORTING BY MOD NOT ACTUAL FACTION, CHECK FOR 'L_'
                     unitList.units[faction][type]
-                    .sort((a, b) => a.faction.localeCompare(b.faction))
-                    .forEach(unit => {
-                        let parent = unit.element.parentNode
-                        unit.element.remove()
-                        parent.appendChild(unit.element)
-                    })
+                        .sort((a, b) => a.faction.localeCompare(b.faction))
+                        .forEach(unit => {
+                            let parent = unit.element.parentNode
+                            unit.element.remove()
+                            parent.appendChild(unit.element)
+                        })
                 }
             }
-        break;
+            break;
         case 'Unit Name':
             for (var faction of Object.keys(unitList.units)) {
                 for (var type of Object.keys(unitList.units[faction])) {
                     // Sort by name                    
                     unitList.units[faction][type]
-                    .sort((a, b) => a.unitName.localeCompare(b.unitName))
-                    .forEach(unit => {
-                        let parent = unit.element.parentNode
-                        unit.element.remove()
-                        parent.appendChild(unit.element)
-                    })
+                        .sort((a, b) => a.unitName.localeCompare(b.unitName))
+                        .forEach(unit => {
+                            let parent = unit.element.parentNode
+                            unit.element.remove()
+                            parent.appendChild(unit.element)
+                        })
                 }
             }
-        break;
+            break;
         case 'Unit Type':
             for (var faction of Object.keys(unitList.units)) {
                 for (var type of Object.keys(unitList.units[faction])) {
                     // Sort by type
-                    // CURRENTLY SORTING BY UNIT TYPE FOLDER NOT ACTUAL UNIT TYPE, CHECK FOR unittype i.e bot or tank
                     unitList.units[faction][type]
-                    .sort((a, b) => a.unitType.localeCompare(b.unitType))
-                    .forEach(unit => {
-                        let parent = unit.element.parentNode
-                        unit.element.remove()
-                        parent.appendChild(unit.element)
-                    })
+                        .sort((a, b) => a.unitType.localeCompare(b.unitType))
+                        .forEach(unit => {
+                            let parent = unit.element.parentNode
+                            unit.element.remove()
+                            parent.appendChild(unit.element)
+                        })
                 }
             }
-        break;
+            break;
         case 'File Name':
             for (var faction of Object.keys(unitList.units)) {
                 for (var type of Object.keys(unitList.units[faction])) {
                     // Sort by file
                     unitList.units[faction][type]
-                    .sort((a, b) => a.fileName.localeCompare(b.fileName))
-                    .forEach(unit => {
-                        let parent = unit.element.parentNode
-                        unit.element.remove()
-                        parent.appendChild(unit.element)
-                    })
+                        .sort((a, b) => a.fileName.localeCompare(b.fileName))
+                        .forEach(unit => {
+                            let parent = unit.element.parentNode
+                            unit.element.remove()
+                            parent.appendChild(unit.element)
+                        })
                 }
             }
-        break;
+            break;
     }
 }

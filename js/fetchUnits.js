@@ -200,7 +200,7 @@ async function fetchUnits(callback) {
                 let format = data.unit.replaceAll(/\s/g, '-').toLowerCase()
                 let link = document.getElementById(`${data.faction.replaceAll(' ','-').toLowerCase()}-${data.type}-${data.unit}`)
                 link.innerHTML =
-                    `<a class="link-light rounded text-decoration-none" style="opacity: 0; color: transparent">
+                    `<a class="link-light rounded text-decoration-none" style="opacity: 0; color: transparent" data-bs-toggle="tooltip" data-bs-placement="right" title="">
                         <img src="${imgpath}" style="position: absolute; left: -16px; top: calc(50% - 16px); width: 32px">
                         <span style="position: relative; left: 16px;">${name}</span>
                     </a>`
@@ -516,17 +516,51 @@ ${markdown.turn_speed}`
                         'unitType': data.type,
                         'element': link,
                     }
-                    // unittype: json.unit_types[0].replace('UNITTYPE_', '').toLowerCase()
                     data.unitlistpath.push(object)
                     unitList.count--
                     if (object.fileName.startsWith('l_')) object.faction = 'Legion'
                     try {
-                        object.unitType = json.unit_types[0].replace('UNITTYPE_', '').toLowerCase()
-                    } catch (error) {}
+
+                        if (json.unit_types.includes('UNITTYPE_Titan')) {
+                            object.unitType = 'Titan'
+                        }
+                        else if (json.unit_types.includes('UNITTYPE_Factory')) {
+                            object.unitType = 'Factory'
+                        }
+                        else if (json.unit_types.includes('UNITTYPE_Air')) {
+                            object.unitType = 'Air'
+                        }
+                        else if (json.unit_types.includes('UNITTYPE_Bot')) {
+                            object.unitType = 'Bot'
+                        }
+                        else if (json.unit_types.includes('UNITTYPE_Tank')) {
+                            object.unitType = 'Tank'
+                        }
+                        else if (json.unit_types.includes('UNITTYPE_Naval')) {
+                            object.unitType = 'Naval'
+                        }
+                        else if (json.unit_types.includes('UNITTYPE_Orbital')) {
+                            object.unitType = 'Orbital'
+                        }
+                        else if (json.unit_types.includes('UNITTYPE_Defense')) {
+                            object.unitType = 'Defense'
+                        }
+                        else if (json.unit_types.includes('UNITTYPE_Offense')) {
+                            object.unitType = 'Offense'
+                        }
+                        else if (json.unit_types.includes('UNITTYPE_Economy')) {
+                            object.unitType = 'Economy'
+                        }
+                        else if (json.unit_types.includes('UNITTYPE_Structure')) {
+                            object.unitType = 'Structure'
+                        }
+
+                    } catch (error) {
+                        // I rly rly need to work on fixing commanders
+                    }
 
                     if (unitList.count==0) unitList.resolve()
                     await tools.loaded
-
                     markdown.content =
                         `# ${name}
 <img src="${imgpath}" ${style}>

@@ -364,6 +364,9 @@ main img {
     border: none !important;
     box-shadow: none !important;
 }
+.tooltip {
+    pointer-events: none;
+}
 
 /*  WIP, working on horizontal spacing but bootstrap is messing things up
 .unit-doc-ul > ul {
