@@ -345,10 +345,6 @@ document.addEventListener('DOMContentLoaded', async () => {
         $('#units-nav').off('click');
         resetUnitsNav()
     })
-    
-    await unitList.loaded
-    sortBy('File Name')
-    sortBy('Unit Type')
 
     $('#news-nav').one('click', function () {
         fetchNews()
@@ -388,6 +384,9 @@ document.addEventListener('DOMContentLoaded', async () => {
             }
         }, 250)
     })
+    await unitList.loaded
+    sortBy('File Name')
+    sortBy('Unit Type')
 })
 
 async function sortBy(sort) {
