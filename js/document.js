@@ -401,11 +401,12 @@ async function sortBy(sort) {
     await unitList.loaded
     switch (sort) {
         case 'Faction':
+            document.getElementById('sortby').innerText = 'Faction'
             for (var faction of Object.keys(unitList.units)) {
                 for (var type of Object.keys(unitList.units[faction])) {
                     // Sort by faction
                     unitList.units[faction][type]
-                        .sort((a, b) => a.faction.localeCompare(b.faction))
+                        .sort((a, b) => b.faction.localeCompare(a.faction))
                         .forEach(unit => {
                             let parent = unit.element.parentNode
                             unit.element.remove()
@@ -415,6 +416,7 @@ async function sortBy(sort) {
             }
             break;
         case 'Unit Name':
+            document.getElementById('sortby').innerText = 'Name'
             for (var faction of Object.keys(unitList.units)) {
                 for (var type of Object.keys(unitList.units[faction])) {
                     // Sort by name                    
@@ -429,20 +431,25 @@ async function sortBy(sort) {
             }
             break;
         case 'Unit Type':
+            document.getElementById('sortby').innerText = 'Type'
             for (var faction of Object.keys(unitList.units)) {
                 for (var type of Object.keys(unitList.units[faction])) {
                     // Sort by type
                     unitList.units[faction][type]
                         .sort((a, b) => a.unitType.localeCompare(b.unitType))
-                        .forEach(unit => {
+                        .forEach(async unit => {
                             let parent = unit.element.parentNode
                             unit.element.remove()
+                            let wait = 0
+                            if (unit.isStructure) wait = 100
+                            await new Promise(r => setTimeout(r, wait))
                             parent.appendChild(unit.element)
                         })
                 }
             }
             break;
         case 'File Name':
+            document.getElementById('sortby').innerText = 'File'
             for (var faction of Object.keys(unitList.units)) {
                 for (var type of Object.keys(unitList.units[faction])) {
                     // Sort by file

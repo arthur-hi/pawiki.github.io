@@ -276,8 +276,6 @@ async function fetchUnits(callback) {
                                     markdown.json += `${split}.json<pre><code>${_ammo_base.prettyPrint()}</code></pre>`
                                 }
 
-                                total_dps += _ammo.damage * _tool.rate_of_fire
-
                                 let ppf = 1
                                 weapon.layers = _tool.target_layers
                                 if (weapon.layers != undefined) {
@@ -307,7 +305,7 @@ async function fetchUnits(callback) {
                                     }
                                 }
 
-                                total_dps *= ppf
+                                total_dps += (_ammo.damage * _tool.rate_of_fire) * ppf
                                 markdown.total_dps = `Total DPS: <v class="value">${total_dps}</v><br>`
 
                             } else if (isFabber) {
@@ -514,12 +512,17 @@ ${markdown.turn_speed}`
                         'fileName': unit,
                         'unitName': link.children[0].children[1].innerText,
                         'unitType': data.type,
+                        'isStructure' : false,
                         'element': link,
                     }
                     data.unitlistpath.push(object)
                     unitList.count--
                     if (object.fileName.startsWith('l_')) object.faction = 'Legion'
                     try {
+
+                        if (json.unit_types.includes('UNITTYPE_Structure')) {
+                            object.isStructure = true
+                        }
 
                         if (json.unit_types.includes('UNITTYPE_Titan')) {
                             object.unitType = 'Titan'
