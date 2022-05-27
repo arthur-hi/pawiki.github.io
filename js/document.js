@@ -297,22 +297,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                     link
                 </span>`
             })
-        });
-
-        await new Promise(r => setTimeout(r, 1000));
-        $('pre').each(function (i, block) {
-            $(block).click(async () => {
-                navigator.clipboard.writeText($(this).text())
-                $("#copied").toast("show");
-            });
-        });
-        $('.value').each(function (i, block) {
-            $(block).click(async () => {
-                navigator.clipboard.writeText($(this).text())
-                $("#copied").toast("show");
-            });
-        });
-
+        })
     })
 
     let unitsDoc = document.createElement('div')
@@ -464,4 +449,12 @@ async function sortBy(sort) {
             }
             break;
     }
+}
+
+// To prevent local copies of the wiki affecting the stats at: https://hits.sh/pawiki.xyz/
+if (location.host == 'pawiki.xyz') {
+    let img = document.createElement('img')
+    img.src = 'https://hits.sh/pawiki.xyz.svg'
+    img.style = 'display: none'
+    document.body.appendChild(img)
 }

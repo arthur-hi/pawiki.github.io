@@ -173,8 +173,14 @@ async function fetchUnits(callback) {
                         .replaceAll(jsonLine, replacer);
                 }
 
+                function formatJSON(json) {
+                    return JSON.stringify(json).replaceAll("'", "\'")
+                }
+
                 response = await fetch(`${data.unitpath}/${data.unit}.json`);
                 let json = JSON.parse(await response.text())                
+
+                markdown.json += `${data.unit}.json<pre><code json='${formatJSON(json)}'>${json.prettyPrint()}</code></pre>`
 
                 if (json.base_spec != undefined) {
                     let split = json.base_spec.split("/")
@@ -187,7 +193,7 @@ async function fetchUnits(callback) {
                     if (response.ok) {
                         const response = await fetch(`${data.factionpath}/${base_spec}`)
                         base_spec = JSON.parse(await response.text());
-                        markdown.json += `${split.pop()}<pre><code>${await base_spec.prettyPrint()}</code></pre>`
+                        markdown.json += `${split.pop()}<pre><code json='${formatJSON(base_spec)}'>${await base_spec.prettyPrint()}</code></pre>`
                         json = Object.assign({}, base_spec, json);
                     }
 
@@ -209,8 +215,6 @@ async function fetchUnits(callback) {
                 link.style.padding = "10px"
 
                 // Behold the power of jank* code!
-
-                markdown.json += `${data.unit}.json<pre><code>${json.prettyPrint()}</code></pre>`
 
                 async function prep() {
                     updateProgress()
@@ -239,7 +243,7 @@ async function fetchUnits(callback) {
                             let isFabber
                             if (_tool.construction_demand != undefined) isFabber = true
 
-                            markdown.json += `${file[file.length - 1]}<pre><code>${_tool.prettyPrint()}</code></pre>`
+                            markdown.json += `${file[file.length - 1]}<pre><code json='${formatJSON(_tool)}'>${_tool.prettyPrint()}</code></pre>`
 
                             let weapon = {}
                             weapon.name = tool.spec_id.split("/")
@@ -266,14 +270,14 @@ async function fetchUnits(callback) {
                                 const response = await fetch(`${ammo}`);
 
                                 let _ammo = JSON.parse(await response.text());
-                                markdown.json += `${altfile[altfile.length - 1]}<pre><code>${_ammo.prettyPrint()}</code></pre>`
+                                markdown.json += `${altfile[altfile.length - 1]}<pre><code json='${formatJSON(_ammo)}'>${_ammo.prettyPrint()}</code></pre>`
 
                                 if (_ammo.base_spec != undefined) {
                                     let split = _ammo.base_spec.split("/").pop().replaceAll(".json", "")
                                     const response = await fetch(`${data.factionpath}/ammo/${split}/${split}.json`);
 
                                     let _ammo_base = JSON.parse(await response.text());
-                                    markdown.json += `${split}.json<pre><code>${_ammo_base.prettyPrint()}</code></pre>`
+                                    markdown.json += `${split}.json<pre><code json='${formatJSON(_ammo_base)}'>${_ammo_base.prettyPrint()}</code></pre>`
                                 }
 
                                 let ppf = 1
@@ -591,17 +595,58 @@ ${markdown.tools}
 `
                     html = converter.makeHtml(markdown.content);
                     element.innerHTML = html
-                    let copy = document.createElement('div')
-                    copy.style.position = 'absolute'
-                    copy.style.top = `${36 - (window.innerHeight/100)}px`
-                    copy.innerHTML =
+                    let copy = {url:""}
+
+                    $(element).find("code").each(function () {
+
+                        let code = document.createElement('div')
+                        code.style.position = 'relative'
+                        code.style.width = 'fit-content'
+                        code.innerHTML =
+                            `<span class="material-symbols-outlined" id="copy">
+                            content_copy
+                        </span>`
+                        this.appendChild(code)
+
+                        setInterval(() => {
+                            code.style.left = `${this.offsetWidth-24}px`
+                            code.style.bottom = `${this.offsetHeight-24}px`
+                        }, 250)
+
+                        code.addEventListener('click', async function () {
+
+                            await new Promise(r => setTimeout(r, 250))
+                            code.innerHTML =
+                                `<span class="material-symbols-outlined" id="tick">
+                                check
+                            </span>`
+                            navigator.clipboard.writeText(this.parentNode.getAttribute('json'))
+                        })
+                        code.addEventListener('mouseleave', async function () {
+                            await new Promise(r => setTimeout(r, 5000))
+                            code.innerHTML =
+                                `<span class="material-symbols-outlined" id="copy">
+                                content_copy
+                            </span>`
+                        })
+                    })
+                    $(element).find("v").each(function () {
+                        this.addEventListener('click', function () {
+                            navigator.clipboard.writeText(this.innerText)
+                        })
+                    })
+
+                    copy.url = document.createElement('div')
+                    copy.url.style.position = 'absolute'
+                    copy.url.style.top = `${36 - (window.innerHeight/100)}px`
+                    copy.url.innerHTML =
                         `<span class="material-symbols-outlined" id="url">
                         link
                     </span>`
-                    element.appendChild(copy)
+                    element.appendChild(copy.url)
                     let faction = data.faction.replaceAll(' ', '-').toLowerCase()
                     let local = location.protocol + '//' + location.host
-                    copy.setAttribute('url', `${local}/#units/${faction}/${data.type}/${data.unit}`)
+                    copy.url.setAttribute('url', `${local}/#units/${faction}/${data.type}/${data.unit}`)
 
                     document.getElementById(`${id}-switch`).addEventListener('click', function () {
                         if (this.checked) {
@@ -612,25 +657,25 @@ ${markdown.tools}
 
                     document.getElementById(`${id}-switch`).removeAttribute('disabled')
 
-                    copy.addEventListener('click', async function () {
+                    copy.url.addEventListener('click', async function () {
 
                         await new Promise(r => setTimeout(r, 250))
-                        copy.innerHTML =
+                        copy.url.innerHTML =
                             `<span class="material-symbols-outlined" id="tick">
                             check
                         </span>`
-                        navigator.clipboard.writeText(copy.getAttribute('url'))
+                        navigator.clipboard.writeText(copy.url.getAttribute('url'))
                     })
-                    copy.addEventListener('mouseleave', async function () {
+                    copy.url.addEventListener('mouseleave', async function () {
                         await new Promise(r => setTimeout(r, 5000))
-                        copy.innerHTML =
+                        copy.url.innerHTML =
                             `<span class="material-symbols-outlined" id="url">
                             link
                         </span>`
                     })
 
                     setInterval(() => {
-                        copy.style.left = `${element.firstChild.getBoundingClientRect().width + 24}px`
+                        copy.url.style.left = `${element.firstChild.getBoundingClientRect().width + 24}px`
                     }, 250)
                 })
 

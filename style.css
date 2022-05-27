@@ -139,9 +139,28 @@ main {
     transition: color .25s;
 }
 
+#copy {
+    z-index: 3;
+    color: #adb5bd;
+    width: fit-content;
+    transition: color .25s;
+}
+#copy:hover {
+    cursor: pointer;
+    color: white;
+    transition: color .25s;
+}
+#copy:active {
+    color: #adb5bd;
+    transition: color .25s;
+}
+
 #tick {
     color: #20c997;
     transition: color .25s;
+}
+#tick:hover {
+    cursor: default;
 }
 
 .noscroll {
@@ -324,10 +343,6 @@ pre {
 
 .dark pre {
     background-color: var(--bs-gray-100);
-}
-
-pre:hover {
-    cursor: pointer;
 }
 
 .collapse-link {
