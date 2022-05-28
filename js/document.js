@@ -333,6 +333,69 @@ document.addEventListener('DOMContentLoaded', async () => {
                 </span>`
             })
         })
+
+        $(document.body).find("p").each(function () {
+            if (this.innerHTML.includes(' | ')) {
+                let html = document.createElement('table')
+                html.className = 'table table-bordered table-dark'
+                html.style.width = 'fit-content'
+                let data = {
+                    head: false,
+                    leftAlign: false,
+                    rightAlign: false
+                }
+
+                this.innerHTML.split('\n').forEach(line => {
+                    switch (data.head) {
+                        case true:
+                            let head = document.createElement('thead')
+                            head.style.textAlign = 'center'
+
+                            let hrow = document.createElement('tr')
+                            line.split('|').forEach(cell => {
+                                let th = document.createElement('th')
+                                th.style.color = 'var(--bs-gray-900)'
+                                th.innerHTML = cell
+                                hrow.appendChild(th)
+                            })
+                            head.appendChild(hrow)
+                            html.appendChild(head)
+                            data.head = false
+                        break;
+                        default:
+                            let body = document.createElement('tbody')
+                            body.style.color = 'var(--bs-gray-200)'
+
+                            let brow = document.createElement('tr')
+                            let split = line.split('|')
+
+                            split.forEach((cell, index) => {
+                                if (cell.includes(':-')) {
+                                    switch (index) {
+                                        case 0:data.leftAlign = true;break;
+                                        case 1:data.rightAlign = true;break;
+                                    }
+                                }
+                            })
+
+                            if (split.includes('-')) break;
+                            split.forEach((cell, index) => {
+                                let td = document.createElement('td')
+                                td.style.color = 'var(--bs-gray-900)'
+                                td.innerHTML = cell
+                                brow.appendChild(td)
+                                if ((index == 0 && data.leftAlign)
+                                || (index == 1 && data.rightAlign)) td.style.textAlign = 'center'
+                            })
+                            body.appendChild(brow)
+                            html.appendChild(body)
+                        break;
+                    }
+
+                })
+                this.parentNode.replaceChild(html, this)
+            }
+        })
     })
 
     let unitsDoc = document.createElement('div')
