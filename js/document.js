@@ -340,7 +340,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                 html.className = 'table table-bordered table-dark'
                 html.style.width = 'fit-content'
                 let data = {
-                    head: false,
+                    head: true,
                     leftAlign: false,
                     rightAlign: false
                 }
