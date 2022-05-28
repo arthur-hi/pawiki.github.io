@@ -298,6 +298,41 @@ document.addEventListener('DOMContentLoaded', async () => {
                 </span>`
             })
         })
+
+        $(document.body).find("pre").each(function () {
+
+            this.style.paddingRight = "48px"
+            let code = this.children[0]
+            code.style.position = 'relative'
+            let copy = document.createElement('div')
+            copy.style.position = 'absolute'
+
+            copy.style.top = `-5px`
+            copy.style.left = `${this.getBoundingClientRect().width-64}px`
+
+            copy.innerHTML =
+                `<span class="material-symbols-outlined" id="copy">
+                content_copy
+            </span>`
+            code.appendChild(copy)
+
+            copy.addEventListener('click', async function () {
+
+                await new Promise(r => setTimeout(r, 250))
+                copy.innerHTML =
+                    `<span class="material-symbols-outlined" id="tick">
+                    check
+                </span>`
+                navigator.clipboard.writeText(code.innerText.slice(0, -5))
+            })
+            copy.addEventListener('mouseleave', async function () {
+                await new Promise(r => setTimeout(r, 5000))
+                copy.innerHTML =
+                    `<span class="material-symbols-outlined" id="copy">
+                    content_copy
+                </span>`
+            })
+        })
     })
 
     let unitsDoc = document.createElement('div')
