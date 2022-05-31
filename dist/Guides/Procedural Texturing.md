@@ -88,7 +88,7 @@ colored in with Sky Blue (No Specular) 00C3F7
 Example of Material:<br>
 <img src="/resources/img/docs/procedural texturing/material.png"><br><br><br>
 
-<img src="https://cdn.discordapp.com/attachments/489787100988964864/978662890473127967/tex_colours.png" style="width: 100%"><br><br>
+<img src="https://cdn.discordapp.com/attachments/489787100988964864/978662890473127967/tex_colours.png" style="width: 100%; max-width: 720"><br><br>
 
 Hex Color Codes:
 #### diffuse:
