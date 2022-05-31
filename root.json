@@ -3,6 +3,7 @@
     "documentDirectories": [
         "Introduction",
         "Unit Specs",
+        "Guides",
         "Tools"
     ],
     "news": [
@@ -29,6 +30,9 @@
         "Unit Spec",
         "Unit Types",
         "World Layers"
+    ],
+    "Guides": [
+        "Procedural Texturing"
     ],
     "Tools": [
         "Blender-PAPA-IO",

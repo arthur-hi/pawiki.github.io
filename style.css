@@ -354,6 +354,15 @@ main img {
     width: 400px;
     max-width: 100%;
 }
+.hex {
+    width: 16px;
+    height: 16px;
+    border-radius: 0;
+    margin-left: 8px;
+    margin-right: 6px;
+    position: relative;
+    top: -2px;
+}
 
 .update {
     font-size: x-small;

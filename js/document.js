@@ -222,18 +222,6 @@ let sidebarOffset = $('#docs-sidebar')[0].offsetWidth
 $('#docs-content')[0].style.left = `${sidebarOffset+25}px`
 $('#units-content')[0].style.left = `${sidebarOffset+25}px`
 
-let pos = {
-    x: 0,
-    y: 0
-}
-document.addEventListener('mousemove', event => {
-    pos.x = event.pageX
-    pos.y = event.pageY
-    $('.toast')[0].style.left = pos.x + 24 + 'px'
-    $('.toast')[0].style.top = pos.y - 24 + 'px'
-    $('.toast')[0].classList = "toast hide"
-})
-
 document.addEventListener('DOMContentLoaded', async () => {
     fetchDocs(async () => {
 
@@ -395,6 +383,16 @@ document.addEventListener('DOMContentLoaded', async () => {
                 })
                 this.parentNode.replaceChild(html, this)
             }
+        })
+
+        $(document.body).find(".hex").each(async function () {
+            await new Promise(r => setTimeout(r, 250))
+            this.style = `background: #${this.nextSibling.innerHTML} !important`
+        })
+        $(document.body).find("v").each(function () {
+            this.addEventListener('click', function () {
+                navigator.clipboard.writeText(this.innerText)
+            })
         })
     })
 
