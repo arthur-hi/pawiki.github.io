@@ -33,7 +33,7 @@ async function fetchUnits(callback) {
             window.location.hash = hash
         }
     }
-    const response = await fetch('/units.json')
+    const response = await fetch('./units.json')
     factions.json = JSON.parse(await response.text())
     for (var faction in factions.json) {
         let format = faction.replaceAll(/\s/g, '-').toLowerCase()
@@ -43,7 +43,7 @@ async function fetchUnits(callback) {
                     <button class="btn btn-toggle align-items-center text-white rounded collapsed"
                         data-bs-toggle="collapse" data-bs-target="#${format}-collapse" aria-expanded="false"
                         style="text-align: start; width: 100%;">
-                        ${faction}
+                        ${faction.replaceAll('-', ' ').replaceAll('Bugs', 'Bugs <span class="text-secondary">[WIP]</span>')}
                     </button>
                     <div class="collapse" id="${format}-collapse">
                         <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
@@ -102,8 +102,8 @@ async function fetchUnits(callback) {
                     "faction": faction,
                     "type": unittype.toLowerCase(),
                     "unit": unit,
-                    "factionpath": `resources/units/${faction}`,
-                    "unitpath": `resources/units/${faction}/${unittype.toLowerCase()}/${unit}`
+                    "factionpath": `./resources/units/${faction}`,
+                    "unitpath": `./resources/units/${faction}/${unittype.toLowerCase()}/${unit}`
                 }
                 data.unitlistpath = unitList.units[data.faction][unittype]
 
@@ -132,14 +132,14 @@ async function fetchUnits(callback) {
 
                 let id = `${data.faction.replaceAll(/\s/g, '-').toLowerCase()}-${data.type.replaceAll(/\s/g, '-').toLowerCase()}-${data.unit.replaceAll(/\s/g, '-').toLowerCase()}`
 
-                let imgpath = "resources/img/placeholder.png"
+                let imgpath = "./resources/img/placeholder.png"
                 let style = ""
 
-                let testpath = `/resources/img/upscaled/${unit}_icon_buildbar.png`
+                let testpath = `./resources/img/upscaled/${unit}_icon_buildbar.png`
                 let response = await fetch(testpath)
                 if (response.ok) imgpath = testpath
                 else {
-                    let testpath = `/resources/units/${data.faction}/${data.type}/${data.unit}/${data.unit}_icon_buildbar.png`
+                    let testpath = `./resources/units/${data.faction}/${data.type}/${data.unit}/${data.unit}_icon_buildbar.png`
                     let response = await fetch(testpath)
                     if (response.ok) imgpath = testpath
                 }
@@ -461,7 +461,7 @@ ${markdown.turn_speed}`
 
 
                     if (data.type == "commanders") {
-                        imgpath = `/resources/img/${data.type}/img_${data.unit}.png`
+                        imgpath = `./resources/img/${data.type}/img_${data.unit}.png`
                         style = ""
                     }
 

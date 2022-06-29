@@ -2,7 +2,7 @@
     "filesRemaining": 0,
     "documentDirectories": [
         "Introduction",
-        "Unit Specs",
+        "Unit-Specs",
         "Guides",
         "Tools"
     ],
@@ -21,18 +21,18 @@
         "Contribution",
         "About"
     ],
-    "Unit Specs": [
+    "Unit-Specs": [
         "README",
-        "Armor types",
-        "Factory Spec",
-        "Mass Teleporter Spec",
-        "Misc Interactions and Bugs",
-        "Unit Spec",
-        "Unit Types",
-        "World Layers"
+        "Armor-types",
+        "Factory-Spec",
+        "Mass-Teleporter-Spec",
+        "Misc-Interactions-and-Bugs",
+        "Unit-Spec",
+        "Unit-Types",
+        "World-Layers"
     ],
     "Guides": [
-        "Procedural Texturing"
+        "Procedural-Texturing"
     ],
     "Tools": [
         "Blender-PAPA-IO",

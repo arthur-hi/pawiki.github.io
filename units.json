@@ -1,5 +1,5 @@
 {
-    "Machine Liberation Army": {
+    "Machine-Liberation-Army": {
         "Commanders": [ 
             "imperial_able",
             "imperial_aceal",
@@ -311,7 +311,7 @@
             "l_torpedo_launcher_adv"
          ]
     },
-    "Second Wave": {
+    "Second-Wave": {
         "Air": [
             "adv_stealth_transport",
             "swordfish"
@@ -358,7 +358,7 @@
             "l_anti_orbital_ship"
         ]
     },
-    "Section 17": {
+    "Section-17": {
         "Air": [
             "horntail",
             "yellowjacket"
@@ -381,6 +381,120 @@
     "Dozer": {
         "Land": [
             "dozer"
+        ]
+    },
+    "Bugs": {
+        "Air": [
+            "air_factory",
+            "air_factory_adv",
+            "bug_air_fab",
+            "bug_air_fab_adv",
+            "bug_air_scout",
+            "bug_air_titan",
+            "bug_basilisk",
+            "bug_bomber",
+            "bug_bomber_adv",
+            "bug_fighter",
+            "bug_fighter_adv",
+            "bug_harpy",
+            "fabrication_aircraft",
+            "fabrication_aircraft_adv"
+        ],
+        "Land": [
+            "bot_factory",
+            "bot_factory_adv",
+            "bot_support_commander",
+            "bug_aa",
+            "bug_aa_big",
+            "bug_boomer",
+            "bug_boomer_big",
+            "bug_bot_fab",
+            "bug_bot_fab_advanced",
+            "bug_combat_fab",
+            "bug_crusher",
+            "bug_gren",
+            "bug_grunt",
+            "bug_grunt_big",
+            "bug_hydra",
+            "bug_laser_spider",
+            "bug_leech",
+            "bug_manticore",
+            "bug_matriarch",
+            "bug_needler",
+            "bug_ripper",
+            "bug_ripper_stealth",
+            "bug_runner",
+            "bug_scorcher",
+            "bug_sniper",
+            "bug_titan",
+            "bug_warrior",
+            "bug_warrior_big",
+            "fabrication_bot",
+            "fabrication_bot_adv",
+            "fabrication_bot_combat",
+            "fabrication_bot_combat_adv",
+            "fabrication_vehicle",
+            "fabrication_vehicle_adv",
+            "unit_cannon",
+            "vehicle_factory",
+            "vehicle_factory_adv"
+        ],
+        "Orbital": [
+            "orbital_fabrication_bot",
+            "orbital_factory",
+            "orbital_launcher"
+        ],
+        "Research": [
+            "advanced_research_station",
+            "basic_research_station"
+            
+        ],
+        "Unlocks": [
+            "bug_boomer_mine_unlock",
+            "bug_combat_fab_cheap_unlock",
+            "bug_crusher_unlock",
+            "bug_grunt_big_unlock",
+            "bug_hydra_unlock",
+            "bug_needler_fast_unlock",
+            "bug_ripper_stealth_unlock"
+        ],
+        "Sea": [
+            "fabrication_barge",
+            "fabrication_ship",
+            "fabrication_ship_adv",
+            "naval_factory",
+            "naval_factory_adv"
+        ],
+        "Structure": [
+            "advanced_air_hive",
+            "advanced_hive",
+            "basic_air_hive",
+            "basic_hive",
+            "basic_naval_hive",
+            "bug_aa_large",
+            "bug_aa_small",
+            "bug_advanced_energy",
+            "bug_advanced_extractor",
+            "bug_anti_nuke",
+            "bug_anti_orbital",
+            "bug_arty_large",
+            "bug_arty_small",
+            "bug_basic_energy",
+            "bug_basic_extractor",
+            "bug_catalyst",
+            "bug_combined_storage",
+            "bug_halley",
+            "bug_mine",
+            "bug_mine_big",
+            "bug_nuke",
+            "bug_orbital_launcher",
+            "bug_radar",
+            "bug_radar_advanced",
+            "bug_rag",
+            "bug_swarm_hive",
+            "bug_teleporter",
+            "bug_turret_acid",
+            "bug_turret_large"
         ]
     }
 } 

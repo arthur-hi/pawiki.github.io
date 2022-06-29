@@ -101,7 +101,7 @@ async function fetchNews() {
         }
     }
 
-    const response = await fetch('/root.json')
+    const response = await fetch('./root.json')
     const root = JSON.parse(await response.text())
 
     root.news.forEach(() => {
@@ -113,7 +113,7 @@ async function fetchNews() {
         let wait = (-(i - count.total) * 200) - 200
 
         let news = $('#news-content')[0]
-        const response = await fetch(`/dist/${entry}.md`)
+        const response = await fetch(`./dist/${entry}.md`)
         const data = await response.text()
         var converter = new showdown.Converter()
         let doc = document.createElement('div')
@@ -400,7 +400,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     unitsDoc.id = "units-intro"
     unitsDoc.className = "doc unit-doc"
 
-    const response = await fetch(`/resources/units/README.md`);
+    const response = await fetch(`./resources/units/README.md`);
     const data = await response.text();
 
     var converter = new showdown.Converter();

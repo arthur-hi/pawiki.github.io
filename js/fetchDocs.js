@@ -3,7 +3,7 @@ async function fetchDocs(callback) {
 
     // Find all the files in the docs directory
 
-    const response = await fetch('/root.json');
+    const response = await fetch('./root.json');
     const root = JSON.parse(await response.text());
 
     root.documentDirectories.forEach(dir => {
@@ -43,7 +43,7 @@ async function fetchDocs(callback) {
             link.style.padding = "10px"
             collapse.children[0].appendChild(link)
 
-            const response = await fetch(`/dist/${directory}/${file}.md`);
+            const response = await fetch(`./dist/${directory}/${file}.md`);
             const data = await response.text();
 
             let doc = {}
