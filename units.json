@@ -497,7 +497,9 @@
             "bug_swarm_hive",
             "bug_teleporter",
             "bug_turret_acid",
-            "bug_turret_large"
+            "bug_turret_large",
+            "bug_turret_needle",
+            "bug_turret_spray"
         ]
     }
 } 
