@@ -1,8 +1,13 @@
 if (window.location.hash == '') window.location.hash = '#docs/introduction/welcome'
 let lastHash
 let overrideWelcome = false
+let site = {
+    document: {}
+}
+site.document.ready = new Promise(resolve => site.document.loaded = resolve)
 async function focusFragment() {
     if (window.location.hash !== lastHash) {
+        await site.document.ready
         lastHash = window.location.hash
         let fragments = window.location.hash.split('/')
         switch (fragments[0]) {
@@ -224,7 +229,7 @@ $('#units-content')[0].style.left = `${sidebarOffset+25}px`
 
 document.addEventListener('DOMContentLoaded', async () => {
     fetchDocs(async () => {
-
+        site.document.loaded()
         list.forEach(doc => {
 
             let element = document.createElement('div')
