@@ -366,3 +366,12 @@ Below is a reminder of the current 1v1 ranked map rotation:
  - A rendering/startup issue with Linux based systems using Nvidia cards has been addressed.
  - Updates to some single player maps, to make the also viable as multiplayer maps, have been included.
  - A new chat mod, to replace the now defunct existing chat system has been included in the default mod list.
+
+## Patch #1: Ranking Fix
+ - Fix for Ranking/ladders not working.
+
+## Patch #2: Patch Notes
+ - Fixes for some maps.
+
+## Patch #3: Patchnotes
+ - Fix for skydome not showing up in mods.

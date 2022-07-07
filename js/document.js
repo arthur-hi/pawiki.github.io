@@ -457,21 +457,6 @@ document.addEventListener('DOMContentLoaded', async () => {
                 let date = new Date(res[0].commit.author.date)
                 update.innerText = `latest commit:\n${date.toString()}`
             })
-
-        let confetti = true
-        setInterval(async () => {
-            let news = document.getElementById('news-main')
-            let pawikilaunch = document.getElementById('pawikixyzofficiallaunch')
-
-            if (newsLoaded && news.classList.contains("visible") && pawikilaunch.parentNode.clientHeight - 12 > pawikilaunch.parentNode.getBoundingClientRect().top && confetti) {
-                await new Promise(r => setTimeout(r, 250))
-                if (newsLoaded && news.classList.contains("visible") && pawikilaunch.parentNode.clientHeight - 12 > pawikilaunch.parentNode.getBoundingClientRect().top && confetti) {
-                    party.confetti(pawikilaunch)
-                    confetti = false
-                    pawikilaunch.addEventListener('click', () => confetti = true)
-                }
-            }
-        }, 250)
     })
     await unitList.loaded
     sortBy('File Name')

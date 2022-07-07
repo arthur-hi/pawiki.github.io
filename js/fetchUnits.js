@@ -285,15 +285,35 @@ async function fetchUnits(callback) {
                                 if (weapon.layers != undefined) {
 
                                     markdown.tools += `### ${weapon.name}:\n`
+                                    
+                                    if (_tool.ammo_per_shot != undefined) {
+                                        markdown.tools += `${_tool.ammo_source[0].toUpperCase() + _tool.ammo_source.slice(1)} Consumption: <v class="value">${_tool.ammo_per_shot}</v><br>`
+                                    }
 
-                                    markdown.tools += `\nAmmo Damage: <v class="value">${_ammo.damage}</v><br>`
+                                    markdown.tools += `\nMax Range: <v class="value">${_tool.max_range}</v><br>`
+                                    if (_ammo.damage != 0) {
+                                        markdown.tools += `\nAmmo Damage: <v class="value">${_ammo.damage}</v><br>`
+                                    }
                                     markdown.tools += `Rate of Fire: <v class="value">${_tool.rate_of_fire}</v><br>`
 
                                     if (tool.projectiles_per_fire != undefined) {
                                         ppf = tool.projectiles_per_fire
                                         markdown.tools += `Projectiles per Fire: <v class="value">${ppf}</v><br>`
                                     }
-                                    markdown.tools += `Damage Per Second: <v class="value">${_ammo.damage * _tool.rate_of_fire * ppf}</v><br>\n`
+
+                                    if (_ammo.damage != 0) {
+                                        markdown.tools += `Damage per Second: <v class="value">${_ammo.damage * _tool.rate_of_fire * ppf}</v><br>\n`
+                                    }
+
+                                    if (_tool.ammo_per_shot != undefined) {
+                                        markdown.tools += `Ammo Capacity: <v class="value">${Math.ceil(_tool.ammo_capacity / _tool.ammo_per_shot)}</v><br>`
+                                    }
+
+                                    if (_ammo.spawn_unit_on_death != undefined) {
+                                        let unitname = `${(_ammo.spawn_unit_on_death.split('/')[5]).replaceAll(".json","")}`
+                                        markdown.tools += `Ammo Spawns: <v class="value">${unitname}</v><br>`
+                                    }
+
 
                                     markdown.tools += `\nTarget Layers:\n`
                                     weapon.layers.forEach(layer => {
@@ -310,14 +330,16 @@ async function fetchUnits(callback) {
                                 }
 
                                 total_dps += (_ammo.damage * _tool.rate_of_fire) * ppf
-                                markdown.total_dps = `Total DPS: <v class="value">${total_dps}</v><br>`
+                                if (total_dps != 0) {
+                                    markdown.total_dps = `Total DPS: <v class="value">${total_dps}</v><br>`
+                                }
 
                             } else if (isFabber) {
                                 markdown.tools += `### ${weapon.name}\n\n`
                                 if (_tool.max_range != undefined) {
                                     markdown.tools += `Max Range: <v class="value">${_tool.max_range}</v>\n<br>`
                                 }
-
+                                
                                 markdown.tools += `Energy Consumption: <v class="value">${_tool.construction_demand.energy}</v><br>`
                                 markdown.tools += `Metal Consumption: <v class="value">${_tool.construction_demand.metal}</v>\n<br>`
 
