@@ -13,7 +13,7 @@ async function fetchDocs(callback) {
     })
     root.documentDirectories.forEach(async directory => {
 
-        let format = directory.replace(/\s/g, '-').toLowerCase()
+        let format = directory.replaceAll(/\s/g, '-').toLowerCase()
 
         let li = document.createElement('li')
         li.classList.add('mb-1')
@@ -21,7 +21,7 @@ async function fetchDocs(callback) {
                     <button class="btn btn-toggle align-items-center text-white rounded collapsed"
                         data-bs-toggle="collapse" data-bs-target="#${format}-collapse" aria-expanded="false"
                         style="text-align: start; width: 100%;">
-                        ${directory}
+                        ${directory.replaceAll('-', ' ')}
                     </button>
                     <div class="collapse" id="${format}-collapse">
                         <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
@@ -37,7 +37,7 @@ async function fetchDocs(callback) {
             let format = file.replace(/\s/g, '-').toLowerCase();
             let link = document.createElement('li')
             link.innerHTML =
-                `<a class="link-light rounded text-decoration-none" style="color: var(--bs-gray-500)">${file}</a>`
+                `<a class="link-light rounded text-decoration-none" style="color: var(--bs-gray-500)">${file.replaceAll('-', ' ')}</a>`
             link.children[0].classList.add('collapse-link')
             link.children[0].id = `${format}-link`
             link.style.padding = "10px"

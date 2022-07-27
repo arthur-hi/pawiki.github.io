@@ -3,24 +3,18 @@
     <p>by Ferret-Master<br>from <a href="https://github.com/Ferret-Master/Planetary-Annihilation-Modding-Documentation" target="_blank">GitHub</a></p>
 </h1>
 
-Some of the below info is sourced from https://forums.planetaryannihilation.com/threads/reference-unit-blueprints.47378/
+Some of the below info is sourced from [Reference Unit Blueprints](https://forums.planetaryannihilation.com/threads/reference-unit-blueprints.47378/)
 
-A big reason for making this documentation was the missing values or lacking descriptions for some values in that existing info.
-
-areas that are complete in this original documentation will say to refer to it.
-
+A big reason for making this documentation was the missing values or lacking descriptions for some values in that existing info.<br>
+areas that are complete in this original documentation will say to refer to it.<br>
 Units in PA are defined using the JSON format, if you are unfamiliar with this format read the following short explanation.
 
-- Json files are effectively an object and defined by having two {} brackets around zero or more fields that have attached values.
-
+- JSON files are effectively an object and defined by having two { } brackets around zero or more fields that have attached values.
 - A field is defined with quotes on either side followed by a colon then the value you wish that field to have. E.g "radius": 4
-
-- A Json needs commas in between fields but not after the last field
-
+- A JSON needs commas in between fields but not after the last field
 - A field can also have another object as its value that can have its own fields and values. This is used for many of the fields in a unit spec.
 
-- Example Below
-
+Example Below
 ```json
 "model": {
 "filename": "/pa/units/land/assault_bot/assault_bot.papa",
@@ -36,15 +30,15 @@ Units in PA are defined using the JSON format, if you are unfamiliar with this f
 }
 ```
 
-- This example includes the model field and its value which is another object. This object contains fields for the filename,animations,animtree, and walkspeed. Some of these fields also have an object as its value.
+This example includes the model field and its value which is another object. This object contains fields for the filename,animations,animtree, and walkspeed. Some of these fields also have an object as its value.
 
 If the above explanation didn't make sense I recommend looking into the JSON format as understanding it is needed for unit modding.
 
 ## File types that may be mentioned
 
-- **example.papa** This file is the format PA stores its model information in, it is also used for animations and textures.
+- **.papa**: This file is the format PA stores its model information in, it is also used for animations and textures.
 
-- **example.fbx** This file is the format pa uses for its particle system and most of the effects you see in game are defined in this format. If you want an detailed explanation of the particle system see the link and attached document in that link. [https://wiki.palobby.com/wiki/Particle_System_Reference]
+- **.fbx**: This file is the format pa uses for its particle system and most of the effects you see in game are defined in this format. If you want an detailed explanation of the particle system see the link and attached document in that link. [Particle System Reference](https://wiki.palobby.com/wiki/Particle_System_Reference)
 
 The Unit Spec is the main spec of the unit and contains all info needed for a units behaviour, stats, and appearance.
 
@@ -56,15 +50,15 @@ The less self explanatory fields will be given syntax examples/extended explanat
 
 This field includes several subfields
 
-- **filename** The path to the file from the top level directory of the game/your mod. The file format is papa which is the
+- **filename**: The path to the file from the top level directory of the game/your mod. The file format is papa which is the
 
-- **animations** An object that contains a field for each name and papa file animation that are based on unit state. See above json example
+- **animations**: An object that contains a field for each name and papa file animation that are based on unit state. See above json example
 
-- **animtree** A json file that links animations to actions
+- **animtree**: A json file that links animations to actions
 
-- **walk_speed** Modifies the speed of the walking animation
+- **walk_speed**: Modifies the speed of the walking animation
 
-- **skirt_decal** A json file that defines the ground texture below buildings
+- **skirt_decal**: A json file that defines the ground texture below buildings
 
 ### **unit_name**
 
@@ -299,43 +293,19 @@ Some values don't work properly, the following are known to work.
 
 ### **audio**
 
-See https://forums.planetaryannihilation.com/threads/reference-unit-blueprints.47378/ under Audio
+See [Reference Unit Blueprints](https://forums.planetaryannihilation.com/threads/reference-unit-blueprints.47378/) under Audio
 
 ### **events**
 
-See https://forums.planetaryannihilation.com/threads/reference-unit-blueprints.47378/ under Events
+See [Reference Unit Blueprints](https://forums.planetaryannihilation.com/threads/reference-unit-blueprints.47378/) under Events
 
 ### **headlights**
 
-See https://forums.planetaryannihilation.com/threads/reference-unit-blueprints.47378/ under Headlights
+See [Reference Unit Blueprints](https://forums.planetaryannihilation.com/threads/reference-unit-blueprints.47378/) under Headlights
 
 ### **armor_type"**
 
-defines the armor type of a unit, for more info see Armor Types
-
+defines the armor type of a unit, for more info see [Armor Types](#docs/unit-specs/armor-types)
 ```json
 "armor_type":"bot"
 ```
-
-
-
-### **testy**
-
-
-
-### **testy**
-
-
-
-### **testy**
-
-
-
-### **testy**
-
-
-
-
-## **Examples**
-
-A few complete examples will be listed here with the units being from the base game.

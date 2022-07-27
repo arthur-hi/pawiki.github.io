@@ -13,15 +13,14 @@ There have been quite a few additions, bugs and fixes in that short period of ti
 
 - <b>Bugs!</b> The new Bugs Faction can now be found under the Units tab.<br>
 <span class="text-secondary">
-This faction is a work in progress and many things are subject to change, the mod is currently available from the in-game mod manager and I highly recommend checking it out.
+This faction is a work in progress and many things are subject to change, the mod is currently available from the in-game mod manager and I highly recommend checking it out!
 </span>
 - Added dropdown to units sidebar for unit sorting.
 - Added new Guides section to documents page.
 - Added Link buttons to each page making it easier to share specific pages.
-- Overhauled Code Block experience, Added a copy button in the top right of each code block and removed previous behaviours.
+- Overhauled code block experience, Added a copy button in the top right of each code block and removed previous behaviours.
 - Units now list Ammo Consumption, Max Range, Ammo Capacity and Ammo spawns under each tool/weapon if applicable.
-- GitHub tables support, see more here:
-[https://docs.github.com/en/get-started/writing-on-github/working-with-advanced-formatting/organizing-information-with-tables](https://docs.github.com/en/get-started/writing-on-github/working-with-advanced-formatting/organizing-information-with-tables)
+- GitHub tables support, see more at [Organizing information with tables](https://docs.github.com/en/get-started/writing-on-github/working-with-advanced-formatting/organizing-information-with-tables)
 
 ### Fixes / Other Changes
 

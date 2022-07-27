@@ -2,7 +2,44 @@ if (window.location.hash == '') window.location.hash = '#docs/introduction/welco
 let lastHash
 let overrideWelcome = false
 let site = {
-    document: {}
+    document: {},
+    news: {
+        load: {
+            Game: true,
+            Community: true,
+            Wiki: true,
+        }
+    }
+}
+function missingDependency(dependency) {
+
+    Toastify({
+        text: `dependency '${dependency}' is missing`,
+        duration: 10000,
+        close: true,
+        gravity: "bottom", // `top` or `bottom`
+        position: "right", // `left`, `center` or `right`
+        style: {
+            background: "#212529",
+            boxShadow: "none"
+        },
+        onClick: function () {missingDependency(dependency)} // Callback after click
+    }).showToast();
+}
+try {
+    console.log(jQuery)
+} catch (error) {
+    missingDependency('jQuery.min.js')
+}
+try {
+    console.log(bootstrap)
+} catch (error) {
+    missingDependency('bootstrap.min.js')
+}
+try {
+    console.log(showdown)
+} catch (error) {
+    missingDependency('showdown.min.js')
 }
 site.document.ready = new Promise(resolve => site.document.loaded = resolve)
 async function focusFragment() {
@@ -64,6 +101,24 @@ async function focusFragment() {
                     }
                 }
                 break;
+
+            case '#game':
+                site.news.load.Game = true
+                site.news.load.Community = false
+                site.news.load.Wiki = false
+                let game = document.getElementById('news-nav')
+                game.click()
+                overrideWelcome = true
+                if (fragments[1] != undefined) {
+                    let newsDoc = document.getElementById(`${fragments[1].replace(/\s/g, '-').toLowerCase()}-news`)
+                    if (newsDoc != null) {
+                        let newsContent = document.getElementById('news-content')
+                        let headerOffset = 50
+                        if (window.innerWidth < 768) headerOffset = 100
+                        newsContent.scrollTo(0, (newsDoc.getBoundingClientRect().top) - headerOffset)
+                    }
+                }
+                break;
         }
         if (!overrideWelcome) {
             let introductionCollapse = document.getElementById('introduction-collapse')
@@ -115,51 +170,64 @@ async function fetchNews() {
     })
     root.news.forEach(async (entry, i) => {
 
-        let wait = (-(i - count.total) * 200) - 200
+        let gate = true
+        switch (entry.split('/')[0]) {
+            case "Game":
+                if (site.news.load.Game) gate = false
+                break;
+            case "Community":
+                if (site.news.load.Community) gate = false
+                break;
+            case "Wiki":
+                if (site.news.load.Wiki) gate = false
+                break;
+        }
+        if (!gate) {
+            let wait = (-(i - count.total) * 200) - 200
+            let news = $('#news-content')[0]
+            const response = await fetch(`./dist/${entry}.md`)
+            const data = await response.text()
+            var converter = new showdown.Converter()
+            let doc = document.createElement('div')
+            doc.innerHTML = converter.makeHtml(data)
+            await new Promise(resolve => setTimeout(resolve, wait))
+            doc.id = `${(entry.replace(/\s/g, '-').toLowerCase()).split('/')[1]}-news`
+            news.appendChild(doc)
 
-        let news = $('#news-content')[0]
-        const response = await fetch(`./dist/${entry}.md`)
-        const data = await response.text()
-        var converter = new showdown.Converter()
-        let doc = document.createElement('div')
-        doc.innerHTML = converter.makeHtml(data)
-        await new Promise(resolve => setTimeout(resolve, wait))
-        doc.id = `${(entry.replace(/\s/g, '-').toLowerCase()).split('/')[1]}-news`
-        news.appendChild(doc)
-        updateProgress()
-
-        let copy = document.createElement('div')
-        copy.style.position = 'absolute'
-        copy.classList.add('noscroll')
-        copy.innerHTML =
-            `<span class="material-symbols-outlined" id="url">
-            link
-        </span>`
-        doc.appendChild(copy)
-        setInterval(() => {
-            copy.style.top = `${(doc.getBoundingClientRect().top + document.querySelector('#news-content').scrollTop - 36) - (window.innerWidth/1000)}px`
-            copy.style.left = `${doc.firstChild.getBoundingClientRect().width + 32}px`
-        }, 250);
-
-        let local = location.protocol + '//' + location.host
-        copy.setAttribute('url', `${local}/#news/${(entry.replace(/\s/g, '-').toLowerCase()).split('/')[1]}`)
-
-        copy.addEventListener('click', async function () {
-
-            await new Promise(r => setTimeout(r, 250))
-            copy.innerHTML =
-                `<span class="material-symbols-outlined" id="tick">
-                check
-            </span>`
-            navigator.clipboard.writeText(copy.getAttribute('url'))
-        })
-        copy.addEventListener('mouseleave', async function () {
-            await new Promise(r => setTimeout(r, 5000))
+            let copy = document.createElement('div')
+            copy.style.position = 'absolute'
+            copy.classList.add('noscroll')
             copy.innerHTML =
                 `<span class="material-symbols-outlined" id="url">
                 link
             </span>`
-        })
+            doc.appendChild(copy)
+            setInterval(() => {
+                copy.style.top = `${(doc.getBoundingClientRect().top + document.querySelector('#news-content').scrollTop - 36) - (window.innerWidth/1000)}px`
+                copy.style.left = `${doc.firstChild.getBoundingClientRect().width + 32}px`
+            }, 250);
+
+            let local = location.protocol + '//' + location.host
+            copy.setAttribute('url', `${local}/#news/${(entry.replace(/\s/g, '-').toLowerCase()).split('/')[1]}`)
+
+            copy.addEventListener('click', async function () {
+
+                await new Promise(r => setTimeout(r, 250))
+                copy.innerHTML =
+                    `<span class="material-symbols-outlined" id="tick">
+                    check
+                </span>`
+                navigator.clipboard.writeText(copy.getAttribute('url'))
+            })
+            copy.addEventListener('mouseleave', async function () {
+                await new Promise(r => setTimeout(r, 5000))
+                copy.innerHTML =
+                    `<span class="material-symbols-outlined" id="url">
+                    link
+                </span>`
+            })
+        }
+        updateProgress()
     })
 }
 
@@ -354,7 +422,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                             head.appendChild(hrow)
                             html.appendChild(head)
                             data.head = false
-                        break;
+                            break;
                         default:
                             let body = document.createElement('tbody')
                             body.style.color = 'var(--bs-gray-200)'
@@ -365,8 +433,12 @@ document.addEventListener('DOMContentLoaded', async () => {
                             split.forEach((cell, index) => {
                                 if (cell.includes(':-')) {
                                     switch (index) {
-                                        case 0:data.leftAlign = true;break;
-                                        case 1:data.rightAlign = true;break;
+                                        case 0:
+                                            data.leftAlign = true;
+                                            break;
+                                        case 1:
+                                            data.rightAlign = true;
+                                            break;
                                     }
                                 }
                             })
@@ -377,12 +449,12 @@ document.addEventListener('DOMContentLoaded', async () => {
                                 td.style.color = 'var(--bs-gray-900)'
                                 td.innerHTML = cell
                                 brow.appendChild(td)
-                                if ((index == 0 && data.leftAlign)
-                                || (index == 1 && data.rightAlign)) td.style.textAlign = 'center'
+                                if ((index == 0 && data.leftAlign) ||
+                                    (index == 1 && data.rightAlign)) td.style.textAlign = 'center'
                             })
                             body.appendChild(brow)
                             html.appendChild(body)
-                        break;
+                            break;
                     }
 
                 })
@@ -408,7 +480,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     const response = await fetch(`./resources/units/README.md`);
     const data = await response.text();
 
-    var converter = new showdown.Converter();
+    var converter = new showdown.Converter();    
     converter.setOption('literalMidWordAsterisks', true)
     converter.setOption('literalMidWordUnderscores', true)
     html = converter.makeHtml(data);

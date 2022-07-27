@@ -284,29 +284,28 @@ async function fetchUnits(callback) {
                                 weapon.layers = _tool.target_layers
                                 if (weapon.layers != undefined) {
 
+                                    if (_tool.ammo_source != undefined) {
+                                        weapon.ammo = _tool.ammo_source[0].toUpperCase() + _tool.ammo_source.slice(1)
+                                    } else weapon.ammo = "Ammo"
+
                                     markdown.tools += `### ${weapon.name}:\n`
-                                    
-                                    if (_tool.ammo_per_shot != undefined) {
-                                        markdown.tools += `${_tool.ammo_source[0].toUpperCase() + _tool.ammo_source.slice(1)} Consumption: <v class="value">${_tool.ammo_per_shot}</v><br>`
+
+                                    if (_tool.ammo_source != undefined) {
+                                        markdown.tools += `Ammo Source: <v class="value">${weapon.ammo}</v><br>`
                                     }
 
                                     markdown.tools += `\nMax Range: <v class="value">${_tool.max_range}</v><br>`
-                                    if (_ammo.damage != 0) {
-                                        markdown.tools += `\nAmmo Damage: <v class="value">${_ammo.damage}</v><br>`
-                                    }
-                                    markdown.tools += `Rate of Fire: <v class="value">${_tool.rate_of_fire}</v><br>`
-
-                                    if (tool.projectiles_per_fire != undefined) {
-                                        ppf = tool.projectiles_per_fire
-                                        markdown.tools += `Projectiles per Fire: <v class="value">${ppf}</v><br>`
-                                    }
-
-                                    if (_ammo.damage != 0) {
-                                        markdown.tools += `Damage per Second: <v class="value">${_ammo.damage * _tool.rate_of_fire * ppf}</v><br>\n`
-                                    }
 
                                     if (_tool.ammo_per_shot != undefined) {
                                         markdown.tools += `Ammo Capacity: <v class="value">${Math.ceil(_tool.ammo_capacity / _tool.ammo_per_shot)}</v><br>`
+                                    }
+
+                                    if (_tool.ammo_demand != undefined) {
+
+                                        markdown.tools += `Charge Time: <v class="value">${_tool.ammo_capacity / _tool.ammo_demand}s</v>`
+                                        if (_tool.ammo_per_shot < _tool.ammo_capacity) {
+                                            markdown.tools += `, <v class="value">${Math.ceil(_tool.ammo_per_shot / _tool.ammo_demand)}s per shot</v><br>`
+                                        } else markdown.tools += `<br>`
                                     }
 
                                     if (_ammo.spawn_unit_on_death != undefined) {
@@ -314,10 +313,23 @@ async function fetchUnits(callback) {
                                         markdown.tools += `Ammo Spawns: <v class="value">${unitname}</v><br>`
                                     }
 
+                                    if (_ammo.damage != 0) {
+                                        markdown.tools += `\nAmmo Damage: <v class="value">${_ammo.damage}</v><br>`
+                                    }
+                                    
+                                    if (tool.projectiles_per_fire != undefined) {
+                                        ppf = tool.projectiles_per_fire
+                                        markdown.tools += `Projectiles per Fire: <v class="value">${ppf}</v><br>`
+                                    }
 
-                                    markdown.tools += `\nTarget Layers:\n`
+                                    if (_ammo.damage != 0) {
+                                        markdown.tools += `Damage per Second: <v class="value">${Math.ceil(_ammo.damage * _tool.rate_of_fire * ppf)}</v><br>`
+                                    }
+
+
+                                    markdown.tools += `\n##### Target Layers\n`
                                     weapon.layers.forEach(layer => {
-                                        markdown.tools += `- <v class="value">${layer.replaceAll("WL_","")}</v>\n`
+                                        markdown.tools += `* <v class="value">${layer.replaceAll("WL_","")}</v>\n`
                                     })
                                     if (_ammo.armor_damage_map != undefined) {
                                         markdown.tools += `\nArmor Damage Map:\n`
@@ -327,11 +339,26 @@ async function fetchUnits(callback) {
                                             }
                                         }
                                     }
+                                    
+                                    markdown.tools += `##### Advanced Statistics\n`
+                                    
+                                    if (_tool.ammo_capacity != undefined) {
+                                        markdown.tools += `${weapon.ammo} Capacity: <v class="value">${_tool.ammo_capacity}</v><br>`
+                                    }
+                                    if (_tool.ammo_per_shot != undefined) {
+                                        markdown.tools += `${weapon.ammo} per Shot: <v class="value">${_tool.ammo_per_shot}</v><br>`
+                                    }
+                                    if (_tool.ammo_per_shot != undefined) {
+                                        markdown.tools += `${weapon.ammo} Demand: <v class="value">${_tool.ammo_demand}</v><br>`
+                                    }
+                                    markdown.tools += `Rate of Fire: <v class="value">${_tool.rate_of_fire}</v><br>`
+
+                                    markdown.tools += `\n`
                                 }
 
                                 total_dps += (_ammo.damage * _tool.rate_of_fire) * ppf
                                 if (total_dps != 0) {
-                                    markdown.total_dps = `Total DPS: <v class="value">${total_dps}</v><br>`
+                                    markdown.total_dps = `Total DPS: <v class="value">${Math.ceil(total_dps)}</v><br>`
                                 }
 
                             } else if (isFabber) {
@@ -437,8 +464,7 @@ ${markdown.turn_speed}`
 
                     if (markdown.observer.sight.length > 0) {
                         markdown.recon +=
-                            `#### Sight
-`
+                            `#### Sight\n`
                         markdown.observer.sight.forEach(item => {
                             markdown.recon += item
                         })
@@ -446,19 +472,14 @@ ${markdown.turn_speed}`
 
                     if (markdown.observer.radar.length > 0) {
                         markdown.recon +=
-                            `\n
-#### Radar
-`
+                            `\n#### Radar`
                         markdown.observer.radar.forEach(item => {
                             markdown.recon += item
                         })
                     }
 
                     if (markdown.observer.radar_jammer.length > 0) {
-                        markdown.recon +=
-                            `\n
-#### Radar Jamming
-`
+                        markdown.recon += `\n#### Radar Jamming\n`
                         markdown.observer.radar_jammer.forEach(item => {
                             markdown.recon += item
                         })
@@ -466,13 +487,10 @@ ${markdown.turn_speed}`
 
                     markdown.unit_types = ""
                     if (json.unit_types != undefined) {
-                        markdown.unit_types =
-                            `### Unit Types
-`
+                        markdown.unit_types = `### Unit Types\n`
                         json.unit_types.forEach(item => {
                             let type = item.replaceAll('UNITTYPE_', '')
-                            markdown.unit_types += (` - <v class="value">${type}</v>
-`)
+                            markdown.unit_types += ` - <v class="value">${type}</v>\n`
                         });
                     }
 

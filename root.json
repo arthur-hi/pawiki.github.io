@@ -3,19 +3,21 @@
     "documentDirectories": [
         "Introduction",
         "Unit-Specs",
+        "Modding",
         "Guides",
         "Tools"
     ],
     "news": [
-        "Game Updates/HAPPY NEW YEAR UPDATES",
-        "Game Updates/TRANSLATIONS, AI AND MODERN UPDATES",
-        "Game Updates/HAPPY BIRTHDAY STRYKER UPDATES",
-        "Game Updates/HORSEFLY UPDATES",
-        "Game Updates/STAY SAFE UPDATES",
-        "Game Updates/RAINBOWS & UNICORNS UPDATES",
-        "Game Updates/BALANCE UPDATE",
-        "News/pawiki launch",
-        "News/update 1"
+        "Game/HAPPY NEW YEAR UPDATES",
+        "Game/TRANSLATIONS, AI AND MODERN UPDATES",
+        "Game/HAPPY BIRTHDAY STRYKER UPDATES",
+        "Game/HORSEFLY UPDATES",
+        "Game/STAY SAFE UPDATES",
+        "Game/RAINBOWS & UNICORNS UPDATES",
+        "Game/BALANCE UPDATE",
+        "Wiki/pawiki launch",
+        "Wiki/update 1",
+        "Wiki/update 2"
     ],
     "Introduction": [
         "Welcome",
@@ -32,7 +34,12 @@
         "Unit-Types",
         "World-Layers"
     ],
+    "Modding": [
+        "Mod-Development",
+        "APIs"
+    ],
     "Guides": [
+        "Particle-System",
         "Procedural-Texturing"
     ],
     "Tools": [
